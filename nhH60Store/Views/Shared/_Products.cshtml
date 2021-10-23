@@ -1,0 +1,30 @@
+﻿@model nhH60Store.Models.Product
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Description</h5>
+        <p class="card-text">
+            @if (Model.Stock == null) {
+                <span class="outOfStock">Out of stock</span>
+            } else {
+                <span><span class="font-weight-bold">@Model.Stock</span> in stock</span>
+            }
+            <a title="Update stock number" href="@Url.Action("UpdateStock", "Product", new { id = Model.ProductId })"><img src="~/Images/pencil.svg" alt="update product icon" class="pencilIcon" /></a>
+            <br />
+            @if (Model.SellPrice == null) {
+                <span>No Sell Price Yet</span>
+            } else {
+                <span>Sell Price: $@Model.SellPrice</span>
+            }
+            <a title="Update the prices" href="@Url.Action("UpdatePrices", "Product", new { id = Model.ProductId })"><img src="~/Images/pencil.svg" alt="update product icon" class="pencilIcon" /></a>
+        </p>
+        <a title="Product details" href="@Url.Action("Details", "Product", new { id = Model.ProductId  })"><img src="~/Images/eye.svg" alt="product details icon" class="eyeIcon" /></a>
+        <a title="Delete product" href="@Url.Action("Delete", "Product", new { id = Model.ProductId  })"><img src="~/Images/trash.svg" alt="delete category icon" class="trashIcon" /></a>
+
+
+        @*Image Sources:
+        https://icons.getbootstrap.com/icons/pencil/
+        https://icons.getbootstrap.com/icons/eye/
+        https://icons.getbootstrap.com/icons/trash/*@
+    </div>
+</div>

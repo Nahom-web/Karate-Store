@@ -1,0 +1,261 @@
+﻿/*Nav:*/
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-link{
+    padding-top: .7em;
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  background-color: #EBE5CF;
+}
+
+header nav{
+    background-color: #e9ecef;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+  text-align: center;
+  border-top: 1px solid black
+}
+
+#footer-text{
+    font-size: 1em;
+}
+
+.page-title{
+    text-align: center;
+    font-size: 3rem;
+}
+
+.container .main{
+    margin-bottom: 10em;
+}
+
+#home-page-description{
+    font-size: 1.1em;
+}
+
+/*All product display styles:*/
+
+.allProducts, #productsWithCategories {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1.2em;
+    margin-top: 2em;
+}
+
+.allProducts .card-img-top, #productsWithCategories .card-img-top{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.allProducts .card-title, #productsWithCategories .card-title{
+    font-size: 1em;
+    font-weight: bold;
+}
+
+/*Update Product page styles:*/
+
+#updateProductTitle{
+    text-align: center;
+}
+
+.Forms{
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 2em;
+}
+
+.Forms input, .Forms select{
+    margin-bottom: 1em;
+}
+
+.Forms .submitBtn{
+    width: max-content;
+}
+
+/*All categories styles*/
+
+#allCategories{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1em;
+    margin-top: 2em;
+}
+
+#allCategories .card{
+    padding: .6em;
+    text-align: left;
+    text-align: center;
+}
+
+#allCategories img, .allProducts img{
+    width: 1.3em;
+}
+
+#allCategories .category a, .createNewBtn:hover, .createNewBtn, #listProductsByCategoryBtn, .backBtn, .categoryName, .home-page-links{
+    text-decoration: none !important;
+}
+
+.createNewBtn, #listProductsByCategoryBtn, .backBtn{
+    border: 1px solid black;
+    padding: .5em;
+}
+
+.createNewBtn, .createNewBtn:hover{
+    color: white;
+    background-color: #5cb85c;
+}
+
+#listProductsByCategoryBtn{
+    color: black;
+}
+
+.categoryTitle{
+    margin-top: 1em;
+}
+
+#producstByCategory h4{
+    margin-top: 1em;
+}
+
+.outOfStock{
+    color: red;
+}
+
+.addNewImg, .backSpaceImg{
+    padding-bottom: .4em;
+}
+
+.product-details{
+    margin-top: 2em;
+    width: max-content;
+}
+
+.product-details .card-body{
+    padding: 2em;
+}
+
+.product-details .card-body span{
+    padding-top: 1em;
+}
+
+@media all and (min-width: 768px) {
+
+    .page-title{
+        font-size: 4.4rem;
+    }
+
+    #footer-text{
+        font-size: 1.2em;
+    }
+
+    .allProducts, #productsWithCategories {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .allProducts .categorySubTitle, #productsWithCategories .categorySubTitle{
+        grid-column: span 2;
+    }
+
+    .Forms{
+        grid-template-columns: 1fr 1fr;
+        justify-content: start;
+        grid-gap: 1em;
+        margin-right: auto;
+        width: 75%;
+        margin-top: 2em;
+    }
+
+    .CategoryForm .submitBtn{
+        height: max-content;
+    }
+
+    .Forms label{
+        justify-self: end;
+    }
+
+    .Forms .submitBtn{
+        grid-column: 2;
+
+    }
+
+    .Forms #createProductBtn{
+        grid-row: 7;
+    }
+
+    #allCategories{
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 1em;
+        font-size: 1.1em;
+    }
+}
+
+@media all and (min-width: 992px)
+{
+    .allProducts {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+}
+
+@media all and (min-width: 1200px)
+{
+    .allProducts, #productsWithCategories {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    #productsWithCategories .categorySubTitle{
+        grid-column: span 4;
+    }
+
+}

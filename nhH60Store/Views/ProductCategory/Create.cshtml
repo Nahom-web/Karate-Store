@@ -1,0 +1,25 @@
+﻿@model nhH60Store.Models.ProductCategory
+
+
+<main>
+
+    <h2 class="page-title">Create New Category</h2>
+
+    <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "ProductCategory")">Go Back</a>
+
+
+    @using (Html.BeginForm()) {
+
+        <div class="Forms CategoryForm">
+
+
+            @Html.LabelFor(x => x.ProdCat)
+            @Html.EditorFor(x => x.ProdCat)
+
+
+            <input type="submit" value="Create Category" class="submitBtn btn btn-success" />
+
+        </div>
+
+    }
+</main>

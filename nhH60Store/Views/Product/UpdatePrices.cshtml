@@ -1,0 +1,26 @@
+﻿@model nhH60Store.Models.Product
+
+<main>
+    <h2 id="updateProductTitle">Update @Model.Description</h2>
+
+    <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "Product")">Go Back</a>
+
+    @using (Html.BeginForm()) {
+
+        @Html.LabelFor(x => x.ProductId, new { @class = "d-none" })
+        @Html.EditorFor(x => x.ProductId, new { htmlAttributes = new { @class = "d-none" } })
+
+        <div class="Forms">
+
+            @Html.LabelFor(x => x.BuyPrice)
+            @Html.EditorFor(x => x.BuyPrice)
+
+            @Html.LabelFor(x => x.SellPrice)
+            @Html.EditorFor(x => x.SellPrice)
+
+            <input type="submit" value="Update Product" class="submitBtn btn btn-success" />
+
+        </div>
+
+    }
+</main>

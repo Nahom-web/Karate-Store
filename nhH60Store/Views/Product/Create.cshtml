@@ -1,0 +1,37 @@
+﻿@model nhH60Store.Models.Product
+
+
+<main>
+
+    <h2 class="page-title">Create A New Product</h2>
+
+    <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "Product")">Go Back</a>
+
+    @using (Html.BeginForm()) {
+
+        <div class="Forms">
+
+            @Html.LabelFor(x => x.ProdCatId)
+            @Html.DropDownListFor(x => x.ProdCatId, (SelectList)ViewBag.ProdCatId, "Select Value")
+
+            @Html.LabelFor(x => x.Description)
+            @Html.EditorFor(x => x.Description)
+
+            @Html.LabelFor(x => x.Manufacturer)
+            @Html.EditorFor(x => x.Manufacturer)
+
+            @Html.LabelFor(x => x.Stock)
+            @Html.EditorFor(x => x.Stock)
+
+            @Html.LabelFor(x => x.BuyPrice)
+            @Html.EditorFor(x => x.BuyPrice)
+
+            @Html.LabelFor(x => x.SellPrice)
+            @Html.EditorFor(x => x.SellPrice)
+
+            <input type="submit" value="Create Product" class="submitBtn btn btn-success" id="createProductBtn" />
+
+        </div>
+
+    }
+</main>

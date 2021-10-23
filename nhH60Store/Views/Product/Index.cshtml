@@ -1,0 +1,21 @@
+﻿@model IEnumerable<nhH60Store.Models.Product>
+
+<main>
+
+    <h2 class="page-title">Products</h2>
+
+    <a title="Create a new product" class="btn btn-success" href="@Url.Action("Create", "Product")"><img src="~/Images/plus-lg.svg" alt="plus icon" class="addNewImg"></a>
+
+    @*Source: https://icons.getbootstrap.com/icons/plus-lg/*@
+
+    <a title="Products by Category" class="btn btn-info" href="@Url.Action("ProductsByCategory", "Product")">List Products by Category</a>
+
+    <div class="allProducts">
+
+        @foreach (var x in Model) {
+            @await Html.PartialAsync("_Products", x)
+        }
+
+    </div>
+
+</main>
