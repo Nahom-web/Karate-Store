@@ -2,165 +2,141 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace nhH60Store.Models {
-    public partial class Product {
+
+    [DataContract(Name = "Product")]
+
+    public class Product {
+
 
         [NotMapped]
-        private readonly H60AssignmentDB_nhContext _context;
+        private const string PRODUCTS_URL = "http://localhost:63164/api/Products";
 
-        public Product() {
-            _context = new H60AssignmentDB_nhContext();
-        }
+        [NotMapped]
+        private const string PRODUCTS_BY_CATEGORIES_URL = "http://localhost:63164/api/Products";
 
+
+        [DataMember(Name = "ProductId")]
         public int ProductId { get; set; }
+
+        [DataMember(Name = "ProdCatId")]
+        [Display(Name ="Category")]
         public int ProdCatId { get; set; }
+
+        [DataMember(Name = "Description")]
         public string Description { get; set; }
+
+        [DataMember(Name = "Manufacturer")]
         public string Manufacturer { get; set; }
+
+        [DataMember(Name = "Stock")]
         public int? Stock { get; set; }
 
+        [DataMember(Name = "BuyPrice")]
         [Display(Name = "Buy Price")]
         public decimal? BuyPrice { get; set; }
 
+        [DataMember(Name = "SellPrice")]
         [Display(Name = "Sell Price")]
         public decimal? SellPrice { get; set; }
+
+        [DataMember(Name = "ProdCat")]
         public virtual ProductCategory ProdCat { get; set; }
+
+        [DataMember(Name = "CartItems")]
         public virtual ICollection<CartItem> CartItems { get; set; }
+
+        [DataMember(Name = "OrderItems")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
 
+        public async Task<HttpResponseMessage> CreateProduct() {
+            string JsonString = JsonSerializer.Serialize<Product>(this);
+            var HttpContext = new StringContent(JsonString, Encoding.UTF8, "application/json");
 
-        private async void CreateProductDB() {
-            try {
-                _context.Product.Add(this);
-                await _context.SaveChangesAsync();
-            } catch {
-                throw new Exception("Something went wrong with creating the product");
-            }
-        }
+            HttpClient Client = new();
 
-        public void CreateProduct() {
-            CreateProductDB();
-        }
+            HttpResponseMessage Response = await Client.PostAsync(PRODUCTS_URL, HttpContext);
 
-        private async Task<List<Product>> GetAllProductsDB() {
-            return await _context.Product.Include(x => x.ProdCat).Include(pc => pc.ProdCat).OrderBy(x => x.Description).ToListAsync();
+            return Response;
         }
 
         public async Task<List<Product>> GetAllProducts() {
-            return await GetAllProductsDB();
-        }
+            HttpClient Client = new();
 
-        private async Task<Product> FindProductDB(int id) {
-            var result = await _context.Product.Where(x => x.ProductId == id).Include(pc => pc.ProdCat).FirstAsync();
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+                );
 
-            if (result == null) {
-                throw new Exception("Cannot find product.");
-            }
+            var StreamTask = Client.GetStreamAsync(PRODUCTS_URL);
 
-            return result;
+            var Serializer = new DataContractJsonSerializer(typeof(List<Product>));
 
+            List<Product> Products = Serializer.ReadObject(await StreamTask) as List<Product>;
+
+            return Products;
         }
 
         public async Task<Product> FindProduct(int id) {
-            return await FindProductDB(id);
-        }
+            HttpClient Client = new();
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+            );
 
-        private async void UpdatePricesDB() {
+            Client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository");
 
-            try {
+            string TaskString = PRODUCTS_URL + "/" + id.ToString();
 
-                var product = await FindProductDB(this.ProductId);
+            var StreamTask = Client.GetStreamAsync(TaskString);
 
-                product.UpdateBuyPrice(this.BuyPrice);
+            var Serializer = new DataContractJsonSerializer(typeof(Product));
 
-                product.UpdateSellPrice(this.SellPrice);
+            Product product = Serializer.ReadObject(await StreamTask) as Product;
 
-                product.ValidateSellAndBuyPrice(this.SellPrice, this.BuyPrice);
-
-                _context.Update(product);
-
-                await _context.SaveChangesAsync();
-
-            } catch {
-
-                throw new Exception("Something went wrong when updating the prices.");
-
-            }
-        }
-
-        public void UpdatePrices() {
-            this.UpdatePricesDB();
-        }
-
-        private async void UpdateStockDB() {
-
-            try {
-                var product = await FindProductDB(this.ProductId);
-
-                product.UpdateStock(this.Stock);
-
-                _context.Update(product);
-
-                await _context.SaveChangesAsync();
-            } catch {
-
-                throw new Exception("Something went wrong when updating the stock.");
-
-            }
-
+            return product;
 
         }
 
-        public void UpdateStock() {
-            this.UpdateStockDB();
-        }
+        public async Task<HttpResponseMessage> UpdatePrices() {
 
-        private void ValidateStock(int stockNumber) {
-            if (this.Stock == 0 && stockNumber < 0) {
-                throw new Exception("Cannot reduce the stock to a negative value");
-            }
-        }
+            var product = await FindProduct(this.ProductId);
 
-        private void UpdateStock(int? stock) {
+            product.UpdateBuyPrice(this.BuyPrice);
 
-            if (stock != null) {
+            product.UpdateSellPrice(this.SellPrice);
 
-                ValidateStock((int)stock);
+            product.ValidateSellAndBuyPrice(this.SellPrice, this.BuyPrice);
 
-                if (stock < 0) {
-                    this.Stock = this.Stock + stock;
-                }
+            string JsonString = JsonSerializer.Serialize<Product>(product);
 
-                if (stock > 0) {
-                    this.Stock = this.Stock + stock;
-                }
+            var HttpContext = new StringContent(JsonString, Encoding.UTF8, "application/json");
 
-            } else {
+            HttpClient Client = new();
 
-                if (stock < 0) {
-                    throw new Exception("Cannot have the stock to be a negative value");
-                }                    
+            HttpResponseMessage Response = await Client.PutAsync(PRODUCTS_URL + "/" + this.ProductId.ToString(), HttpContext);
 
-                else {
-                    this.Stock = stock;
-                }             
-            }
-
+            return Response;
         }
 
         private void ValidatePrice(decimal? price) {
-            if(price == null) {
+            if (price == null) {
                 throw new ArithmeticException("The price is not a number");
-            } else if((decimal)price < 0) {
+            } else if ((decimal)price < 0) {
                 throw new ArgumentException("The price must be greater than 0");
             }
         }
 
         private void ValidateSellAndBuyPrice(decimal? sellPrice, decimal? buyPrice) {
-            if(sellPrice != null && buyPrice != null) {
+            if (sellPrice != null && buyPrice != null) {
                 if ((decimal)sellPrice < (decimal)buyPrice) {
                     throw new Exception("Sell price can't be less than the buy price.");
                 }
@@ -179,41 +155,65 @@ namespace nhH60Store.Models {
             this.SellPrice = sellPrice;
         }
 
+        public async Task<HttpResponseMessage> UpdateStock() {
+            var product = await FindProduct(this.ProductId);
+
+            product.ValidateStock(this.Stock);
+
+            string JsonString = JsonSerializer.Serialize<Product>(product);
+
+            var HttpContext = new StringContent(JsonString, Encoding.UTF8, "application/json");
+
+            HttpClient Client = new();
+
+            HttpResponseMessage Response = await Client.PutAsync(PRODUCTS_URL + "/" + this.ProductId.ToString(), HttpContext);
+
+            return Response;
+        }
+
+        private void ValidateStock(int? stock) {
+            if (stock != null) {
+                if (stock < 0) {
+                    throw new ArgumentException("Cannot reduce the stock to a negative value");
+                }
+                this.Stock = stock;
+            } else {
+                throw new Exception("Please enter in a number for the stock.");
+            }
+        }
+
         public async Task<Product> ProductDetail(int prodId) {
             try {
-                return await FindProductDB(prodId);
+                return await FindProduct(prodId);
             } catch {
                 throw new Exception("Something went wrong when getting the product details");
-            }           
-        }
-
-        private async void DeleteProductDB(int id) {
-            try {
-                var result = Task.Run(() => FindProductDB(id)).Result;
-                _context.Product.Remove(result);
-                await _context.SaveChangesAsync();
-            } catch {
-                throw new Exception("Something went wrong when deleting the product.");
             }
-
         }
 
-        public void DeleteProduct(int id) {
-            DeleteProductDB(id);
-        }
+        public async Task<HttpResponseMessage> DeleteProduct(int id) {
+            HttpClient Client = new();
 
-        private async Task<List<Product>> GetAllProductsWithCategoriesDB() {
-            try {
-                var products = await _context.Product.Include(c => c.ProdCat).OrderBy(pc => pc.ProdCat.ProdCat).ThenBy(p => p.Description).ToListAsync();
-                return products;
-            } catch {
-                throw new Exception("Something went wrong when getting all the products with their categories.");
-            }
+            HttpResponseMessage Response = await Client.DeleteAsync(PRODUCTS_URL + "/" + id.ToString());
 
+            return Response;
         }
 
         public async Task<List<Product>> GetAllProductsWithCategories() {
-            return await GetAllProductsWithCategoriesDB();
+            HttpClient Client = new();
+
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+                );
+
+            var StreamTask = Client.GetStreamAsync(PRODUCTS_BY_CATEGORIES_URL);
+
+            var Serializer = new DataContractJsonSerializer(typeof(List<Product>));
+
+            List<Product> Products = Serializer.ReadObject(await StreamTask) as List<Product>;
+
+            return Products;
         }
+
     }
 }

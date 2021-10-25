@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using nhH60Store.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net.Http;
 
 namespace nhH60Store.Controllers {
 
@@ -13,8 +14,12 @@ namespace nhH60Store.Controllers {
 
         [Route("")]
         public async Task<IActionResult> Index() {
-            Product product = new Product();
-            return View(await product.GetAllProducts());
+            try {
+                Product product = new Product();
+                return View(await product.GetAllProducts());
+            } catch (Exception e) {
+                return ErrorChecking(e);
+            }
         }
 
         [HttpGet, Route("Create")]
@@ -25,19 +30,20 @@ namespace nhH60Store.Controllers {
                 ViewData["ProdCatId"] = new SelectList(await categories.GetAllCategories(), "CategoryId", "ProdCat");
                 return View(product);
             } catch (Exception e) {
-                return View("Error");
+                return ErrorChecking(e);
             }
         }
 
         [HttpPost, Route("Create")]
         public async Task<IActionResult> Create(Product product) {
-            try {
-                product.CreateProduct();
+            HttpResponseMessage response = await product.CreateProduct();
+            if (response.IsSuccessStatusCode) {
                 Product allProduct = new Product();
-                await allProduct.GetAllProducts();
-                return RedirectToAction("Index", "Product");
-            } catch (Exception e) {
-                return View("Error");
+                return RedirectToAction("Index", "Product", await allProduct.GetAllProducts());
+            } else {
+                ErrorViewModel TheError = new();
+                TheError.RequestId = "Error " + response.ReasonPhrase;
+                return View("Error", TheError);
             }
         }
 
@@ -47,73 +53,70 @@ namespace nhH60Store.Controllers {
                 Product prod = new Product();
                 return View(await prod.FindProduct(id));
             } catch (Exception e) {
-                return View("Error");
+                return ErrorChecking(e);
             }
         }
 
         [HttpGet, Route("UpdateStock/{id:int}")]
-        public async Task<IActionResult> UpdateStock(int id) {
-
-            Product product = new Product();
-
+        public async Task<IActionResult> UpdateStock(int id) {        
             try {
+                Product product = new Product();
                 var result = await product.FindProduct(id);
                 return View(result);
             } catch(Exception e) {
-                return View("Error");
+                return ErrorChecking(e);
             }            
         }
 
         [HttpPost, Route("UpdateStock/{id:int}")]
         public async Task<IActionResult> UpdateStock(Product product) {
-
-            try {
-                product.UpdateStock();
+            HttpResponseMessage response = await product.UpdateStock();
+            if (response.IsSuccessStatusCode) {
                 Product allProduct = new Product();
-                await allProduct.GetAllProducts();
-                return RedirectToAction("Index", "Product");
-            } catch(Exception e) {
-                return View("Error");
+                return RedirectToAction("Index", "Product", await allProduct.GetAllProducts());
+            } else {
+                ErrorViewModel TheError = new();
+                TheError.RequestId = "Error " + response.ReasonPhrase;
+                return View("Error", TheError);
             }
-
         }
 
         [HttpGet, Route("UpdatePrices/{id:int}")]
         public async Task<IActionResult> UpdatePrices(int id) {
-
             Product product = new Product();
-
             try {
                 var result = await product.FindProduct(id);
                 return View(result);
             } catch (Exception e) {
-                return View("Error");
+                return ErrorChecking(e);
             }
         }
 
-        [HttpPost, Route("UpdateStock/{id:int}")]
+        [HttpPost, Route("UpdatePrices/{id:int}")]
         public async Task<IActionResult> UpdatePrices(Product product) {
-            try {
-                product.UpdatePrices();
+            HttpResponseMessage response = await product.UpdatePrices();
+            if (response.IsSuccessStatusCode) {
                 Product allProduct = new Product();
-                await allProduct.GetAllProducts();
-                return RedirectToAction("Index", "Product");
-            } catch (Exception e) {
-                return View("Error");
+                return RedirectToAction("Index", "Product", await allProduct.GetAllProducts());
+            } else {
+                ErrorViewModel TheError = new();
+                TheError.RequestId = "Error " + response.ReasonPhrase;
+                return View("Error", TheError);
             }
-
         }
 
         [HttpGet, Route("Delete/{id:int}")]
-        public IActionResult Delete(int id) {
-            try {
-                Product prodCat = new Product();
-                prodCat.DeleteProduct(id);
-                return RedirectToAction("Index", "Product");
-            } catch(Exception e) {
-                return View("Error");
+        public async Task<IActionResult> DeleteAsync(int id) {
+            Product prodCat = new Product();            
+            HttpResponseMessage response = await prodCat.DeleteProduct(id);
+            if (response.IsSuccessStatusCode) {
+                Product allProduct = new Product();
+                return RedirectToAction("Index", "Product", await prodCat.GetAllProducts());
+            } else {
+                ErrorViewModel TheError = new();
+                TheError.RequestId = "Error " + response.ReasonPhrase;
+                return View("Error", TheError);
             }
-
         }
 
         [Route("ProductsByCategory")]
@@ -122,8 +125,14 @@ namespace nhH60Store.Controllers {
                 Product productsWithCategories = new Product();
                 return View(await productsWithCategories.GetAllProductsWithCategories());
             } catch (Exception e) {
-                return View("Error");
+                return ErrorChecking(e);
             }
+        }
+
+        private ViewResult ErrorChecking(Exception e) {
+            ErrorViewModel TheError = new();
+            TheError.RequestId = e.Message;
+            return View("Error", TheError);
         }
     }
 }

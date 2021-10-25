@@ -2,101 +2,122 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace nhH60Store.Models {
+
+    [DataContract(Name = "ProductCategory")]
+
     public partial class ProductCategory {
 
         [NotMapped]
-        private readonly H60AssignmentDB_nhContext _context;
-
-        public ProductCategory() {
-            _context = new H60AssignmentDB_nhContext();
-        }
+        private const string PRODUCT_CATEGORY_URL = "http://localhost:63164/api/ProductCategory";
 
 
+        [DataMember(Name = "CategoryId")]
         public int CategoryId { get; set; }
 
+        [DataMember(Name = "ProdCat")]
         [Display(Name = "Category Name")]
         public string ProdCat { get; set; }
 
+        [DataMember(Name = "Product")]
         public virtual ICollection<Product> Product { get; set; }
 
-
-        private async Task<List<ProductCategory>> GetAllCategoriesDB() {
-            return await _context.ProductCategory.Include(p => p.Product).OrderBy(pc => pc.ProdCat).ToListAsync();
-        }
-
         public async Task<List<ProductCategory>> GetAllCategories() {
-            return await GetAllCategoriesDB();
+            HttpClient Client = new();
+
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+                );
+
+            var StreamTask = Client.GetStreamAsync(PRODUCT_CATEGORY_URL);
+
+            var Serializer = new DataContractJsonSerializer(typeof(List<ProductCategory>));
+
+            List<ProductCategory> Products = Serializer.ReadObject(await StreamTask) as List<ProductCategory>;
+
+            return Products;
         }
 
-        private async Task<List<Product>> GetProductsForCategoryDB(int id) {
-            return await _context.Product
-                            .Where(x => x.ProdCatId == id)
-                            .Include(p => p.ProdCat)
-                            .OrderBy(d => d.Description)
-                            .ToListAsync();
-        }
 
         public async Task<List<Product>> GetProductsForCategory(int id) {
-            return await GetProductsForCategoryDB(id);
-        }
+            HttpClient Client = new();
 
-        private async void CreateDB() {
-            _context.ProductCategory.Add(this);
-            await _context.SaveChangesAsync();
-        }
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+                );
 
-        public void Create() {
-            CreateDB();
-        }
+            var StreamTask = Client.GetStreamAsync(PRODUCT_CATEGORY_URL + "/" + id.ToString());
 
-        private async void UpdateDB() {
-            try {
-                _context.Update(this);
-                await _context.SaveChangesAsync();
-            } catch {
-                throw new Exception("Something went wrong when updating the category");
-            }
+            var Serializer = new DataContractJsonSerializer(typeof(List<Product>));
+
+            List<Product> Products = Serializer.ReadObject(await StreamTask) as List<Product>;
+
+            return Products;
         }
 
         public async Task<ProductCategory> FindCategory(int id) {
-            return await _context.ProductCategory.Where(x => x.CategoryId == id).FirstOrDefaultAsync();
+            HttpClient Client = new();
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+            );
+
+            Client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository");
+
+            string TaskString = PRODUCT_CATEGORY_URL + "/" + id.ToString();
+
+            var StreamTask = Client.GetStreamAsync(TaskString);
+
+            var Serializer = new DataContractJsonSerializer(typeof(ProductCategory));
+
+            ProductCategory product = Serializer.ReadObject(await StreamTask) as ProductCategory;
+
+            return product;
+
         }
 
-        public void Update() {
-            UpdateDB();
+
+        public async Task<HttpResponseMessage> Create() {
+            string JsonString = JsonSerializer.Serialize<ProductCategory>(this);
+            var HttpContext = new StringContent(JsonString, Encoding.UTF8, "application/json");
+
+            HttpClient Client = new();
+
+            HttpResponseMessage Response = await Client.PostAsync(PRODUCT_CATEGORY_URL, HttpContext);
+
+            return Response;
         }
 
-        private async void DeleteDB(int id) {
-            try {
-                List<Product> categoryProducts = Task.Run(() => GetProductsForCategoryDB(id)).Result;
 
-                if (categoryProducts != null) {
-                    foreach (var x in categoryProducts) {
-                        _context.Product.Remove(x);
-                    }
-                }
+        public async Task<HttpResponseMessage> Update() {
+            string JsonString = JsonSerializer.Serialize<ProductCategory>(this);
 
-                var prodCat = await _context.ProductCategory
-                                .Where(x => x.CategoryId == id)
-                                .FirstOrDefaultAsync();
+            var HttpContext = new StringContent(JsonString, Encoding.UTF8, "application/json");
 
-                _context.ProductCategory.Remove(prodCat);
+            HttpClient Client = new();
 
-                await _context.SaveChangesAsync();
-            } catch {
+            HttpResponseMessage Response = await Client.PutAsync(PRODUCT_CATEGORY_URL + "/" + this.CategoryId.ToString(), HttpContext);
 
-                throw new Exception("Something went wrong when deleting the category.");
-
-            }           
+            return Response;
         }
 
-        public void Delete(int id) {
-            DeleteDB(id);
+
+        public async Task<HttpResponseMessage> Delete(int id) {
+            HttpClient Client = new();
+
+            HttpResponseMessage Response = await Client.DeleteAsync(PRODUCT_CATEGORY_URL + "/" + id.ToString());
+
+            return Response;
         }
     }
 }

@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using nhH60Store.Areas.Identity.Data;
 
 namespace nhH60Store.Areas.Identity.Pages.Account {
+
     [AllowAnonymous]
     public class RegisterModel : PageModel {
         private readonly SignInManager<nhH60StoreUser> _signInManager;

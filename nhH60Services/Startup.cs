@@ -10,6 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using nhH60Services.Models;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace nhH60Services {
     public class Startup {
@@ -22,9 +26,23 @@ namespace nhH60Services {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "nhH60Services", Version = "v1" });
+            });
+
+            services.AddDbContext<H60Assignment2DB_nhContext>(options => {
+                string connectionString = Configuration.GetConnectionString("MyConnection");
+                options.UseSqlServer(connectionString);
+            });
+
+            services.AddCors(options => {
+                options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
             });
         }
 

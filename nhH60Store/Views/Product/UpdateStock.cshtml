@@ -5,6 +5,8 @@
 
     <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "Product")">Go Back</a>
 
+    <p class="text-center">Enter the new stock number.</p>
+
     @using (Html.BeginForm()) {
 
         @Html.LabelFor(x => x.ProductId, new { @class = "d-none" })
@@ -15,7 +17,7 @@
             @Html.LabelFor(x => x.Stock)
             @Html.EditorFor(x => x.Stock)
 
-            <input type="submit" value="Update Product" class="submitBtn btn btn-success" />
+            <input type="submit" value="Update Stock" class="submitBtn btn btn-success" />
 
         </div>
 

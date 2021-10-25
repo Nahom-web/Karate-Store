@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using nhH60Store.Models;
+using System.Net.Http;
 
 namespace nhH60Store.Controllers {
 
@@ -16,7 +17,7 @@ namespace nhH60Store.Controllers {
                 ProductCategory pc = new ProductCategory();
                 return View(await pc.GetAllCategories());
             } catch (Exception e) {
-                return View("Error");
+                return ErrorChecking(e);
             }
 
         }
@@ -27,32 +28,36 @@ namespace nhH60Store.Controllers {
                 ProductCategory prodCat = new ProductCategory();
                 return View(prodCat);
             } catch (Exception e) {
-                return View("Error");
+                return ErrorChecking(e);
             }
 
         }
 
         [HttpPost, Route("Create")]
         public async Task<IActionResult> Create(ProductCategory newProdCat) {
-            try {
-                newProdCat.Create();
+            HttpResponseMessage response = await newProdCat.Create();
+            if (response.IsSuccessStatusCode) {
                 ProductCategory allCategories = new ProductCategory();
-                await allCategories.GetAllCategories();
-                return RedirectToAction("Index", "ProductCategory");
-            } catch (Exception e) {
-                return View("Error");
+                return RedirectToAction("Index", "ProductCategory", await allCategories.GetAllCategories());
+            } else {
+                ErrorViewModel TheError = new();
+                TheError.RequestId = "Error " + response.ReasonPhrase;
+                return View("Error", TheError);
             }
         }
 
 
         [HttpGet, Route("Delete/{id:int}")]
-        public IActionResult Delete(int id) {
-            try {
-                ProductCategory prodCat = new ProductCategory();
-                prodCat.Delete(id);
-                return RedirectToAction("Index", "ProductCategory");
-            } catch (Exception e) {
-                return View("Error");
+        public async Task<IActionResult> Delete(int id) {
+            ProductCategory prodCat = new ProductCategory();
+            HttpResponseMessage response = await prodCat.Delete(id);
+            if (response.IsSuccessStatusCode) {
+                Product allProduct = new Product();
+                return RedirectToAction("Index", "ProductCategory", await prodCat.GetAllCategories());
+            } else {
+                ErrorViewModel TheError = new();
+                TheError.RequestId = "Error " + response.ReasonPhrase;
+                return View("Error", TheError);
             }
 
         }
@@ -63,7 +68,7 @@ namespace nhH60Store.Controllers {
                 ProductCategory pc = new ProductCategory();
                 return View(await pc.GetProductsForCategory(id));
             } catch (Exception e) {
-                return View("Error");
+                return ErrorChecking(e);
             }
 
         }
@@ -75,20 +80,27 @@ namespace nhH60Store.Controllers {
                 var result = await prodCat.FindCategory(id);
                 return View(result);
             } catch (Exception e) {
-                return View("Error");
+                return ErrorChecking(e);
             }
         }
 
         [HttpPost, Route("Update/{id:int}")]
         public async Task<IActionResult> Update(ProductCategory updatedProdCat) {
-            try {
-                updatedProdCat.Update();
+            HttpResponseMessage response = await updatedProdCat.Update();
+            if (response.IsSuccessStatusCode) {
                 ProductCategory allCategories = new ProductCategory();
-                await allCategories.GetAllCategories();
-                return RedirectToAction("Index", "ProductCategory");
-            } catch (Exception e) {
-                return View("Error");
+                return RedirectToAction("Index", "ProductCategory", await allCategories.GetAllCategories());
+            } else {
+                ErrorViewModel TheError = new();
+                TheError.RequestId = "Error " + response.ReasonPhrase;
+                return View("Error", TheError);
             }
+        }
+
+        private ViewResult ErrorChecking(Exception e) {
+            ErrorViewModel TheError = new();
+            TheError.RequestId = e.Message;
+            return View("Error", TheError);
         }
     }
 }
