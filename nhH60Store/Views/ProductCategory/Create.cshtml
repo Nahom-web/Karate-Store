@@ -7,6 +7,13 @@
 
     <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "ProductCategory")">Go Back</a>
 
+    <div class="messages">
+        @if (ViewBag.ErrorMessage != null) {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+    </div>
 
     @using (Html.BeginForm()) {
 

@@ -1,6 +1,14 @@
 ﻿@model nhH60Store.Models.Product
-
 @*<a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "Product")">Go Back</a>*@
+
+
+<div class="messages">
+    @if (ViewBag.ErrorMessage != null) {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+</div>
 
 
 <div class="card product-details">

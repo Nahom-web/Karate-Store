@@ -123,6 +123,11 @@ header nav{
     width: max-content;
 }
 
+.messages{
+    text-align: left;
+    width: max-content;
+}
+
 /*All categories styles*/
 
 #allCategories{
@@ -237,6 +242,11 @@ header nav{
         grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 1em;
         font-size: 1.1em;
+    }
+
+    .messages{
+        text-align: center;
+        margin: auto;
     }
 }
 

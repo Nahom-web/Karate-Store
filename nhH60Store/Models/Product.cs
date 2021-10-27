@@ -18,43 +18,40 @@ namespace nhH60Store.Models {
 
 
         [NotMapped]
-        private const string PRODUCTS_URL = "http://localhost:63164/api/Products";
-
-        [NotMapped]
-        private const string PRODUCTS_BY_CATEGORIES_URL = "http://localhost:63164/api/Products";
+        private const string API_URL = "http://localhost:63164/api/Product";
 
 
-        [DataMember(Name = "ProductId")]
+        [DataMember(Name = "productId")]
         public int ProductId { get; set; }
 
-        [DataMember(Name = "ProdCatId")]
+        [DataMember(Name = "prodCatId")]
         [Display(Name ="Category")]
         public int ProdCatId { get; set; }
 
-        [DataMember(Name = "Description")]
+        [DataMember(Name = "description")]
         public string Description { get; set; }
 
-        [DataMember(Name = "Manufacturer")]
+        [DataMember(Name = "manufacturer")]
         public string Manufacturer { get; set; }
 
-        [DataMember(Name = "Stock")]
+        [DataMember(Name = "stock")]
         public int? Stock { get; set; }
 
-        [DataMember(Name = "BuyPrice")]
+        [DataMember(Name = "buyPrice")]
         [Display(Name = "Buy Price")]
         public decimal? BuyPrice { get; set; }
 
-        [DataMember(Name = "SellPrice")]
+        [DataMember(Name = "sellPrice")]
         [Display(Name = "Sell Price")]
         public decimal? SellPrice { get; set; }
 
-        [DataMember(Name = "ProdCat")]
+        [DataMember(Name = "prodCat")]
         public virtual ProductCategory ProdCat { get; set; }
 
-        [DataMember(Name = "CartItems")]
+        [DataMember(Name = "cartItems")]
         public virtual ICollection<CartItem> CartItems { get; set; }
 
-        [DataMember(Name = "OrderItems")]
+        [DataMember(Name = "orderItems")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
 
         public async Task<HttpResponseMessage> CreateProduct() {
@@ -63,7 +60,7 @@ namespace nhH60Store.Models {
 
             HttpClient Client = new();
 
-            HttpResponseMessage Response = await Client.PostAsync(PRODUCTS_URL, HttpContext);
+            HttpResponseMessage Response = await Client.PostAsync(API_URL, HttpContext);
 
             return Response;
         }
@@ -76,7 +73,7 @@ namespace nhH60Store.Models {
                 new MediaTypeWithQualityHeaderValue("application/json")
                 );
 
-            var StreamTask = Client.GetStreamAsync(PRODUCTS_URL);
+            var StreamTask = Client.GetStreamAsync(API_URL);
 
             var Serializer = new DataContractJsonSerializer(typeof(List<Product>));
 
@@ -94,7 +91,7 @@ namespace nhH60Store.Models {
 
             Client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository");
 
-            string TaskString = PRODUCTS_URL + "/" + id.ToString();
+            string TaskString = API_URL + "/" + id.ToString();
 
             var StreamTask = Client.GetStreamAsync(TaskString);
 
@@ -122,16 +119,16 @@ namespace nhH60Store.Models {
 
             HttpClient Client = new();
 
-            HttpResponseMessage Response = await Client.PutAsync(PRODUCTS_URL + "/" + this.ProductId.ToString(), HttpContext);
+            HttpResponseMessage Response = await Client.PutAsync(API_URL + "/" + this.ProductId.ToString(), HttpContext);
 
             return Response;
         }
 
-        private void ValidatePrice(decimal? price) {
+        private void ValidatePrice(decimal? price, bool sellPrice) {
             if (price == null) {
-                throw new ArithmeticException("The price is not a number");
+                throw new ArithmeticException(string.Format("The {0} price is not a number ", (sellPrice) ? "sell" : "buy"));
             } else if ((decimal)price < 0) {
-                throw new ArgumentException("The price must be greater than 0");
+                throw new ArgumentException(string.Format("The {0} price must be greater than 0", (sellPrice) ? "sell" : "buy"));
             }
         }
 
@@ -144,13 +141,13 @@ namespace nhH60Store.Models {
         }
 
         private void UpdateBuyPrice(decimal? buyPrice) {
-            ValidatePrice(buyPrice);
+            ValidatePrice(buyPrice, false);
             buyPrice = Decimal.Round((decimal)buyPrice, 2);
             this.BuyPrice = buyPrice;
         }
 
         private void UpdateSellPrice(decimal? sellPrice) {
-            ValidatePrice(sellPrice);
+            ValidatePrice(sellPrice, true);
             sellPrice = Decimal.Round((decimal)sellPrice, 2);
             this.SellPrice = sellPrice;
         }
@@ -166,7 +163,7 @@ namespace nhH60Store.Models {
 
             HttpClient Client = new();
 
-            HttpResponseMessage Response = await Client.PutAsync(PRODUCTS_URL + "/" + this.ProductId.ToString(), HttpContext);
+            HttpResponseMessage Response = await Client.PutAsync(API_URL + "/" + this.ProductId.ToString(), HttpContext);
 
             return Response;
         }
@@ -193,7 +190,7 @@ namespace nhH60Store.Models {
         public async Task<HttpResponseMessage> DeleteProduct(int id) {
             HttpClient Client = new();
 
-            HttpResponseMessage Response = await Client.DeleteAsync(PRODUCTS_URL + "/" + id.ToString());
+            HttpResponseMessage Response = await Client.DeleteAsync(API_URL + "/" + id.ToString());
 
             return Response;
         }
@@ -206,7 +203,7 @@ namespace nhH60Store.Models {
                 new MediaTypeWithQualityHeaderValue("application/json")
                 );
 
-            var StreamTask = Client.GetStreamAsync(PRODUCTS_BY_CATEGORIES_URL);
+            var StreamTask = Client.GetStreamAsync(API_URL + "/ByCategory");
 
             var Serializer = new DataContractJsonSerializer(typeof(List<Product>));
 

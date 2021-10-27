@@ -17,7 +17,8 @@ namespace nhH60Store.Controllers {
                 ProductCategory pc = new ProductCategory();
                 return View(await pc.GetAllCategories());
             } catch (Exception e) {
-                return ErrorChecking(e);
+                ViewData["ErrorMessage"] = e.Message;
+                return View();
             }
 
         }
@@ -28,7 +29,8 @@ namespace nhH60Store.Controllers {
                 ProductCategory prodCat = new ProductCategory();
                 return View(prodCat);
             } catch (Exception e) {
-                return ErrorChecking(e);
+                ViewData["ErrorMessage"] = e.Message;
+                return View();
             }
 
         }
@@ -40,9 +42,8 @@ namespace nhH60Store.Controllers {
                 ProductCategory allCategories = new ProductCategory();
                 return RedirectToAction("Index", "ProductCategory", await allCategories.GetAllCategories());
             } else {
-                ErrorViewModel TheError = new();
-                TheError.RequestId = "Error " + response.ReasonPhrase;
-                return View("Error", TheError);
+                ViewData["ErrorMessage"] = response.ReasonPhrase;
+                return View();
             }
         }
 
@@ -55,9 +56,8 @@ namespace nhH60Store.Controllers {
                 Product allProduct = new Product();
                 return RedirectToAction("Index", "ProductCategory", await prodCat.GetAllCategories());
             } else {
-                ErrorViewModel TheError = new();
-                TheError.RequestId = "Error " + response.ReasonPhrase;
-                return View("Error", TheError);
+                ViewData["ErrorMessage"] = response.ReasonPhrase;
+                return RedirectToAction("Index", ViewData["ErrorMessage"]);
             }
 
         }
@@ -68,7 +68,8 @@ namespace nhH60Store.Controllers {
                 ProductCategory pc = new ProductCategory();
                 return View(await pc.GetProductsForCategory(id));
             } catch (Exception e) {
-                return ErrorChecking(e);
+                ViewData["ErrorMessage"] = e.Message;
+                return View();
             }
 
         }
@@ -80,7 +81,8 @@ namespace nhH60Store.Controllers {
                 var result = await prodCat.FindCategory(id);
                 return View(result);
             } catch (Exception e) {
-                return ErrorChecking(e);
+                ViewData["ErrorMessage"] = e.Message;
+                return View();
             }
         }
 
@@ -91,16 +93,10 @@ namespace nhH60Store.Controllers {
                 ProductCategory allCategories = new ProductCategory();
                 return RedirectToAction("Index", "ProductCategory", await allCategories.GetAllCategories());
             } else {
-                ErrorViewModel TheError = new();
-                TheError.RequestId = "Error " + response.ReasonPhrase;
-                return View("Error", TheError);
+                ViewData["ErrorMessage"] = response.ReasonPhrase;
+                return View(updatedProdCat);
             }
         }
 
-        private ViewResult ErrorChecking(Exception e) {
-            ErrorViewModel TheError = new();
-            TheError.RequestId = e.Message;
-            return View("Error", TheError);
-        }
     }
 }

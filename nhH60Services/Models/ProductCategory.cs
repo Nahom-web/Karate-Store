@@ -24,12 +24,12 @@ namespace nhH60Services.Models {
         public virtual ICollection<Product> Products { get; set; }
 
 
-        public async Task<List<ProductCategory>> GetAllCategoriesDB() {
+        public async Task<List<ProductCategory>> GetAllCategories() {
             return await _context.ProductCategories.Include(p => p.Products).OrderBy(pc => pc.ProdCat).ToListAsync();
         }
 
 
-        public async Task<List<Product>> GetProductsForCategoryDB(int id) {
+        public async Task<List<Product>> GetProductsForCategory(int id) {
             return await _context.Products
                             .Where(x => x.ProdCatId == id)
                             .Include(p => p.ProdCat)
@@ -37,46 +37,30 @@ namespace nhH60Services.Models {
                             .ToListAsync();
         }
 
-        public async void CreateDB() {
+        public async Task Create() {
             _context.ProductCategories.Add(this);
             await _context.SaveChangesAsync();
         }
 
-        public async void UpdateDB() {
-            try {
-                _context.Update(this);
-                await _context.SaveChangesAsync();
-            } catch {
-                throw new Exception("Something went wrong when updating the category");
-            }
+        public async Task Update() {
+            _context.Entry(this).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
         public async Task<ProductCategory> FindCategory(int id) {
-            return await _context.ProductCategories.Where(x => x.CategoryId == id).FirstOrDefaultAsync();
+            return await _context.ProductCategories.Include(p => p.Products).Where(x => x.CategoryId == id).FirstOrDefaultAsync();
         }
 
-        public async void DeleteDB(int id) {
-            try {
-                List<Product> categoryProducts = Task.Run(() => GetProductsForCategoryDB(id)).Result;
+        public async Task Delete() {
+            List<Product> categoryProducts = Task.Run(() => GetProductsForCategory(this.CategoryId)).Result;
 
-                if (categoryProducts != null) {
-                    foreach (var x in categoryProducts) {
-                        _context.Products.Remove(x);
-                    }
-                }
-
-                var prodCat = await _context.ProductCategories
-                                .Where(x => x.CategoryId == id)
-                                .FirstOrDefaultAsync();
-
-                _context.ProductCategories.Remove(prodCat);
-
-                await _context.SaveChangesAsync();
-            } catch {
-
-                throw new Exception("Something went wrong when deleting the category.");
-
+            if (categoryProducts.Count != 0) {
+                throw new Exception("Cannot delete this category becauce there are products in this category.");
             }
+
+            _context.ProductCategories.Remove(this);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

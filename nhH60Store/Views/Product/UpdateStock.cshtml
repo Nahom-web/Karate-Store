@@ -5,7 +5,17 @@
 
     <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "Product")">Go Back</a>
 
-    <p class="text-center">Enter the new stock number.</p>
+    <div class="messages">
+        @if (ViewBag.ErrorMessage != null) {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <p>To update, enter the new stock number.</p>
+    </div>
+
+
 
     @using (Html.BeginForm()) {
 

@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nhH60Store", "nhH60Store\nhH60Store.csproj", "{A21D0A19-2473-410E-A89E-D3FD709B355A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nhH60Services", "nhH60Services\nhH60Services.csproj", "{71ADAE58-B045-408B-BCEB-1E5E0D8C2C61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nhH60Services", "nhH60Services\nhH60Services.csproj", "{71ADAE58-B045-408B-BCEB-1E5E0D8C2C61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nhH60Customer", "nhH60Customer\nhH60Customer.csproj", "{6A8576B7-8A06-45A0-9B47-1D18D3DF0ABE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nhH60Customer", "nhH60Customer\nhH60Customer.csproj", "{6A8576B7-8A06-45A0-9B47-1D18D3DF0ABE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -31,60 +31,34 @@ namespace nhH60Services.Models {
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
 
-        public async Task<List<Product>> GetAllProductsDB() {
-            try {
-                return await _context.Products.OrderBy(x => x.Description).ToListAsync();
-            } catch {
-                throw new Exception("Something went wrong with getting all the products");
-            }
+        public async Task<List<Product>> GetAllProducts() {
+            return await _context.Products.Include(x => x.ProdCat).OrderBy(x => x.Description).ToListAsync();
         }
 
 
-        public async Task<Product> FindProductDB(int id) {
-            var result = await _context.Products.Where(x => x.ProductId == id).FirstAsync();
+        public async Task<Product> FindProduct(int id) {
+            return await _context.Products.Include(p => p.ProdCat).Where(x => x.ProductId == id).FirstAsync(); ;
+        }
 
-            if (result == null) {
-                throw new Exception("Cannot find product.");
-            }
-
-            return result;
+        public async Task CreateProduct() {
+            _context.Products.Add(this);
+            await _context.SaveChangesAsync();
         }
 
 
-        public async void UpdatePricesDB(Product product) {
-            try {
-                _context.Update(product);
-                await _context.SaveChangesAsync();
-            } catch {
-                throw new Exception("Something went wrong when updating the prices.");
-            }
+        public async Task UpdateProduct() {
+            _context.Entry(this).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
 
-        public async void UpdateStockDB(Product product) {
-            try {
-                _context.Update(product);
-                await _context.SaveChangesAsync();
-            } catch {
-                throw new Exception("Something went wrong when updating the stock.");
-            }
+        public async Task DeleteProduct() {
+            _context.Products.Remove(this);
+            await _context.SaveChangesAsync();
         }
 
-        public async void DeleteProductDB(Product product) {
-            try {
-                _context.Products.Remove(product);
-                await _context.SaveChangesAsync();
-            } catch {
-                throw new Exception("Something went wrong when deleting the product.");
-            }
-        }
-
-        public async Task<List<Product>> GetAllProductsWithCategoriesDB() {
-            try {
-                return await _context.Products.OrderBy(pc => pc.ProdCat.ProdCat).ThenBy(p => p.Description).Include(c => c.ProdCat).ToListAsync();
-            } catch {
-                throw new ArgumentNullException("Something went wrong when getting all the products with their categories.");
-            }
+        public async Task<List<Product>> GetAllProductsWithCategories() {
+            return await _context.Products.Include(x => x.ProdCat).OrderBy(pc => pc.ProdCat.ProdCat).ThenBy(p => p.Description).Include(c => c.ProdCat).ToListAsync();
         }
     }
 }

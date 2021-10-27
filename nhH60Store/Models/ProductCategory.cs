@@ -20,14 +20,14 @@ namespace nhH60Store.Models {
         private const string PRODUCT_CATEGORY_URL = "http://localhost:63164/api/ProductCategory";
 
 
-        [DataMember(Name = "CategoryId")]
+        [DataMember(Name = "categoryId")]
         public int CategoryId { get; set; }
 
-        [DataMember(Name = "ProdCat")]
+        [DataMember(Name = "prodCat")]
         [Display(Name = "Category Name")]
         public string ProdCat { get; set; }
 
-        [DataMember(Name = "Product")]
+        [DataMember(Name = "products")]
         public virtual ICollection<Product> Product { get; set; }
 
         public async Task<List<ProductCategory>> GetAllCategories() {
@@ -56,7 +56,7 @@ namespace nhH60Store.Models {
                 new MediaTypeWithQualityHeaderValue("application/json")
                 );
 
-            var StreamTask = Client.GetStreamAsync(PRODUCT_CATEGORY_URL + "/" + id.ToString());
+            var StreamTask = Client.GetStreamAsync(PRODUCT_CATEGORY_URL + "/Products?id=" + id.ToString());
 
             var Serializer = new DataContractJsonSerializer(typeof(List<Product>));
 

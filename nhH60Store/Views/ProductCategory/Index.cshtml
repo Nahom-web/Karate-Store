@@ -9,6 +9,15 @@
 
     @*Source: https://icons.getbootstrap.com/icons/plus-lg/*@
 
+    <div class="messages">
+        @if (ViewBag.ErrorMessage != null) {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+    </div>
+
+
     <div id="allCategories">
         @foreach (var x in Model) {
             <div class="card">
@@ -23,8 +32,8 @@
         }
     </div>
 
-    @*Image Sources: 
-        https://icons.getbootstrap.com/icons/pencil/ 
+    @*Image Sources:
+        https://icons.getbootstrap.com/icons/pencil/
         https://icons.getbootstrap.com/icons/trash/*@
 
 </main>

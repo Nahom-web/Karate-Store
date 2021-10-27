@@ -10,6 +10,14 @@
 
     <a title="Products by Category" class="btn btn-info" href="@Url.Action("ProductsByCategory", "Product")">List Products by Category</a>
 
+    <div class="messages">
+        @if (ViewBag.ErrorMessage != null) {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+    </div>
+
     <div class="allProducts">
 
         @foreach (var x in Model) {

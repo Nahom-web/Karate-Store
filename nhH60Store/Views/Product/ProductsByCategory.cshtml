@@ -6,6 +6,16 @@
 
     <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "Product")">Go Back</a>
 
+    <div class="messages">
+        @if (ViewBag.ErrorMessage != null) {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+    </div>
+
+
     @{ decimal currentCategory = 0; }
 
     @if (Model.Count() == 0) {

@@ -2,33 +2,45 @@
 
 <main>
     @if (Model.Count() == 0) {
-        <p>Sorry, no products for this category yet.</p>
+        <div class="messages">
+            <div class="alert alert-danger" role="alert">
+                Sorry, no products for this category yet.
+            </div>
+        </div>
     } else {
         <h2 class="page-title categoryTitle">Products for @Model.FirstOrDefault().ProdCat.ProdCat</h2>
 
         <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "ProductCategory")">Go Back</a>
 
+        <div class="messages">
+            @if (ViewBag.ErrorMessage != null) {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+        </div>
+
         <div class="allProducts">
             @foreach (var x in Model) {
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@x.Description</h5>
-                    <p class="card-text">
-                        @if (x.SellPrice == null) {
-                            <span>No Sell Price Yet</span>
-                        } else {
-                            <span>Sell Price: $@x.SellPrice</span>
-                        }
-                        <a title="Update the prices" href="@Url.Action("UpdatePrices", "Product", new { id = x.ProductId })"><img src="~/Images/pencil.svg" alt="update product icon" class="pencilIcon" /></a>
-                    </p>
-                    <a title="Product details" href="@Url.Action("Details", "Product", new { id = x.ProductId  })"><img src="~/Images/eye.svg" alt="product details icon" class="eyeIcon" /></a>
-                    <a title="Delete product" href="@Url.Action("Delete", "Product", new { id = x.ProductId  })"><img src="~/Images/trash.svg" alt="delete category icon" class="trashIcon" /></a>
-                    @*Image Sources:
-                    https://icons.getbootstrap.com/icons/pencil/
-                    https://icons.getbootstrap.com/icons/eye/
-                    https://icons.getbootstrap.com/icons/trash/*@
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@x.Description</h5>
+                        <p class="card-text">
+                            @if (x.SellPrice == null) {
+                                <span>No Sell Price Yet</span>
+                            } else {
+                                <span>Sell Price: $@x.SellPrice</span>
+                            }
+                            <a title="Update the prices" href="@Url.Action("UpdatePrices", "Product", new { id = x.ProductId })"><img src="~/Images/pencil.svg" alt="update product icon" class="pencilIcon" /></a>
+                        </p>
+                        <a title="Product details" href="@Url.Action("Details", "Product", new { id = x.ProductId  })"><img src="~/Images/eye.svg" alt="product details icon" class="eyeIcon" /></a>
+                        <a title="Delete product" href="@Url.Action("Delete", "Product", new { id = x.ProductId  })"><img src="~/Images/trash.svg" alt="delete category icon" class="trashIcon" /></a>
+                        @*Image Sources:
+                            https://icons.getbootstrap.com/icons/pencil/
+                            https://icons.getbootstrap.com/icons/eye/
+                            https://icons.getbootstrap.com/icons/trash/*@
+                    </div>
                 </div>
-            </div>
             }
         </div>
     }
