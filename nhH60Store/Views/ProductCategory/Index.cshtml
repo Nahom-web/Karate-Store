@@ -10,9 +10,9 @@
     @*Source: https://icons.getbootstrap.com/icons/plus-lg/*@
 
     <div class="messages">
-        @if (ViewBag.ErrorMessage != null) {
+        @if (TempData["ErrorMessage"] != null) {
             <div class="alert alert-danger" role="alert">
-                @ViewBag.ErrorMessage
+                @TempData["ErrorMessage"]
             </div>
         }
     </div>

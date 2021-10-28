@@ -47,18 +47,32 @@ namespace nhH60Store.Controllers {
             }
         }
 
-
+        /// <summary>
+        /// Check status codes: 
+        /// 404 - not found
+        /// 400 - bad response
+        /// 204 - good
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet, Route("Delete/{id:int}")]
         public async Task<IActionResult> Delete(int id) {
             ProductCategory prodCat = new ProductCategory();
             HttpResponseMessage response = await prodCat.Delete(id);
-            if (response.IsSuccessStatusCode) {
-                Product allProduct = new Product();
+            var WholeResponseText = await response.Content.ReadAsStringAsync();
+            var ErrorMessage = WholeResponseText.Substring(WholeResponseText.IndexOf(":"), WholeResponseText.IndexOf("."));
+            int SCode = (int)response.StatusCode;
+            if (SCode == 204) {
                 return RedirectToAction("Index", "ProductCategory", await prodCat.GetAllCategories());
-            } else {
-                ViewData["ErrorMessage"] = response.ReasonPhrase;
-                return RedirectToAction("Index", ViewData["ErrorMessage"]);
+            } else if(SCode == 404) {
+                TempData["ErrorMessage"] = response.ReasonPhrase;
+                return RedirectToAction("Index");
+            } else if (SCode == 400) {
+                TempData["ErrorMessage"] = response.ReasonPhrase;
+                return RedirectToAction("Index");
             }
+
+            return RedirectToAction("Index");
 
         }
 
