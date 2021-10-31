@@ -35,8 +35,8 @@ namespace nhH60Services.Controllers {
             try {
                 var CategoryFound = await prodCategory.FindCategory(id);
                 return CategoryFound;
-            } catch (InvalidOperationException) {
-                return NotFound();
+            } catch (Exception e) {
+                return BadRequest(e.Message);
             }
 
         }
@@ -49,8 +49,8 @@ namespace nhH60Services.Controllers {
             try {
                 var Products = await prodCategory.GetProductsForCategory(id);
                 return Products;
-            } catch (InvalidOperationException) {
-                return NotFound();
+            } catch (Exception e) {
+                return BadRequest(e.Message);
             }
 
         }
@@ -62,8 +62,8 @@ namespace nhH60Services.Controllers {
 
             try {
                 await productCategory.Create();
-            } catch (DbUpdateException) {
-                return BadRequest();
+            } catch (Exception e) {
+                return BadRequest(e.Message);
             }
 
             return NoContent();
@@ -80,8 +80,8 @@ namespace nhH60Services.Controllers {
 
             try {
                 await productCategory.Update();
-            } catch (DbUpdateConcurrencyException) {
-                return BadRequest();                
+            } catch (Exception e) {
+                return BadRequest(e.Message);
             }
 
             return NoContent();
@@ -99,8 +99,8 @@ namespace nhH60Services.Controllers {
 
             try {
                 await productCategory.Delete();
-            } catch (Exception) {
-                return BadRequest();
+            } catch (Exception e) {
+                return BadRequest(e.Message);
             } 
 
             return NoContent();

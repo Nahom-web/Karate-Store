@@ -20,70 +20,72 @@ namespace nhH60Services.Controllers {
         // GET: api/Customer
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers() {
-            return await _context.Customers.ToListAsync();
+            Customer customer = new Customer();
+
+            try {
+                var Customers = await customer.GetAllCustomers();
+                return Customers;
+            } catch (Exception e) {
+                return NotFound(e.Message);
+            }
         }
 
         // GET: api/Customer/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id) {
-            var customer = await _context.Customers.FindAsync(id);
+            Customer customer = new Customer();
 
-            if (customer == null) {
-                return NotFound();
+            try {
+                var CustomerFound = await customer.FindCustomer(id);
+                return CustomerFound;
+            } catch (Exception e) {
+                return NotFound(e.Message);
             }
-
-            return customer;
         }
 
         // PUT: api/Customer/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer) {
-            if (id != customer.CustomerId) {
-                return BadRequest();
+            if (customer.FindCustomer(id) == null) {
+                return NotFound();
             }
 
-            _context.Entry(customer).State = EntityState.Modified;
-
             try {
-                await _context.SaveChangesAsync();
-            } catch (DbUpdateConcurrencyException) {
-                if (!CustomerExists(id)) {
-                    return NotFound();
-                } else {
-                    throw;
-                }
+                await customer.Update();
+            } catch (Exception e) {
+                return BadRequest(e.Message);
             }
 
             return NoContent();
         }
 
         // POST: api/Customer
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer) {
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
+            try {
+                await customer.Create();
+            } catch (Exception e) {
+                return BadRequest(e.Message);
+            }
 
-            return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
+            return NoContent();
         }
 
         // DELETE: api/Customer/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id) {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await new Customer().FindCustomer(id);
             if (customer == null) {
                 return NotFound();
             }
 
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
+            try {
+                await customer.Delete();
+            } catch (Exception e) {
+                return BadRequest(e.Message);
+            }
 
             return NoContent();
-        }
-
-        private bool CustomerExists(int id) {
-            return _context.Customers.Any(e => e.CustomerId == id);
         }
     }
 }

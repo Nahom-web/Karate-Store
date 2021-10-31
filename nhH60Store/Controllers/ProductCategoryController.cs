@@ -53,10 +53,10 @@ namespace nhH60Store.Controllers {
             int SCode = (int)response.StatusCode;
             if (SCode == 204) {
                 ProductCategory allCategories = new ProductCategory();
-                TempData["SuccessMessage"] = "Successfully created the product category.";
+                TempData["SuccessMessage"] = "Successfully created product category.";
                 return RedirectToAction("Index", "ProductCategory", await allCategories.GetAllCategories());
             } else if (SCode == 400) {
-                TempData["ErrorMessage"] = "Coudldn't create this product category. Please check that your databases is linked correctly.";
+                TempData["ErrorMessage"] = "Coudldn't create product category. Please check that your databases is linked correctly.";
                 return View(newProdCat);
             } else if (SCode == 500) {
                 TempData["ErrorMessage"] = "Database error. Please check your database connection";
@@ -111,7 +111,7 @@ namespace nhH60Store.Controllers {
             HttpResponseMessage response = await prodCat.Delete(id);
             int SCode = (int)response.StatusCode;
             if (SCode == 204) {
-                TempData["SuccessMessage"] = "Successfully deleted the product category";
+                TempData["SuccessMessage"] = "Successfully deleted product category";
                 return RedirectToAction("Index", "ProductCategory", await prodCat.GetAllCategories());
             } else if (SCode == 404) {
                 TempData["ErrorMessage"] = "Cannot find product cateogry in database";

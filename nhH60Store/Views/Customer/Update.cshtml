@@ -1,0 +1,61 @@
+﻿@model nhH60Store.Models.Customer
+
+<main>
+
+    <h2 class="page-title">Update @Model.FirstName</h2>
+
+    <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "Customer")">Go Back</a>
+
+    @await Html.PartialAsync("_MessageDisplays")
+
+    @using (Html.BeginForm()) {
+
+        <div class="Forms">
+
+            @Html.LabelFor(x => x.CustomerId, new { @class = "d-none" })
+            @Html.EditorFor(x => x.CustomerId, new { htmlAttributes = new { @class = "d-none" } })
+
+            @Html.LabelFor(x => x.FirstName)
+            <p>
+                @Html.EditorFor(x => x.FirstName)
+                <br />
+                @Html.ValidationMessageFor(x => x.FirstName)
+            </p>
+
+
+            @Html.LabelFor(x => x.LastName)
+            <p>
+                @Html.EditorFor(x => x.LastName)
+                <br />
+                @Html.ValidationMessageFor(x => x.LastName)
+            </p>
+
+            @Html.LabelFor(x => x.Email)
+            <p>
+                @Html.EditorFor(x => x.Email)
+                <br />
+                @Html.ValidationMessageFor(x => x.Email)
+            </p>
+
+            @Html.LabelFor(x => x.PhoneNumber)
+            <p>
+                @Html.EditorFor(x => x.PhoneNumber)
+                <br />
+                @Html.ValidationMessageFor(x => x.PhoneNumber)
+            </p>
+
+            @Html.LabelFor(x => x.Province)
+            @Html.DropDownListFor(x => x.Province, new SelectList(Enum.GetValues(typeof(Customer.Provinces))), "Select Province")
+
+            @Html.LabelFor(x => x.CreditCard)
+            <p>
+                @Html.EditorFor(x => x.CreditCard)
+                <br />
+                @Html.ValidationMessageFor(x => x.CreditCard)
+            </p>
+
+            <input type="submit" value="Update Customer" class="submitBtn btn btn-success" id="updateCustomerBtn" />
+
+        </div>
+    }
+</main>

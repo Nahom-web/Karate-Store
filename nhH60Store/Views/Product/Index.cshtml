@@ -10,21 +10,7 @@
 
     <a title="Products by Category" class="btn btn-info" href="@Url.Action("ProductsByCategory", "Product")">List Products by Category</a>
 
-    <div class="messages">
-        @if (TempData["ErrorMessage"] != null) {
-            <div class="alert alert-danger" role="alert">
-                @TempData["ErrorMessage"]
-            </div>
-        }
-    </div>
-
-    <div class="messages">
-        @if (TempData["SuccessMessage"] != null) {
-            <div class="alert alert-success" role="alert">
-                @TempData["SuccessMessage"]
-            </div>
-        }
-    </div>
+    @await Html.PartialAsync("_MessageDisplays")
 
     <div class="allProducts">
 

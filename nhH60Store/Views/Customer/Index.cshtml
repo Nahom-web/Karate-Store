@@ -1,0 +1,21 @@
+﻿@model IEnumerable<nhH60Store.Models.Customer>
+
+<main>
+
+    <h2 class="page-title">Customers</h2>
+
+    <a title="Create a new customer" class="btn btn-success" href="@Url.Action("Create", "Customer")"><img src="~/Images/plus-lg.svg" alt="plus icon" class="addNewImg"></a>
+
+    @*Source: https://icons.getbootstrap.com/icons/plus-lg/*@
+
+    @await Html.PartialAsync("_MessageDisplays")
+
+    <div class="allCustomers">
+
+        @foreach (var x in Model) {
+            @await Html.PartialAsync("_Customer", x)
+        }
+
+    </div>
+
+</main>

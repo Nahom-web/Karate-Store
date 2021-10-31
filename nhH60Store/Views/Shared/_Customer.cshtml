@@ -1,0 +1,19 @@
+﻿@inject nhH60Store.Models.FormattingService DisplayFormat
+@model nhH60Store.Models.Customer
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.FirstName @Model.LastName</h5>
+        <p class="card-text">
+            <span>Phone: @DisplayFormat.PhoneFormat(@Model.PhoneNumber)</span>
+        </p>
+        <a title="Update customer" href="@Url.Action("Update", "Customer", new { id = Model.CustomerId })"><img src="~/Images/pencil.svg" alt="update customer icon" class="pencilIcon" /></a>
+        <a title="Customer details" href="@Url.Action("Detail", "Customer", new { id = Model.CustomerId  })"><img src="~/Images/eye.svg" alt="customer details icon" class="eyeIcon" /></a>
+        <a title="Delete customer" href="@Url.Action("Delete", "Customer", new { id = Model.CustomerId  })"><img src="~/Images/trash.svg" alt="delete customer icon" class="trashIcon" /></a>
+
+        @*Image Sources:
+            https://icons.getbootstrap.com/icons/pencil/
+            https://icons.getbootstrap.com/icons/eye/
+            https://icons.getbootstrap.com/icons/trash/*@
+    </div>
+</div>

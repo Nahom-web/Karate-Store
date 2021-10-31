@@ -83,22 +83,22 @@ header nav{
     font-size: 1.1em;
 }
 
-/*All product display styles:*/
+/*All product and Customers display styles:*/
 
-.allProducts, #productsWithCategories {
+.allProducts, #productsWithCategories, .allCustomers {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 1.2em;
     margin-top: 2em;
 }
 
-.allProducts .card-img-top, #productsWithCategories .card-img-top{
+.allProducts .card-img-top, #productsWithCategories .card-img-top, .allCustomers .card-img-top{
     width: 80%;
     margin-left: auto;
     margin-right: auto;
 }
 
-.allProducts .card-title, #productsWithCategories .card-title{
+.allProducts .card-title, #productsWithCategories .card-title, .allCustomers .card-title{
     font-size: 1em;
     font-weight: bold;
 }
@@ -194,6 +194,34 @@ header nav{
     padding-top: 1em;
 }
 
+
+/*Customer create styles*/
+
+.Forms #Province{
+    width: max-content;
+}
+
+.Forms #PhoneNumber{
+    width: 35%;
+}
+
+.Forms #Email, .Forms #LastName{
+    width: 80%;
+}
+
+.Forms #FirstName{
+    width: 70%;
+}
+
+
+/*Form error validation styling*/
+
+.field-validation-error{
+    color: red;
+    font-style: italic;
+    font-weight: bold;
+}
+
 @media all and (min-width: 768px) {
 
     .page-title{
@@ -204,7 +232,7 @@ header nav{
         font-size: 1.2em;
     }
 
-    .allProducts, #productsWithCategories {
+    .allProducts, #productsWithCategories, .allCustomers {
         grid-template-columns: 1fr 1fr;
     }
 
@@ -252,7 +280,7 @@ header nav{
 
 @media all and (min-width: 992px)
 {
-    .allProducts {
+    .allProducts, #categorySubTitle, .allCustomers {
         grid-template-columns: 1fr 1fr 1fr;
     }
 
@@ -260,7 +288,7 @@ header nav{
 
 @media all and (min-width: 1200px)
 {
-    .allProducts, #productsWithCategories {
+    .allProducts, #productsWithCategories, #categorySubTitle, .allCustomers {
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 

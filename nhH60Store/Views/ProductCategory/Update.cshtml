@@ -6,13 +6,7 @@
     <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "ProductCategory")">Go Back</a>
 
 
-    <div class="messages">
-        @if (TempData["ErrorMessage"] != null) {
-            <div class="alert alert-danger" role="alert">
-                @TempData["ErrorMessage"]
-            </div>
-        }
-    </div>
+    @await Html.PartialAsync("_MessageDisplays")
 
 
     @using (Html.BeginForm()) {
