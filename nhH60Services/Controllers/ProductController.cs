@@ -13,7 +13,6 @@ namespace nhH60Services.Controllers {
     public class ProductController : ControllerBase {
 
         // GET: api/Products
-        // Get All Products
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProducts() {
             Product product = new Product();
@@ -21,12 +20,13 @@ namespace nhH60Services.Controllers {
             try {
                 var AllProducts = await product.GetAllProducts();
                 return AllProducts;
-            } catch (InvalidOperationException) {
+            } catch (Exception) {
                 return NotFound();
             }
 
         }
 
+        // GET: api/Products/ByCategory
         [HttpGet("ByCategory")]
         public async Task<ActionResult<List<Product>>> ByCategory() {
             Product product = new Product();
@@ -34,14 +34,13 @@ namespace nhH60Services.Controllers {
             try {
                 var Products = await product.GetAllProductsWithCategories();
                 return Products;
-            } catch (InvalidOperationException) {
+            } catch (Exception) {
                 return NotFound();
             }
 
         }
 
         // GET: api/Products/5
-        // Find Product
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id) {
             Product product = new Product();
@@ -49,7 +48,7 @@ namespace nhH60Services.Controllers {
             try {
                 var ProductFound = await product.FindProduct(id);
                 return ProductFound;
-            } catch (InvalidOperationException) {
+            } catch (Exception) {
                 return NotFound();
             }
 
@@ -57,35 +56,29 @@ namespace nhH60Services.Controllers {
 
 
         // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // New product
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product) {
-            
-            try {
-                await product.CreateProduct();
-                return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
-            } catch (DbUpdateException) {
-                return BadRequest();
-            }            
-        }
 
-        // PUT: api/Products/5
-        // Update product
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Product>> PutProduct(int id, Product product) {
-            if (id != product.ProductId) {
+            try {
+                await product.Create();
+            } catch (Exception) {
                 return BadRequest();
             }
 
+            return NoContent();
+        }
+
+        // PUT: api/Products/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProduct(int id, Product product) {
+            if (product.FindProduct(id) == null) {
+                return NotFound();
+            }
+
             try {
-                await product.UpdateProduct();
-            } catch (DbUpdateException) {
-                if (await product.FindProduct(id) == null) {
-                    return NotFound();
-                } else {
-                    return BadRequest();
-                }
+                await product.Update();
+            } catch (Exception) {
+                return BadRequest();
             }
 
             return NoContent();
@@ -95,7 +88,6 @@ namespace nhH60Services.Controllers {
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id) {
-
             Product product = await new Product().FindProduct(id);
 
             if (product == null) {
@@ -103,13 +95,9 @@ namespace nhH60Services.Controllers {
             }
 
             try {
-                await product.DeleteProduct();
-            } catch (DbUpdateException) {
-                if (await product.FindProduct(id) == null) {
-                    return NotFound();
-                } else {
-                    return BadRequest();
-                }
+                await product.Delete();
+            } catch (Exception) {
+                return BadRequest();
             }
 
             return NoContent();

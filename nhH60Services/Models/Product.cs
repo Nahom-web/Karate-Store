@@ -14,9 +14,9 @@ namespace nhH60Services.Models {
         private readonly H60Assignment2DB_nhContext _context;
 
         public Product() {
-            CartItems = new HashSet<CartItem>();
-            OrderItems = new HashSet<OrderItem>();
             _context = new H60Assignment2DB_nhContext();
+            CartItems = new HashSet<CartItem>();
+            OrderItems = new HashSet<OrderItem>();            
         }
 
         public int ProductId { get; set; }
@@ -40,19 +40,20 @@ namespace nhH60Services.Models {
             return await _context.Products.Include(p => p.ProdCat).Where(x => x.ProductId == id).FirstAsync(); ;
         }
 
-        public async Task CreateProduct() {
+        public async Task Create() {
             _context.Products.Add(this);
             await _context.SaveChangesAsync();
         }
 
 
-        public async Task UpdateProduct() {
-            _context.Entry(this).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+        public async Task Update() {
+            H60Assignment2DB_nhContext _db = new H60Assignment2DB_nhContext();
+            _db.Entry(this).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
 
 
-        public async Task DeleteProduct() {
+        public async Task Delete() {
             _context.Products.Remove(this);
             await _context.SaveChangesAsync();
         }

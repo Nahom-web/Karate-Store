@@ -8,9 +8,9 @@
     <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "Product")">Go Back</a>
 
     <div class="messages">
-        @if (ViewBag.ErrorMessage != null) {
+        @if (TempData["ErrorMessage"] != null) {
             <div class="alert alert-danger" role="alert">
-                @ViewBag.ErrorMessage
+                @TempData["ErrorMessage"]
             </div>
         }
     </div>
@@ -20,7 +20,7 @@
         <div class="Forms">
 
             @Html.LabelFor(x => x.ProdCatId)
-            @Html.DropDownListFor(x => x.ProdCatId, (SelectList)ViewBag.ProdCatId, "Select Value")
+            @Html.DropDownListFor(x => x.ProdCatId, (SelectList)TempData["ProdCatId"], "Select Value")
 
             @Html.LabelFor(x => x.Description)
             @Html.EditorFor(x => x.Description)

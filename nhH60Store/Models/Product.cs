@@ -163,7 +163,7 @@ namespace nhH60Store.Models {
 
             HttpClient Client = new();
 
-            HttpResponseMessage Response = await Client.PutAsync(API_URL + "/" + this.ProductId.ToString(), HttpContext);
+            HttpResponseMessage Response = await Client.PutAsync(API_URL + "/" + product.ProductId.ToString(), HttpContext);
 
             return Response;
         }

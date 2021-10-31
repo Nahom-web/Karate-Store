@@ -100,6 +100,11 @@ namespace nhH60Store.Models {
 
 
         public async Task<HttpResponseMessage> Update() {
+
+            if (this.ProdCat == null) {
+                throw new Exception("Please enter a category name.");
+            }
+
             string JsonString = JsonSerializer.Serialize<ProductCategory>(this);
 
             var HttpContext = new StringContent(JsonString, Encoding.UTF8, "application/json");

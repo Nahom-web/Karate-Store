@@ -17,6 +17,14 @@
         }
     </div>
 
+    <div class="messages">
+        @if (TempData["SuccessMessage"] != null) {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+    </div>
+
 
     <div id="allCategories">
         @foreach (var x in Model) {

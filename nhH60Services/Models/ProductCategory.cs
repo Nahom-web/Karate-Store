@@ -43,8 +43,9 @@ namespace nhH60Services.Models {
         }
 
         public async Task Update() {
-            _context.Entry(this).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            H60Assignment2DB_nhContext _db = new H60Assignment2DB_nhContext();
+            _db.Entry(this).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
 
         public async Task<ProductCategory> FindCategory(int id) {

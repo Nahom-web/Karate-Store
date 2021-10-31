@@ -16,13 +16,13 @@ namespace nhH60Services.Controllers {
         // GET: api/ProductCategories
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductCategory>>> GetProductCategories() {
-            ProductCategory prodCategory = new();
+            ProductCategory prodCategory = new ProductCategory();
 
             try {
                 var Categories = await prodCategory.GetAllCategories();
                 return Categories;
-            } catch (InvalidOperationException) {
-                return NotFound();
+            } catch (Exception e) {
+                return NotFound(e.Message);
             }
 
         }
@@ -30,7 +30,7 @@ namespace nhH60Services.Controllers {
         // GET: api/ProductCategories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductCategory>> GetProductCategory(int id) {
-            ProductCategory prodCategory = new();
+            ProductCategory prodCategory = new ProductCategory();
 
             try {
                 var CategoryFound = await prodCategory.FindCategory(id);
@@ -38,12 +38,13 @@ namespace nhH60Services.Controllers {
             } catch (InvalidOperationException) {
                 return NotFound();
             }
+
         }
 
-
+        // GET: api/ProductCategories/Products
         [HttpGet("Products")]
         public async Task<ActionResult<IEnumerable<Product>>> Products(int id) {
-            ProductCategory prodCategory = new();
+            ProductCategory prodCategory = new ProductCategory();
 
             try {
                 var Products = await prodCategory.GetProductsForCategory(id);
@@ -54,45 +55,39 @@ namespace nhH60Services.Controllers {
 
         }
 
+
+        // POST: api/ProductCategories
+        [HttpPost]
+        public async Task<ActionResult<ProductCategory>> PostProductCategory(ProductCategory productCategory) {
+
+            try {
+                await productCategory.Create();
+            } catch (DbUpdateException) {
+                return BadRequest();
+            }
+
+            return NoContent();
+
+        }
+
+
         // PUT: api/ProductCategories/5
-        // Update category
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProductCategory(int id, ProductCategory productCategory) {
-            if (id != productCategory.CategoryId) {
-                return BadRequest();
-            }            
+            if (productCategory.FindCategory(id) == null) {
+                return NotFound();
+            }
 
             try {
                 await productCategory.Update();
             } catch (DbUpdateConcurrencyException) {
-                if (productCategory.FindCategory(id) != null) {
-                    return NotFound();
-                } else {
-                    return BadRequest();
-                }
+                return BadRequest();                
             }
 
             return NoContent();
         }
 
-        // POST: api/ProductCategories
-        // Create Category
-        [HttpPost]
-        public async Task<ActionResult<ProductCategory>> PostProductCategory(ProductCategory productCategory) {
-            
-            try {
-                await productCategory.Create();
-            } catch (DbUpdateException) {
-                if (productCategory.FindCategory(productCategory.CategoryId) != null) {
-                    return NotFound();
-                } else {
-                    return BadRequest();
-                }
-            }
 
-            return NoContent();
-
-        }
 
         // DELETE: api/ProductCategories/5
         [HttpDelete("{id}")]
@@ -104,9 +99,9 @@ namespace nhH60Services.Controllers {
 
             try {
                 await productCategory.Delete();
-            } catch (DbUpdateException) {
+            } catch (Exception) {
                 return BadRequest();
-            }
+            } 
 
             return NoContent();
         }

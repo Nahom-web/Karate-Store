@@ -7,14 +7,21 @@
     <a title="Go Back" class="btn btn-secondary" href="@Url.Action("Index", "Product")">Go Back</a>
 
     <div class="messages">
-        @if (ViewBag.ErrorMessage != null) {
+        @if (TempData["ErrorMessage"] != null) {
             <div class="alert alert-danger" role="alert">
-                @ViewBag.ErrorMessage
+                @TempData["ErrorMessage"]
             </div>
         }
 
     </div>
 
+    <div class="messages">
+        @if (TempData["SuccessMessage"] != null) {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+    </div>
 
     @{ decimal currentCategory = 0; }
 
