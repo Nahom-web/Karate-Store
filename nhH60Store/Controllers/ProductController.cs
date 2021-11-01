@@ -15,7 +15,7 @@ namespace nhH60Store.Controllers {
 
         [Route("")]
         public async Task<IActionResult> Index() {
-            if (User.Identity.IsAuthenticated) {
+            if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
             try {
@@ -29,7 +29,7 @@ namespace nhH60Store.Controllers {
 
         [Route("ProductsByCategory")]
         public async Task<IActionResult> ProductsByCategory() {
-            if (User.Identity.IsAuthenticated) {
+            if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
             try {
@@ -43,7 +43,7 @@ namespace nhH60Store.Controllers {
 
         [HttpGet, Route("Create")]
         public async Task<IActionResult> Create() {
-            if (User.Identity.IsAuthenticated) {
+            if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
             try {
@@ -60,7 +60,7 @@ namespace nhH60Store.Controllers {
 
         [HttpPost, Route("Create")]
         public async Task<IActionResult> Create(Product product) {
-            if (User.Identity.IsAuthenticated) {
+            if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
             HttpResponseMessage response = await product.CreateProduct();
@@ -82,7 +82,7 @@ namespace nhH60Store.Controllers {
 
         [Route("Details/{id:int}")]
         public async Task<IActionResult> Detail(int id) {
-            if (User.Identity.IsAuthenticated) {
+            if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
             try {
@@ -96,7 +96,7 @@ namespace nhH60Store.Controllers {
 
         [HttpGet, Route("UpdateStock/{id:int}")]
         public async Task<IActionResult> UpdateStock(int id) {
-            if (User.Identity.IsAuthenticated) {
+            if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
             try {
@@ -111,7 +111,7 @@ namespace nhH60Store.Controllers {
 
         [HttpPost, Route("UpdateStock/{id:int}")]
         public async Task<IActionResult> UpdateStock(Product product) {
-            if (User.Identity.IsAuthenticated) {
+            if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
             try {
@@ -140,7 +140,7 @@ namespace nhH60Store.Controllers {
 
         [HttpGet, Route("UpdatePrices/{id:int}")]
         public async Task<IActionResult> UpdatePrices(int id) {
-            if (User.Identity.IsAuthenticated) {
+            if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
             try {
@@ -155,7 +155,7 @@ namespace nhH60Store.Controllers {
 
         [HttpPost, Route("UpdatePrices/{id:int}")]
         public async Task<IActionResult> UpdatePrices(Product product) {
-            if (User.Identity.IsAuthenticated) {
+            if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
             try {
@@ -186,7 +186,7 @@ namespace nhH60Store.Controllers {
 
         [HttpGet, Route("Delete/{id:int}")]
         public async Task<IActionResult> Delete(int id) {
-            if (User.Identity.IsAuthenticated) {
+            if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
             Product prodCat = new Product();

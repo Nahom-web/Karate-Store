@@ -19,7 +19,7 @@ namespace nhH60Store.Controllers {
         [Authorize]
 
         public IActionResult Index() {
-            if (User.Identity.IsAuthenticated) {
+            if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
             return View();
