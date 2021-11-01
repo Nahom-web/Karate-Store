@@ -217,7 +217,7 @@ namespace nhH60Customer.Models {
                 entity.Property(e => e.SellPrice).HasColumnType("numeric(8, 2)");
 
                 entity.HasOne(d => d.ProdCat)
-                    .WithMany(p => p.Products)
+                    .WithMany(p => p.Product)
                     .HasForeignKey(d => d.ProdCatId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Product_ProductCategory");

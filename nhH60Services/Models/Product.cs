@@ -36,8 +36,13 @@ namespace nhH60Services.Models {
         }
 
 
-        public async Task<Product> FindProduct(int id) {
+        public async Task<Product> FindProductById(int id) {
             return await _context.Products.Include(p => p.ProdCat).Where(x => x.ProductId == id).FirstAsync(); ;
+        }
+
+
+        public async Task<List<Product>> FindProductByName(string ProductName) {
+            return await _context.Products.Include(p => p.ProdCat).Where(x => x.Description.StartsWith(ProductName)).ToListAsync();
         }
 
         public async Task Create() {

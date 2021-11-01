@@ -14,12 +14,15 @@ namespace nhH60Services.Controllers {
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts() {
+        public async Task<ActionResult<List<Product>>> GetProducts(string? ProductName) {    
+
             Product product = new Product();
 
             try {
-                var AllProducts = await product.GetAllProducts();
-                return AllProducts;
+                if (ProductName != null) {
+                    return await product.FindProductByName(ProductName);
+                } 
+                return await product.GetAllProducts();
             } catch (Exception) {
                 return NotFound();
             }
@@ -46,7 +49,7 @@ namespace nhH60Services.Controllers {
             Product product = new Product();
 
             try {
-                var ProductFound = await product.FindProduct(id);
+                var ProductFound = await product.FindProductById(id);
                 return ProductFound;
             } catch (Exception) {
                 return NotFound();
@@ -71,7 +74,7 @@ namespace nhH60Services.Controllers {
         // PUT: api/Products/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product) {
-            if (product.FindProduct(id) == null) {
+            if (product.FindProductById(id) == null) {
                 return NotFound();
             }
 
@@ -88,7 +91,7 @@ namespace nhH60Services.Controllers {
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id) {
-            Product product = await new Product().FindProduct(id);
+            Product product = await new Product().FindProductById(id);
 
             if (product == null) {
                 return NotFound();

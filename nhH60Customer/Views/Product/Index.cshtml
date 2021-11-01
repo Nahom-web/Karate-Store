@@ -3,17 +3,24 @@
 
 <main>
 
-
     <h1 class="text-center">Products</h1>
 
     <div>
-        <div class="input-group mb-3 search">
-            <input class="form-control col-xs-3" id="inpMovie" placeholder="Type a product title" size="20"
-                   type="text" />
-            <button id="searchProduct" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Search for a Product">Search</button>
-        </div>
+        
+        <form method="post">
+            <div class="input-group mb-3 search">
+                <input class="form-control col-xs-3" id="ProductName" name="ProductName" placeholder="Type a product title" size="20"
+                       type="text" />
+                <button type="submit" id="searchProduct" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Search for a Product">Search</button>
+            </div>
+        </form>
+        
     </div>
 
-
+    <ul>
+        @foreach (var product in Model) {
+            <li>@product.Description</li>
+        }
+    </ul>
 
 </main>

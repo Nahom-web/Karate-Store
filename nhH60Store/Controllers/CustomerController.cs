@@ -106,7 +106,6 @@ namespace nhH60Store.Controllers {
                     TempData["ErrorMessage"] = "Database error.";
                     return View(updatedCustomer);
                 }
-
                 return View(updatedCustomer);
             } catch (Exception e) {
                 TempData["ErrorMessage"] = e.Message;
