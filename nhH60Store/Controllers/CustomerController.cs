@@ -15,6 +15,9 @@ namespace nhH60Store.Controllers {
 
         [Route("")]
         public async Task<IActionResult> Index() {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             try {
                 Customer customer = new Customer();
                 var c = await customer.GetAllCustomers();
@@ -28,6 +31,9 @@ namespace nhH60Store.Controllers {
 
         [HttpGet, Route("Create")]
         public IActionResult Create() {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             try {
                 Customer customer = new Customer();
                 return View(customer);
@@ -40,6 +46,9 @@ namespace nhH60Store.Controllers {
 
         [HttpPost, Route("Create")]
         public async Task<IActionResult> Create(Customer newCustomer) {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             if (ModelState.IsValid){
                 HttpResponseMessage response = await newCustomer.Create();
                 int SCode = (int)response.StatusCode;
@@ -65,6 +74,9 @@ namespace nhH60Store.Controllers {
 
         [Route("Detail/{id:int}")]
         public async Task<IActionResult> Detail(int id) {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             try {
                 Customer cust = new Customer();
                 return View(await cust.FindCustomer(id));
@@ -77,6 +89,9 @@ namespace nhH60Store.Controllers {
 
         [HttpGet, Route("Update/{id:int}")]
         public async Task<IActionResult> Update(int id) {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             Customer customer = new Customer();
             try {
                 var result = await customer.FindCustomer(id);
@@ -89,6 +104,9 @@ namespace nhH60Store.Controllers {
 
         [HttpPost, Route("Update/{id:int}")]
         public async Task<IActionResult> Update(Customer updatedCustomer) {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             try {
                 HttpResponseMessage response = await updatedCustomer.Update();
                 int SCode = (int)response.StatusCode;
@@ -116,6 +134,9 @@ namespace nhH60Store.Controllers {
 
         [HttpGet, Route("Delete/{id:int}")]
         public async Task<IActionResult> Delete(int id) {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             Customer customer = new Customer();
             HttpResponseMessage response = await customer.Delete(id);
             int SCode = (int)response.StatusCode;
@@ -136,5 +157,12 @@ namespace nhH60Store.Controllers {
             return RedirectToAction("Index");
 
         }
+
+
+        //private LocalRedirectResult CheckIfLoggedIn() {
+        //    if (User.Identity.IsAuthenticated) {
+        //        return LocalRedirect("/Identity/Account/Login");
+        //    }
+        //}
     }
 }

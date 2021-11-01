@@ -13,6 +13,9 @@ namespace nhH60Store.Controllers {
 
         [Route("")]
         public async Task<IActionResult> Index() {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             try {
                 ProductCategory pc = new ProductCategory();
                 return View(await pc.GetAllCategories());
@@ -25,6 +28,9 @@ namespace nhH60Store.Controllers {
 
         [Route("ProductsForCategory/{id:int}")]
         public async Task<IActionResult> ProductsForCategory(int id) {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             try {
                 ProductCategory pc = new ProductCategory();
                 return View(await pc.GetProductsForCategory(id));
@@ -37,6 +43,9 @@ namespace nhH60Store.Controllers {
 
         [HttpGet, Route("Create")]
         public IActionResult Create() {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             try {
                 ProductCategory prodCat = new ProductCategory();
                 return View(prodCat);
@@ -49,6 +58,9 @@ namespace nhH60Store.Controllers {
 
         [HttpPost, Route("Create")]
         public async Task<IActionResult> Create(ProductCategory newProdCat) {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             HttpResponseMessage response = await newProdCat.Create();
             int SCode = (int)response.StatusCode;
             if (SCode == 204) {
@@ -68,6 +80,9 @@ namespace nhH60Store.Controllers {
 
         [HttpGet, Route("Update/{id:int}")]
         public async Task<IActionResult> Update(int id) {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             ProductCategory prodCat = new ProductCategory();
             try {
                 var result = await prodCat.FindCategory(id);
@@ -80,6 +95,9 @@ namespace nhH60Store.Controllers {
 
         [HttpPost, Route("Update/{id:int}")]
         public async Task<IActionResult> Update(ProductCategory updatedProdCat) {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             try {
                 HttpResponseMessage response = await updatedProdCat.Update();
                 int SCode = (int)response.StatusCode;
@@ -107,6 +125,9 @@ namespace nhH60Store.Controllers {
 
         [HttpGet, Route("Delete/{id:int}")]
         public async Task<IActionResult> Delete(int id) {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             ProductCategory prodCat = new ProductCategory();
             HttpResponseMessage response = await prodCat.Delete(id);
             int SCode = (int)response.StatusCode;
