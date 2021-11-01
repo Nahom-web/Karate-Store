@@ -1,71 +1,119 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿body{
+    background: rgba(192, 192, 192, 0.9);
 }
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+/*Nav*/
+
+header{
+    display: grid;
+    grid-template-columns: 1fr 12fr;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+#img{
+    z-index: 1;
+    transform: skew(-20deg);
+    background-color: black;
+    border-left: 50px solid transparent;
+    margin-left: -1em;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+#logo-img{
+    width: 20em;
+    height: 5em;    
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+#navigation ul {
+    list-style-type: none;
+    background-color: white;
+    width: max-content;
+    padding: 1em;
+    margin: 0.8em 0 .8em -2em;
+    border-left: 50px solid transparent;
+    transform: skewX(-20deg);
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+#navigation ul li {
+    display: inline;
+    padding: 2em;
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+#navigation ul li a{
+    text-decoration: none;
+    color: black;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+.container-page{
+    position: relative;
+    min-height: 100vh;
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+.content{
+    margin-top: 3em;
+    padding-bottom: 2.5em;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+
+#title{
+    font-size: 4em;
+    font-weight: bold;
+}
+
+#karate-kick-img{
+    width: 30em;
+    height: 40em;
+}
+
+.input-group{
+    width: 70%;
+    margin: auto;
+}
+
+/*Home page*/
+
+#home-page-content{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+#home-page-content #home-image{
+    width: 70%;
+}
+
+/*footer*/
+
+
+footer{
+    background-color: #343a40;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    line-height: 3em;
+}
+
+footer p{
+    color: white;
+}
+
+
+@media all and (min-width: 768px) {
+    .content{
+        margin-left: 3em;
+        margin-right: 3em;
+    }
+
+    /*Home page*/
+
+    #home-page-content{
+        grid-template-columns: 2fr 1fr;
+    }
+
+    #home-page-content img{
+        justify-self: center;
+    }
+
+    .input-group{
+        margin: revert;
+        min-width: 20%;
+        max-width: 35%;
+    }
 }
