@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using nhH60Store.Models;
 using System;
@@ -15,7 +16,12 @@ namespace nhH60Store.Controllers {
             _logger = logger;
         }
 
+        [Authorize]
+
         public IActionResult Index() {
+            if (User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             return View();
         }
 
