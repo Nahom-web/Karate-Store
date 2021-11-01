@@ -127,7 +127,7 @@ namespace nhH60Store.Controllers {
                 TempData["ErrorMessage"] = "Cannot find customer in database";
                 return RedirectToAction("Index");
             } else if (SCode == 400) {
-                TempData["ErrorMessage"] = "Sorry, cannot delete account because you orders and/or items in your cart.";
+                TempData["ErrorMessage"] = "Sorry, cannot delete account because there are orders and/or items in the customer's shopping cart.";
                 return RedirectToAction("Index");
             } else if (SCode == 500) {
                 TempData["ErrorMessage"] = "Database error.";
