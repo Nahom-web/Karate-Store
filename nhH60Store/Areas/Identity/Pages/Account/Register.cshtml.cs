@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -73,6 +74,8 @@ namespace nhH60Store.Areas.Identity.Pages.Account {
             public string Role { get; set; }
 
         }
+
+
 
         public async Task OnGetAsync(string returnUrl = null) {
             ReturnUrl = returnUrl;
