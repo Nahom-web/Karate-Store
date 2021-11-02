@@ -9,19 +9,22 @@
     @await Html.PartialAsync("_MessageDisplays")
 
 
-    @using (Html.BeginForm()) {
+    @if (Model != null) {
 
-        @Html.LabelFor(x => x.CategoryId, new { @class = "d-none" })
-        @Html.EditorFor(x => x.CategoryId, new { htmlAttributes = new { @class = "d-none" } })
+        @using (Html.BeginForm()) {
 
-        <div class="Forms CategoryForm">
+            @Html.LabelFor(x => x.CategoryId, new { @class = "d-none" })
+            @Html.EditorFor(x => x.CategoryId, new { htmlAttributes = new { @class = "d-none" } })
 
-            @Html.LabelFor(x => x.ProdCat)
-            @Html.EditorFor(x => x.ProdCat)
+            <div class="Forms CategoryForm">
 
-            <input type="submit" value="Update Category" class="submitBtn btn btn-success" />
+                @Html.LabelFor(x => x.ProdCat)
+                @Html.EditorFor(x => x.ProdCat)
 
-        </div>
+                <input type="submit" value="Update Category" class="submitBtn btn btn-success" />
 
+            </div>
+
+        }
     }
 </main>

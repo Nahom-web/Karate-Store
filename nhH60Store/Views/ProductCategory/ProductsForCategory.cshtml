@@ -1,6 +1,11 @@
 ﻿@model IEnumerable<nhH60Store.Models.Product>
 
 <main>
+
+    @if (Model == null) {
+        @await Html.PartialAsync("_MessageDisplays")
+    }
+
     @if (Model.Count() == 0) {
         <div class="messages">
             <div class="alert alert-danger" role="alert">

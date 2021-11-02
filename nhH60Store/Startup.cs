@@ -35,6 +35,24 @@ namespace nhH60Store {
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<nhH60StoreContext>();
 
+            services.Configure<IdentityOptions>(options => {
+                // passwords
+
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.AllowedForNewUsers = true;
+
+
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz-._@";
+
+            });
+
             services.ConfigureApplicationCookie(options => {
                 options.Cookie.HttpOnly = true;
                 options.LoginPath = "/Identity/Account/Login";

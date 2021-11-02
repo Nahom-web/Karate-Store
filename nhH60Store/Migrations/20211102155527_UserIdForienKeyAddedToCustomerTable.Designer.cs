@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using nhH60Store.Models;
 
 namespace nhH60Store.Migrations
 {
     [DbContext(typeof(H60AssignmentDB_nhContext))]
-    partial class H60AssignmentDB_nhContextModelSnapshot : ModelSnapshot
+    [Migration("20211102155527_UserIdForienKeyAddedToCustomerTable")]
+    partial class UserIdForienKeyAddedToCustomerTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

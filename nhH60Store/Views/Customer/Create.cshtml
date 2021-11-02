@@ -9,52 +9,56 @@
 
     @await Html.PartialAsync("_MessageDisplays")
 
-    @using (Html.BeginForm()) {
 
-        <div class="Forms">
+    @if (Model != null) {
 
-            @Html.LabelFor(x => x.FirstName)
-            <p>
-                @Html.EditorFor(x => x.FirstName)
-                <br />
-                @Html.ValidationMessageFor(x => x.FirstName)
-            </p>
+        @using (Html.BeginForm()) {
+
+            <div class="Forms">
+
+                @Html.LabelFor(x => x.FirstName)
+                <p>
+                    @Html.EditorFor(x => x.FirstName)
+                    <br />
+                    @Html.ValidationMessageFor(x => x.FirstName)
+                </p>
 
 
-            @Html.LabelFor(x => x.LastName)
-            <p>
-                @Html.EditorFor(x => x.LastName)
-                <br />
-                @Html.ValidationMessageFor(x => x.LastName)
-            </p>
+                @Html.LabelFor(x => x.LastName)
+                <p>
+                    @Html.EditorFor(x => x.LastName)
+                    <br />
+                    @Html.ValidationMessageFor(x => x.LastName)
+                </p>
 
-            @Html.LabelFor(x => x.Email)
-            <p>
-                @Html.EditorFor(x => x.Email)
-                <br />
-                @Html.ValidationMessageFor(x => x.Email)
-            </p>
+                @Html.LabelFor(x => x.Email)
+                <p>
+                    @Html.EditorFor(x => x.Email)
+                    <br />
+                    @Html.ValidationMessageFor(x => x.Email)
+                </p>
 
-            @Html.LabelFor(x => x.PhoneNumber)
-            <p>
-                @Html.EditorFor(x => x.PhoneNumber)
-                <br />
-                @Html.ValidationMessageFor(x => x.PhoneNumber)
-            </p>
+                @Html.LabelFor(x => x.PhoneNumber)
+                <p>
+                    @Html.EditorFor(x => x.PhoneNumber)
+                    <br />
+                    @Html.ValidationMessageFor(x => x.PhoneNumber)
+                </p>
 
-            @Html.LabelFor(x => x.Province)
-            @Html.DropDownListFor(x => x.Province, new SelectList(Enum.GetValues(typeof(Customer.Provinces))), "Select Province")
+                @Html.LabelFor(x => x.Province)
+                @Html.DropDownListFor(x => x.Province, new SelectList(Enum.GetValues(typeof(Customer.Provinces))), "Select Province")
 
-            @Html.LabelFor(x => x.CreditCard)
-            <p>
-                @Html.EditorFor(x => x.CreditCard)
-                <br />
-                @Html.ValidationMessageFor(x => x.CreditCard)
-            </p>
+                @Html.LabelFor(x => x.CreditCard)
+                <p>
+                    @Html.EditorFor(x => x.CreditCard)
+                    <br />
+                    @Html.ValidationMessageFor(x => x.CreditCard)
+                </p>
 
-            <input type="submit" value="Create Customer" class="submitBtn btn btn-success" id="createCustomerBtn" />
+                <input type="submit" value="Create Customer" class="submitBtn btn btn-success" id="createCustomerBtn" />
 
-        </div>
+            </div>
 
+        }
     }
 </main>

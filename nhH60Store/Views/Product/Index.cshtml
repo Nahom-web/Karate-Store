@@ -12,12 +12,15 @@
 
     @await Html.PartialAsync("_MessageDisplays")
 
-    <div class="allProducts">
+    @if (Model != null) {
 
-        @foreach (var x in Model) {
-            @await Html.PartialAsync("_Products", x)
-        }
+        <div class="allProducts">
 
-    </div>
+            @foreach (var x in Model) {
+                @await Html.PartialAsync("_Products", x)
+            }
+
+        </div>
+    }
 
 </main>

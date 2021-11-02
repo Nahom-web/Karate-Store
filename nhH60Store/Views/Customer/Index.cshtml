@@ -10,12 +10,16 @@
 
     @await Html.PartialAsync("_MessageDisplays")
 
-    <div class="allCustomers">
 
-        @foreach (var x in Model) {
-            @await Html.PartialAsync("_Customer", x)
-        }
+    @if (Model != null) {
+        <div class="allCustomers">
 
-    </div>
+            @foreach (var x in Model) {
+                @await Html.PartialAsync("_Customer", x)
+            }
+
+        </div>
+
+    }
 
 </main>

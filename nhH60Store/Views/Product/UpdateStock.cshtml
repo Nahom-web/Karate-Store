@@ -10,20 +10,22 @@
 
     <p>To update, enter the new stock number.</p>
 
+    @if (Model != null) {
 
-    @using (Html.BeginForm()) {
+        @using (Html.BeginForm()) {
 
-        @Html.LabelFor(x => x.ProductId, new { @class = "d-none" })
-        @Html.EditorFor(x => x.ProductId, new { htmlAttributes = new { @class = "d-none" } })
+            @Html.LabelFor(x => x.ProductId, new { @class = "d-none" })
+            @Html.EditorFor(x => x.ProductId, new { htmlAttributes = new { @class = "d-none" } })
 
-        <div class="Forms">
+            <div class="Forms">
 
-            @Html.LabelFor(x => x.Stock)
-            @Html.EditorFor(x => x.Stock)
+                @Html.LabelFor(x => x.Stock)
+                @Html.EditorFor(x => x.Stock)
 
-            <input type="submit" value="Update Stock" class="submitBtn btn btn-success" />
+                <input type="submit" value="Update Stock" class="submitBtn btn btn-success" />
 
-        </div>
+            </div>
 
+        }       
     }
 </main>

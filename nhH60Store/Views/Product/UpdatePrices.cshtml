@@ -11,22 +11,26 @@
     <p>To update the prices, enter the new buy/sell price.</p>
 
 
-    @using (Html.BeginForm()) {
+    @if (Model != null) {
 
-        @Html.LabelFor(x => x.ProductId, new { @class = "d-none" })
-        @Html.EditorFor(x => x.ProductId, new { htmlAttributes = new { @class = "d-none" } })
+        @using (Html.BeginForm()) {
 
-        <div class="Forms">
+            @Html.LabelFor(x => x.ProductId, new { @class = "d-none" })
+            @Html.EditorFor(x => x.ProductId, new { htmlAttributes = new { @class = "d-none" } })
 
-            @Html.LabelFor(x => x.BuyPrice)
-            @Html.EditorFor(x => x.BuyPrice)
+            <div class="Forms">
 
-            @Html.LabelFor(x => x.SellPrice)
-            @Html.EditorFor(x => x.SellPrice)
+                @Html.LabelFor(x => x.BuyPrice)
+                @Html.EditorFor(x => x.BuyPrice)
 
-            <input type="submit" value="Update Product" class="submitBtn btn btn-success" />
+                @Html.LabelFor(x => x.SellPrice)
+                @Html.EditorFor(x => x.SellPrice)
 
-        </div>
+                <input type="submit" value="Update Product" class="submitBtn btn btn-success" />
+
+            </div>
+
+        }
 
     }
 </main>

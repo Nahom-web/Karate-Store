@@ -7,13 +7,16 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using nhH60Store.Areas.Identity.Data;
+using nhH60Store.Models;
 
 namespace nhH60Store.Areas.Identity.Pages.Account {
 
@@ -23,16 +26,20 @@ namespace nhH60Store.Areas.Identity.Pages.Account {
         private readonly UserManager<nhH60StoreUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<nhH60StoreUser> userManager,
             SignInManager<nhH60StoreUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender) {
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager
+            ) {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -42,9 +49,12 @@ namespace nhH60Store.Areas.Identity.Pages.Account {
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
+        public object Roles { get; private set; }
+
         public class InputModel {
             [Required]
-            [EmailAddress]
+            [DataType(DataType.Text)]
+            [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
@@ -59,22 +69,29 @@ namespace nhH60Store.Areas.Identity.Pages.Account {
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+            //[Required]
             public string Role { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null) {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            Roles = new SelectList(_roleManager.Roles.ToList(), "Name", "Name");
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null) {
+        public async Task<IActionResult> OnPostAsync(IFormCollection form, string returnUrl = null) {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            Roles = new SelectList(_roleManager.Roles.ToList(), "Name", "Name");
             if (ModelState.IsValid) {
                 var user = new nhH60StoreUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded) {
+
                     _logger.LogInformation("User created a new account with password.");
+
+                    await _userManager.AddToRoleAsync(user, Input.Role);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

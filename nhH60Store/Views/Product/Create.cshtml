@@ -9,31 +9,35 @@
 
     @await Html.PartialAsync("_MessageDisplays")
 
-    @using (Html.BeginForm()) {
 
-        <div class="Forms">
+    @if (Model != null) {
+        @using (Html.BeginForm()) {
 
-            @Html.LabelFor(x => x.ProdCatId)
-            @Html.DropDownListFor(x => x.ProdCatId, (SelectList)TempData["ProdCatId"], "Select Value")
+            <div class="Forms">
 
-            @Html.LabelFor(x => x.Description)
-            @Html.EditorFor(x => x.Description)
+                @Html.LabelFor(x => x.ProdCatId)
+                @Html.DropDownListFor(x => x.ProdCatId, (SelectList)TempData["ProdCatId"], "Select Value")
 
-            @Html.LabelFor(x => x.Manufacturer)
-            @Html.EditorFor(x => x.Manufacturer)
+                @Html.LabelFor(x => x.Description)
+                @Html.EditorFor(x => x.Description)
 
-            @Html.LabelFor(x => x.Stock)
-            @Html.EditorFor(x => x.Stock)
+                @Html.LabelFor(x => x.Manufacturer)
+                @Html.EditorFor(x => x.Manufacturer)
 
-            @Html.LabelFor(x => x.BuyPrice)
-            @Html.EditorFor(x => x.BuyPrice)
+                @Html.LabelFor(x => x.Stock)
+                @Html.EditorFor(x => x.Stock)
 
-            @Html.LabelFor(x => x.SellPrice)
-            @Html.EditorFor(x => x.SellPrice)
+                @Html.LabelFor(x => x.BuyPrice)
+                @Html.EditorFor(x => x.BuyPrice)
 
-            <input type="submit" value="Create Product" class="submitBtn btn btn-success" id="createProductBtn" />
+                @Html.LabelFor(x => x.SellPrice)
+                @Html.EditorFor(x => x.SellPrice)
 
-        </div>
+                <input type="submit" value="Create Product" class="submitBtn btn btn-success" id="createProductBtn" />
 
+            </div>
+
+        }
     }
+
 </main>

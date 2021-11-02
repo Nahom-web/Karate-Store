@@ -9,6 +9,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using nhH60Customer.Models;
 using Microsoft.EntityFrameworkCore;
+using nhH60Customer.Areas.Identity.Data;
+using nhH60Customer.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace nhH60Customer {
     public class Startup {
@@ -24,6 +27,16 @@ namespace nhH60Customer {
             services.AddDbContext<H60Assignment2DB_nhContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection"))
             );
+
+            services.AddDefaultIdentity<nhH60CustomerUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<nhH60CustomerContext>();
+
+            services.ConfigureApplicationCookie(options => {
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AcessDenied";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
@@ -32,10 +45,12 @@ namespace nhH60Customer {
             } else {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {

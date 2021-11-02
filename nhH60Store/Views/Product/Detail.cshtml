@@ -5,16 +5,19 @@
 @await Html.PartialAsync("_MessageDisplays")
 
 
-<div class="card product-details">
-    <div class="card-body">
-        <h5 class="card-title">@Model.Description</h5>
-        <p class="card-text">
-            <span class="font-weight-bold">Category: </span><span>@Model.ProdCat.ProdCat</span><br /><br />
-            <span class="font-weight-bold">Stock: </span><span> @Model.Stock</span><br /><br />
-            <span class="font-weight-bold">Manufacturer: </span><span> @Model.Manufacturer</span><br /><br />
-            <span class="font-weight-bold">Buy Price: </span><span> @Model.BuyPrice</span><br /><br />
-            <span class="font-weight-bold">Sell Price: </span><span> @Model.SellPrice</span><br /><br />
-        </p>
-        <a class="btn btn-primary" href="@Url.Action("Index", "Product")">Go Back</a>
+@if (Model != null) {
+    <div class="card product-details">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Description</h5>
+            <p class="card-text">
+                <span class="font-weight-bold">Category: </span><span>@Model.ProdCat.ProdCat</span><br /><br />
+                <span class="font-weight-bold">Stock: </span><span> @Model.Stock</span><br /><br />
+                <span class="font-weight-bold">Manufacturer: </span><span> @Model.Manufacturer</span><br /><br />
+                <span class="font-weight-bold">Buy Price: </span><span> @Model.BuyPrice</span><br /><br />
+                <span class="font-weight-bold">Sell Price: </span><span> @Model.SellPrice</span><br /><br />
+            </p>
+            <a class="btn btn-primary" href="@Url.Action("Index", "Product")">Go Back</a>
+        </div>
     </div>
-</div>
+}
+

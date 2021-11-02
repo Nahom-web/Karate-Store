@@ -11,19 +11,26 @@
 
     @await Html.PartialAsync("_MessageDisplays")
 
-    <div id="allCategories">
-        @foreach (var x in Model) {
-            <div class="card">
-                <h5 class="card-title">
-                    <a title="@x.ProdCat products" href="@Url.Action("ProductsForCategory", "ProductCategory", new { id = x.CategoryId })" class="categoryName">@x.ProdCat products</a><br />
-                </h5>
-                <p>
-                    <a title="Update Category" href="@Url.Action("Update", "ProductCategory", new { id = x.CategoryId })"><img src="~/Images/pencil.svg" alt="update product icon" /></a>
-                    <a title="Delete Category" href="@Url.Action("Delete", "ProductCategory", new { id = x.CategoryId  })"><img src="~/Images/trash.svg" alt="delete category icon" /></a>
-                </p>
-            </div>
-        }
-    </div>
+
+    @if (Model != null) {
+
+        <div id="allCategories">
+
+            @foreach (var x in Model) {
+                <div class="card">
+                    <h5 class="card-title">
+                        <a title="@x.ProdCat products" href="@Url.Action("ProductsForCategory", "ProductCategory", new { id = x.CategoryId })" class="categoryName">@x.ProdCat products</a><br />
+                    </h5>
+                    <p>
+                        <a title="Update Category" href="@Url.Action("Update", "ProductCategory", new { id = x.CategoryId })"><img src="~/Images/pencil.svg" alt="update product icon" /></a>
+                        <a title="Delete Category" href="@Url.Action("Delete", "ProductCategory", new { id = x.CategoryId  })"><img src="~/Images/trash.svg" alt="delete category icon" /></a>
+                    </p>
+                </div>
+            }
+
+        </div>
+
+    }
 
     @*Image Sources:
         https://icons.getbootstrap.com/icons/pencil/

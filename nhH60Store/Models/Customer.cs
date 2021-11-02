@@ -16,6 +16,13 @@ namespace nhH60Store.Models {
 
     public class Customer {
 
+        [NotMapped]
+        private readonly H60AssignmentDB_nhContext _context;
+
+        public Customer() {
+            _context = new H60AssignmentDB_nhContext();
+        }
+
 
         [NotMapped]
         private const string CUSTOMERS_URL = "http://localhost:63164/api/Customer";
@@ -31,9 +38,6 @@ namespace nhH60Store.Models {
 
         [NotMapped]
         private const string NameRegex = "^[a-z\\sA-Z\'\" -]{1,}$";
-
-        [NotMapped]
-        private const string EmailRegex = "^[A-z0-9_\\-.]+@[A-z0-9_\\-.]+(\\.com|\\.ca|\\.org)$";
 
 
         [DataMember(Name = "customerId")]
@@ -57,7 +61,7 @@ namespace nhH60Store.Models {
         [DataMember(Name = "email")]
         [DataType(DataType.Text)]
         [StringLength(30, ErrorMessage = "Please enter email under {1} characters.")]
-        [RegularExpression(EmailRegex, ErrorMessage = "Please enter a valid email address.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         public string Email { get; set; }
 
         [DataMember(Name = "phoneNumber")]
