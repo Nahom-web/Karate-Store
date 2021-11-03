@@ -2,11 +2,11 @@
 
 Web Programming IV
 
-Assignment 2
+Assignment 3
 
 Description:
 
-Building off of Assignment 1, I added authentication and authorization for the customers, clerks, and managers. A new project has been added for the customer where they can view the products and categories.
+Building off of Assignment 2...
 
 Computer program used: Visual Studio 2019
 
