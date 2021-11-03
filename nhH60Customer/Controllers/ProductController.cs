@@ -15,6 +15,9 @@ namespace nhH60Customer.Controllers {
         [Route("{string?}")]
 
         public async Task<IActionResult> Index(string? ProductName) {
+            if (!User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             try {
                 Product product = new Product();
                 if (ProductName == null)

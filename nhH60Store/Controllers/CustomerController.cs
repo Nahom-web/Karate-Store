@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using nhH60Store.Models;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace nhH60Store.Controllers {
 
@@ -13,6 +14,7 @@ namespace nhH60Store.Controllers {
 
     public class CustomerController : Controller {
 
+        [Authorize(Roles = "manager, clerk")]
         [Route("")]
         public async Task<IActionResult> Index() {
             if (!User.Identity.IsAuthenticated) {
@@ -29,8 +31,9 @@ namespace nhH60Store.Controllers {
 
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpGet, Route("Create")]
-        public IActionResult Create() {
+        public async Task<IActionResult> Create() {
             if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
@@ -44,6 +47,7 @@ namespace nhH60Store.Controllers {
 
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpPost, Route("Create")]
         public async Task<IActionResult> Create(Customer newCustomer) {
             if (!User.Identity.IsAuthenticated) {
@@ -63,15 +67,12 @@ namespace nhH60Store.Controllers {
                     TempData["ErrorMessage"] = "Database error. Please check your database connection";
                     return View(newCustomer);
                 }
-
                 return View(newCustomer);
             }
-
             return View(newCustomer);
-
         }
 
-
+        [Authorize(Roles = "manager, clerk")]
         [Route("Detail/{id:int}")]
         public async Task<IActionResult> Detail(int id) {
             if (!User.Identity.IsAuthenticated) {
@@ -86,7 +87,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
-
+        [Authorize(Roles = "manager, clerk")]
         [HttpGet, Route("Update/{id:int}")]
         public async Task<IActionResult> Update(int id) {
             if (!User.Identity.IsAuthenticated) {
@@ -102,6 +103,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpPost, Route("Update/{id:int}")]
         public async Task<IActionResult> Update(Customer updatedCustomer) {
             if (!User.Identity.IsAuthenticated) {
@@ -131,7 +133,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
-
+        [Authorize(Roles = "manager, clerk")]
         [HttpGet, Route("Delete/{id:int}")]
         public async Task<IActionResult> Delete(int id) {
             if (!User.Identity.IsAuthenticated) {

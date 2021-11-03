@@ -7,12 +7,14 @@ using nhH60Store.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Http;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace nhH60Store.Controllers {
 
     [Route("Product")]
     public class ProductController : Controller {
 
+        [Authorize(Roles = "manager, clerk")]
         [Route("")]
         public async Task<IActionResult> Index() {
             if (!User.Identity.IsAuthenticated) {
@@ -27,6 +29,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [Route("ProductsByCategory")]
         public async Task<IActionResult> ProductsByCategory() {
             if (!User.Identity.IsAuthenticated) {
@@ -41,6 +44,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpGet, Route("Create")]
         public async Task<IActionResult> Create() {
             if (!User.Identity.IsAuthenticated) {
@@ -58,6 +62,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpPost, Route("Create")]
         public async Task<IActionResult> Create(Product product) {
             if (!User.Identity.IsAuthenticated) {
@@ -80,6 +85,7 @@ namespace nhH60Store.Controllers {
             return View(product);
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [Route("Details/{id:int}")]
         public async Task<IActionResult> Detail(int id) {
             if (!User.Identity.IsAuthenticated) {
@@ -94,6 +100,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpGet, Route("UpdateStock/{id:int}")]
         public async Task<IActionResult> UpdateStock(int id) {
             if (!User.Identity.IsAuthenticated) {
@@ -109,6 +116,7 @@ namespace nhH60Store.Controllers {
             }            
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpPost, Route("UpdateStock/{id:int}")]
         public async Task<IActionResult> UpdateStock(Product product) {
             if (!User.Identity.IsAuthenticated) {
@@ -138,6 +146,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
+        [Authorize(Roles = "manager")]
         [HttpGet, Route("UpdatePrices/{id:int}")]
         public async Task<IActionResult> UpdatePrices(int id) {
             if (!User.Identity.IsAuthenticated) {
@@ -153,6 +162,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
+        [Authorize(Roles = "manager")]
         [HttpPost, Route("UpdatePrices/{id:int}")]
         public async Task<IActionResult> UpdatePrices(Product product) {
             if (!User.Identity.IsAuthenticated) {
@@ -184,6 +194,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpGet, Route("Delete/{id:int}")]
         public async Task<IActionResult> Delete(int id) {
             if (!User.Identity.IsAuthenticated) {

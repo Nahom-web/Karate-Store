@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
 
-namespace nhH60Services.Models
-{
-    public partial class Order
-    {
-        public Order()
-        {
+namespace nhH60Services.Models {
+    public partial class Order {
+        public Order() {
             OrderItems = new HashSet<OrderItem>();
         }
 

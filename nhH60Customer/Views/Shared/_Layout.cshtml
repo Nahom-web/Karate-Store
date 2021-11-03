@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<nhH60Customer.Areas.Identity.Data.nhH60CustomerUser> SignInManager
+@inject UserManager<nhH60Customer.Areas.Identity.Data.nhH60CustomerUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -25,6 +29,12 @@
                     <a asp-controller="ProductCategory" asp-action="Index">View Product Categories</a>
                 </li>
             </ul>
+            @if (SignInManager.IsSignedIn(User)) {
+                <span class="navbar-text" id="name"><img src="~/Images/person-circle.svg" alt="Person Icon" id="nameIcon" />Welcome @User.Identity.Name</span>
+                <a class="btn btn-danger NavBtns" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+            }
+
+            @*Source: https://icons.getbootstrap.com/icons/person-circle/*@
         </nav>
     </header>
     <div class="container-page">
@@ -32,7 +42,7 @@
             @RenderBody()
         </main>
         <footer>
-            <p id="copyright">&copy; 2021 - Karate House - All Rights Reserved</p>         
+            <p id="copyright">&copy; 2021 - Karate House - All Rights Reserved</p>
         </footer>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

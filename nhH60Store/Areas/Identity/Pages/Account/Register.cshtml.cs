@@ -53,6 +53,13 @@ namespace nhH60Store.Areas.Identity.Pages.Account {
         public object Roles { get; private set; }
 
         public class InputModel {
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
+
+
             [Required]
             [DataType(DataType.Text)]
             [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
@@ -88,7 +95,7 @@ namespace nhH60Store.Areas.Identity.Pages.Account {
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             Roles = new SelectList(_roleManager.Roles.ToList(), "Name", "Name");
             if (ModelState.IsValid) {
-                var user = new nhH60StoreUser { UserName = Input.Email, Email = Input.Email };
+                var user = new nhH60StoreUser { UserName = Input.UserName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded) {
 

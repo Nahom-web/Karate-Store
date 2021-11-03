@@ -9,6 +9,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace nhH60Store.Models {
 
@@ -19,9 +20,11 @@ namespace nhH60Store.Models {
         [NotMapped]
         private readonly H60AssignmentDB_nhContext _context;
 
+
         public Customer() {
             _context = new H60AssignmentDB_nhContext();
         }
+
 
 
         [NotMapped]

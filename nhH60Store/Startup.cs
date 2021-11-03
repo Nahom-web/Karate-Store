@@ -49,7 +49,7 @@ namespace nhH60Store {
                 options.Lockout.AllowedForNewUsers = true;
 
 
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz-._@";
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
 
             });
 
@@ -57,6 +57,12 @@ namespace nhH60Store {
                 options.Cookie.HttpOnly = true;
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AcessDenied";
+            });
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(15);
+                options.Cookie.Name = "KarateStore_Session";
             });
         }
 
@@ -75,6 +81,8 @@ namespace nhH60Store {
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(

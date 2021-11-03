@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using nhH60Store.Areas.Identity.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 
 namespace nhH60Store.Areas.Identity.Pages.Account {
     [AllowAnonymous]
@@ -19,13 +21,16 @@ namespace nhH60Store.Areas.Identity.Pages.Account {
         private readonly UserManager<nhH60StoreUser> _userManager;
         private readonly SignInManager<nhH60StoreUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public LoginModel(SignInManager<nhH60StoreUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<nhH60StoreUser> userManager) {
+            UserManager<nhH60StoreUser> userManager,
+            RoleManager<IdentityRole> roleManager) {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -38,7 +43,10 @@ namespace nhH60Store.Areas.Identity.Pages.Account {
         [TempData]
         public string ErrorMessage { get; set; }
 
+        public object Roles { get; private set; }
+
         public class InputModel {
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
@@ -77,6 +85,13 @@ namespace nhH60Store.Areas.Identity.Pages.Account {
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded) {
                     _logger.LogInformation("User logged in.");
+                    // Resolve the user via their email
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    var role = await _userManager.GetRolesAsync(user);
+                    HttpContext.Session.SetString("User", user.UserName);
+                    HttpContext.Session.SetString("UserId", user.Id);
+                    HttpContext.Session.SetString("UserRole", role.First());
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor) {

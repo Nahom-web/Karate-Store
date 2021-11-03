@@ -13,6 +13,7 @@ namespace nhH60Services.Controllers {
     public class CustomerController : ControllerBase {
         private readonly H60Assignment2DB_nhContext _context;
 
+
         public CustomerController(H60Assignment2DB_nhContext context) {
             _context = context;
         }
@@ -29,6 +30,7 @@ namespace nhH60Services.Controllers {
                 return NotFound(e.Message);
             }
         }
+
 
         // GET: api/Customer/5
         [HttpGet("{id}")]

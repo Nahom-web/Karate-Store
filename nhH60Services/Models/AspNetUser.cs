@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 
-#nullable disable
+namespace nhH60Services.Models {
+    public partial class AspNetUser {
 
-namespace nhH60Services.Models
-{
-    public partial class AspNetUser
-    {
-        public AspNetUser()
-        {
+        public AspNetUser() {
             AspNetUserClaims = new HashSet<AspNetUserClaim>();
             AspNetUserLogins = new HashSet<AspNetUserLogin>();
             AspNetUserRoles = new HashSet<AspNetUserRole>();
@@ -35,5 +34,6 @@ namespace nhH60Services.Models
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
+
     }
 }

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-#nullable disable
 
 namespace nhH60Services.Models {
     public partial class ProductCategory {

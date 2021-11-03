@@ -16,6 +16,9 @@ namespace nhH60Customer.Controllers {
         }
 
         public IActionResult Index() {
+            if (!User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             return View();
         }
 

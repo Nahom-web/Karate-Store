@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace nhH60Store.Models {
-    public class AspNetRoles {
+    public class User {
+
+        public string Email { get; set; }
+
     }
 }

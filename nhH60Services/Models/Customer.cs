@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-#nullable disable
 
 namespace nhH60Services.Models {
     public partial class Customer {
@@ -53,7 +52,7 @@ namespace nhH60Services.Models {
 
             List<Order> orders = await _context.Orders.Where(x => x.CustomerId == this.CustomerId).ToListAsync();
 
-            if(cart != null || orders.Count != 0) {
+            if (cart != null || orders.Count != 0) {
                 throw new Exception("Sorry, cannot delete account because you orders and/or items in your cart.");
             }
 

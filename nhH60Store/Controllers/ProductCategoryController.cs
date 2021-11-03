@@ -5,12 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using nhH60Store.Models;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace nhH60Store.Controllers {
 
     [Route("ProductCategory")]
     public class ProductCategoryController : Controller {
 
+        [Authorize(Roles = "manager, clerk")]
         [Route("")]
         public async Task<IActionResult> Index() {
             if (!User.Identity.IsAuthenticated) {
@@ -26,6 +28,7 @@ namespace nhH60Store.Controllers {
 
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [Route("ProductsForCategory/{id:int}")]
         public async Task<IActionResult> ProductsForCategory(int id) {
             if (!User.Identity.IsAuthenticated) {
@@ -41,6 +44,7 @@ namespace nhH60Store.Controllers {
 
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpGet, Route("Create")]
         public IActionResult Create() {
             if (!User.Identity.IsAuthenticated) {
@@ -56,6 +60,7 @@ namespace nhH60Store.Controllers {
 
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpPost, Route("Create")]
         public async Task<IActionResult> Create(ProductCategory newProdCat) {
             if (!User.Identity.IsAuthenticated) {
@@ -78,6 +83,7 @@ namespace nhH60Store.Controllers {
             return View(newProdCat);
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpGet, Route("Update/{id:int}")]
         public async Task<IActionResult> Update(int id) {
             if (!User.Identity.IsAuthenticated) {
@@ -93,6 +99,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpPost, Route("Update/{id:int}")]
         public async Task<IActionResult> Update(ProductCategory updatedProdCat) {
             if (!User.Identity.IsAuthenticated) {
@@ -123,6 +130,7 @@ namespace nhH60Store.Controllers {
             }
         }
 
+        [Authorize(Roles = "manager, clerk")]
         [HttpGet, Route("Delete/{id:int}")]
         public async Task<IActionResult> Delete(int id) {
             if (!User.Identity.IsAuthenticated) {

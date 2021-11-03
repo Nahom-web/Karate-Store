@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
 
-namespace nhH60Customer.Models
-{
-    public partial class AspNetUserToken
-    {
+namespace nhH60Customer.Models {
+    public partial class AspNetUserToken {
         public string UserId { get; set; }
         public string LoginProvider { get; set; }
         public string Name { get; set; }

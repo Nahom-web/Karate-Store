@@ -15,6 +15,9 @@ namespace nhH60Customer.Controllers {
         [Route("")]
 
         public async Task<IActionResult> Index() {
+            if (!User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             try {
                 ProductCategory pc = new ProductCategory();
                 return View(await pc.GetAllCategories());

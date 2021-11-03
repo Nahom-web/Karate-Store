@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace nhH60Customer.Models
-{
-    public partial class ShoppingCart
-    {
-        public ShoppingCart()
-        {
+namespace nhH60Customer.Models {
+    public partial class ShoppingCart {
+        public ShoppingCart() {
             CartItems = new HashSet<CartItem>();
         }
 

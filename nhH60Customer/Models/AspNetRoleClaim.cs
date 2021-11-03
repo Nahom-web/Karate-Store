@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
 
-namespace nhH60Customer.Models
-{
-    public partial class AspNetRoleClaim
-    {
+namespace nhH60Customer.Models {
+    public partial class AspNetRoleClaim {
         public int Id { get; set; }
         public string RoleId { get; set; }
         public string ClaimType { get; set; }

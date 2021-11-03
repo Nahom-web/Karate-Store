@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<nhH60Store.Areas.Identity.Data.nhH60StoreUser> SignInManager
+@inject UserManager<nhH60Store.Areas.Identity.Data.nhH60StoreUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -28,6 +32,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">Customers</a>
                         </li>
                     </ul>
+                    @if (SignInManager.IsSignedIn(User)) {
+                        <span class="navbar-text" id="name"><img src="~/Images/person-circle.svg" alt="Person Icon" id="nameIcon" />Welcome @User.Identity.Name</span>
+                        <a class="btn btn-danger NavBtns" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                    }
+
+                    @*Source: https://icons.getbootstrap.com/icons/person-circle/*@
                 </div>
             </div>
         </nav>

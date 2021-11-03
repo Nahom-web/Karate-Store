@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-#nullable disable
 
 namespace nhH60Services.Models {
     public partial class H60Assignment2DB_nhContext : DbContext {
@@ -26,7 +25,6 @@ namespace nhH60Services.Models {
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductCategory> ProductCategories { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
@@ -234,15 +232,6 @@ namespace nhH60Services.Models {
                     .IsRequired()
                     .HasMaxLength(60)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<Role>(entity => {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsFixedLength(true);
             });
 
             modelBuilder.Entity<ShoppingCart>(entity => {

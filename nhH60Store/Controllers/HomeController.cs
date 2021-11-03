@@ -7,16 +7,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using nhH60Store.Models;
+using Microsoft.AspNetCore.Http;
 
-namespace nhH60Store.Controllers {
+namespace nhH60Store.Controllers {    
+
     public class HomeController : Controller {
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger) {
             _logger = logger;
         }
-
-        [Authorize]
 
         public IActionResult Index() {
             if (!User.Identity.IsAuthenticated) {
