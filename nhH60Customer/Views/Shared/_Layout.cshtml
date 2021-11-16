@@ -30,8 +30,13 @@
                 </li>
             </ul>
             @if (SignInManager.IsSignedIn(User)) {
-                <span class="navbar-text" id="name"><img src="~/Images/person-circle.svg" alt="Person Icon" id="nameIcon" />Welcome @User.Identity.Name</span>
-                <a class="btn btn-danger NavBtns" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                <div id="profile-and-logout-section">
+                    <span id="name">
+                        <img src="~/Images/person-circle.svg" alt="Person Icon" id="nameIcon" />
+                        Welcome @User.Identity.Name
+                    </span>
+                    <a class="btn btn-danger NavBtns" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                </div>
             }
 
             @*Source: https://icons.getbootstrap.com/icons/person-circle/*@

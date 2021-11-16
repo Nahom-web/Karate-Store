@@ -67,6 +67,20 @@ header{
     margin: auto;
 }
 
+#profile-and-logout-section{
+    float: right;
+    margin-top: -4em;
+    margin-right: 2em;
+}
+
+#name{
+    margin-right: 1em;
+}
+
+#nameIcon {
+    padding: 0 .6em .1em 0;
+}
+
 /*Home page*/
 
 #home-page-content{

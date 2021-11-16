@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using nhH60Services.Models;
 
 namespace nhH60Services.Controllers {
-    [Route("api/[controller]")]
+    [Route("api/Customers")]
     [ApiController]
     public class CustomerController : ControllerBase {
         private readonly H60Assignment2DB_nhContext _context;
@@ -20,7 +20,7 @@ namespace nhH60Services.Controllers {
 
         // GET: api/Customer
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers() {
+        public async Task<ActionResult<IEnumerable<Customer>>> Customers() {
             Customer customer = new Customer();
 
             try {
@@ -34,7 +34,7 @@ namespace nhH60Services.Controllers {
 
         // GET: api/Customer/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id) {
+        public async Task<ActionResult<Customer>> Customer(int id) {
             Customer customer = new Customer();
 
             try {

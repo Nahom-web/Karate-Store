@@ -25,10 +25,8 @@ namespace nhH60Store.Models {
             _context = new H60AssignmentDB_nhContext();
         }
 
-
-
         [NotMapped]
-        private const string CUSTOMERS_URL = "http://localhost:63164/api/Customer";
+        private const string CUSTOMERS_URL = "http://localhost:63164/api/Customers";
 
 
         public enum Provinces { ON, QC, NB, MB };

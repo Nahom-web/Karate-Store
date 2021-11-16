@@ -17,7 +17,7 @@ namespace nhH60Store.Models {
     public partial class ProductCategory {
 
         [NotMapped]
-        private const string PRODUCT_CATEGORY_URL = "http://localhost:63164/api/ProductCategory";
+        private const string PRODUCT_CATEGORY_URL = "http://localhost:63164/api/ProductCategories";
 
 
         [DataMember(Name = "categoryId")]

@@ -20,18 +20,22 @@
 
                 @Html.LabelFor(x => x.Description)
                 @Html.EditorFor(x => x.Description)
+                @*@Html.ValidationMessageFor(x => x.Description)*@
 
                 @Html.LabelFor(x => x.Manufacturer)
                 @Html.EditorFor(x => x.Manufacturer)
 
                 @Html.LabelFor(x => x.Stock)
                 @Html.EditorFor(x => x.Stock)
+                @*@Html.ValidationMessageFor(x => x.Description)*@
 
                 @Html.LabelFor(x => x.BuyPrice)
                 @Html.EditorFor(x => x.BuyPrice)
+                @*@Html.ValidationMessageFor(x => x.Description)*@
 
                 @Html.LabelFor(x => x.SellPrice)
                 @Html.EditorFor(x => x.SellPrice)
+                @*@Html.ValidationMessageFor(x => x.Description)*@
 
                 <input type="submit" value="Create Product" class="submitBtn btn btn-success" id="createProductBtn" />
 

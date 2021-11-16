@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using nhH60Services.Models;
 
 namespace nhH60Services.Controllers {
-    [Route("api/[controller]")]
+    [Route("api/Products")]
     [ApiController]
     public class ProductController : ControllerBase {
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts(string? ProductName) {    
+        public async Task<ActionResult<List<Product>>> Products(string? ProductName) {    
 
             Product product = new Product();
 
@@ -43,9 +43,9 @@ namespace nhH60Services.Controllers {
 
         }
 
-        // GET: api/Products/5
+        // GET: api/Product/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id) {
+        public async Task<ActionResult<Product>> Products(int id) {
             Product product = new Product();
 
             try {

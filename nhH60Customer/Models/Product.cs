@@ -15,7 +15,7 @@ namespace nhH60Customer.Models {
     public partial class Product {
 
         [NotMapped]
-        private const string API_URL = "http://localhost:63164/api/Product";
+        private const string API_URL = "http://localhost:63164/api/Products";
 
 
         [DataMember(Name = "productId")]

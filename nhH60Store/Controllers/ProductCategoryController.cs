@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace nhH60Store.Controllers {
 
-    [Route("ProductCategory")]
+    [Route("ProductCategories")]
     public class ProductCategoryController : Controller {
 
         [Authorize(Roles = "manager, clerk")]
@@ -146,7 +146,7 @@ namespace nhH60Store.Controllers {
                 TempData["ErrorMessage"] = "Cannot find product cateogry in database";
                 return RedirectToAction("Index");
             } else if (SCode == 400) {
-                TempData["ErrorMessage"] = "Cannot delete this category becauce there are products in this category.";
+                TempData["ErrorMessage"] = "Cannot delete this category because there are products in this category.";
                 return RedirectToAction("Index");
             } else if (SCode == 500) {
                 TempData["ErrorMessage"] = "Database error.";

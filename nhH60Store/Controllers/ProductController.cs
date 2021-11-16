@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace nhH60Store.Controllers {
 
-    [Route("Product")]
+    [Route("Products")]
     public class ProductController : Controller {
 
         [Authorize(Roles = "manager, clerk")]

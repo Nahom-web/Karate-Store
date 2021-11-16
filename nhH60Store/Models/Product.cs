@@ -18,7 +18,7 @@ namespace nhH60Store.Models {
 
 
         [NotMapped]
-        private const string API_URL = "http://localhost:63164/api/Product";
+        private const string API_URL = "http://localhost:63164/api/Products";
 
 
         [DataMember(Name = "productId")]
@@ -29,6 +29,7 @@ namespace nhH60Store.Models {
         public int ProdCatId { get; set; }
 
         [DataMember(Name = "description")]
+        [Required]
         public string Description { get; set; }
 
         [DataMember(Name = "manufacturer")]
