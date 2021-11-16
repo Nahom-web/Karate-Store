@@ -23,7 +23,7 @@ namespace nhH60Store.Models {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
-                optionsBuilder.UseSqlServer("Server=cssql.cegep-heritage.qc.ca;Database=H60Assignment2DB_nh;User id=nhaile; Password=password;");
+                optionsBuilder.UseSqlServer("Server=cssql.cegep-heritage.qc.ca;Database=H60Assignment3DB_nh;User id=nhaile; Password=password;");
             }
         }
 
