@@ -92,7 +92,7 @@ namespace nhH60Store.Areas.Identity.Pages.Account {
                     HttpContext.Session.SetString("UserId", user.Id);
                     HttpContext.Session.SetString("UserRole", role.First());
 
-                    return LocalRedirect(returnUrl);
+                    return RedirectToAction("Index", "Home");
                 }
                 if (result.RequiresTwoFactor) {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });

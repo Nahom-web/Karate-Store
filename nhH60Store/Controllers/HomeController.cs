@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using nhH60Store.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace nhH60Store.Controllers {    
