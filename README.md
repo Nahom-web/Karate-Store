@@ -6,7 +6,8 @@ Assignment 3
 
 Description:
 
-Building off of Assignment 2...
+Completed Karate Store
+
 
 Computer program used: Visual Studio 2019
 
