@@ -10,44 +10,45 @@ using nhH60Services.Models;
 namespace nhH60Services.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : ControllerBase {
+    public class CartItemController : ControllerBase {
 
-        // GET: api/Order
+
+        // GET: api/CartItem
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> Orders() {
-            Order Order = new Order();
+        public async Task<ActionResult<IEnumerable<CartItem>>> CartItems() {
+            CartItem CartItem = new CartItem();
 
             try {
-                var Orders = await Order.GetAllOrders();
-                return Orders;
+                var CartItems = await CartItem.GetAllCartItems();
+                return CartItems;
             } catch (Exception e) {
                 return NotFound(e.Message);
             }
         }
 
 
-        // GET: api/Order/5
+        // GET: api/CartItem/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> Order(int id) {
-            Order Order = new Order();
+        public async Task<ActionResult<CartItem>> CartItem(int id) {
+            CartItem CartItem = new CartItem();
 
             try {
-                var OrderFound = await Order.FindOrderById(id);
-                return OrderFound;
+                var CartItemFound = await CartItem.FindItemById(id);
+                return CartItemFound;
             } catch (Exception e) {
                 return NotFound(e.Message);
             }
         }
 
-        // PUT: api/Order/5
+        // PUT: api/CartItem/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(int id, Order Order) {
-            if (Order.FindOrderById(id) == null) {
+        public async Task<IActionResult> PutCartItem(int id, CartItem CartItem) {
+            if (CartItem.FindItemById(id) == null) {
                 return NotFound();
             }
 
             try {
-                await Order.Update();
+                await CartItem.Update();
             } catch (Exception e) {
                 return BadRequest(e.Message);
             }
@@ -55,11 +56,11 @@ namespace nhH60Services.Controllers {
             return NoContent();
         }
 
-        // POST: api/Order
+        // POST: api/CartItem
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order Order) {
+        public async Task<ActionResult<CartItem>> PostCartItem(CartItem CartItem) {
             try {
-                await Order.Create();
+                await CartItem.Create();
             } catch (Exception e) {
                 return BadRequest(e.Message);
             }
@@ -67,24 +68,23 @@ namespace nhH60Services.Controllers {
             return NoContent();
         }
 
-        // DELETE: api/Order/5
+        // DELETE: api/CartItem/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(int id) {
-            var Order = await new Order().FindOrderById(id);
+        public async Task<IActionResult> DeleteCartItem(int id) {
+            var CartItem = await new CartItem().FindItemById(id);
 
-            if (Order == null) {
+            if (CartItem == null) {
                 return NotFound();
             }
 
             try {
-                await Order.Delete();
+                await CartItem.Delete();
             } catch (Exception e) {
                 return BadRequest(e.Message);
             }
 
             return NoContent();
         }
-
 
     }
 }

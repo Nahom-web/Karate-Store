@@ -11,12 +11,6 @@ namespace nhH60Services.Controllers {
     [Route("api/Customers")]
     [ApiController]
     public class CustomerController : ControllerBase {
-        private readonly H60Assignment2DB_nhContext _context;
-
-
-        public CustomerController(H60Assignment2DB_nhContext context) {
-            _context = context;
-        }
 
         // GET: api/Customer
         [HttpGet]
