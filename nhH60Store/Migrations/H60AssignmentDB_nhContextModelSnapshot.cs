@@ -8,7 +8,7 @@ using nhH60Store.Models;
 
 namespace nhH60Store.Migrations
 {
-    [DbContext(typeof(H60AssignmentDB_nhContext))]
+    [DbContext(typeof(H60Assignment3DB_nhContext))]
     partial class H60AssignmentDB_nhContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

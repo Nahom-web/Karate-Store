@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using nhH60Store.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Http;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
 
 namespace nhH60Store.Controllers {
@@ -30,8 +27,8 @@ namespace nhH60Store.Controllers {
         }
 
         [Authorize(Roles = "manager, clerk")]
-        [Route("ProductsByCategory")]
-        public async Task<IActionResult> ProductsByCategory() {
+        [Route("ProductCategories")]
+        public async Task<IActionResult> ProductCategories() {
             if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }

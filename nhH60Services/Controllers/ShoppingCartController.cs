@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using nhH60Services.Models;
 
 namespace nhH60Services.Controllers {
-    [Route("api/[controller]")]
+    [Route("api/ShoppingCarts")]
     [ApiController]
     public class ShoppingCartController : ControllerBase {
 
@@ -26,7 +26,7 @@ namespace nhH60Services.Controllers {
 
         // GET: api/ShoppingCart/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ShoppingCart>> ShoppingCart(int id) {
+        public async Task<ActionResult<ShoppingCart>> ShoppingCarts(int id) {
             ShoppingCart ShoppingCart = new ShoppingCart();
 
             try {

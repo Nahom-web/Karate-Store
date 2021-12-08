@@ -25,7 +25,7 @@ namespace nhH60Store.Models {
         public int ProductId { get; set; }
 
         [DataMember(Name = "prodCatId")]
-        [Display(Name ="Category")]
+        [Display(Name = "Category")]
         public int ProdCatId { get; set; }
 
         [DataMember(Name = "description")]
@@ -204,7 +204,7 @@ namespace nhH60Store.Models {
                 new MediaTypeWithQualityHeaderValue("application/json")
                 );
 
-            var StreamTask = Client.GetStreamAsync(API_URL + "/ByCategory");
+            var StreamTask = Client.GetStreamAsync(API_URL + "/ProductCategories");
 
             var Serializer = new DataContractJsonSerializer(typeof(List<Product>));
 

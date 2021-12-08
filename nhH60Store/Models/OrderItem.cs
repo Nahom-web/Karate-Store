@@ -23,6 +23,6 @@ namespace nhH60Store.Models {
         public decimal? Price { get; set; }
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
-        
+
     }
 }

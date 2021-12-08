@@ -18,11 +18,11 @@ namespace nhH60Store.Models {
     public class Customer {
 
         [NotMapped]
-        private readonly H60AssignmentDB_nhContext _context;
+        private readonly H60Assignment3DB_nhContext _context;
 
 
         public Customer() {
-            _context = new H60AssignmentDB_nhContext();
+            _context = new H60Assignment3DB_nhContext();
         }
 
         [NotMapped]
@@ -101,9 +101,8 @@ namespace nhH60Store.Models {
             return str;
         }
 
-
         private void ValidatePhoneNumber() {
-            if(this.PhoneNumber != null) {
+            if (this.PhoneNumber != null) {
                 this.PhoneNumber = this.StripWhiteSpacesOrCharacters(this.PhoneNumber);
             }
         }

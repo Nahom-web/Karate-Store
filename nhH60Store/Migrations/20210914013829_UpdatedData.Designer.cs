@@ -9,7 +9,7 @@ using nhH60Store.Models;
 
 namespace nhH60Store.Migrations
 {
-    [DbContext(typeof(H60AssignmentDB_nhContext))]
+    [DbContext(typeof(H60Assignment3DB_nhContext))]
     [Migration("20210914013829_UpdatedData")]
     partial class UpdatedData
     {

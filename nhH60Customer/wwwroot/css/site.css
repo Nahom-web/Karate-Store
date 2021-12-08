@@ -92,6 +92,17 @@ header{
     width: 70%;
 }
 
+
+/*Products*/
+
+#container-products-and-cart{
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 3em;
+    margin-bottom: 10em;
+}
+
+
 /*footer*/
 
 
@@ -129,5 +140,12 @@ footer p{
         margin: revert;
         min-width: 20%;
         max-width: 35%;
+    }
+
+    /*Products and cart*/
+
+    #container-products-and-cart {
+        grid-template-columns: 8fr 4fr;
+        grid-gap: 3em;
     }
 }

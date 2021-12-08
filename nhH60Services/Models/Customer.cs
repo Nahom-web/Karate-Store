@@ -50,7 +50,7 @@ namespace nhH60Services.Models {
         public async Task Delete() {
             ShoppingCart cart = await _context.ShoppingCarts.Where(x => x.CustomerId == this.CustomerId).FirstOrDefaultAsync();
 
-            List<Order> orders = await _context.Orders.Where(x => x.CustomerId == this.CustomerId).ToListAsync();
+            List<Order> orders = await _context.Orders.Where(x => x.CustomerId == this.CustomerId).Where(o => o.DateFulfilled != null).ToListAsync();
 
             if (cart != null || orders.Count != 0) {
                 throw new Exception("Sorry, cannot delete account because you orders and/or items in your cart.");

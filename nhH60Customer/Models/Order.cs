@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
@@ -24,10 +25,12 @@ namespace nhH60Customer.Models {
         public int CustomerId { get; set; }
 
         [DataMember(Name = "dateCreated")]
+        [DataType(DataType.Date)]
         public DateTime DateCreated { get; set; }
 
         [DataMember(Name = "dateFulfilled")]
-        public DateTime DateFulfilled { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? DateFulfilled { get; set; }
 
         [DataMember(Name = "total")]
         public decimal? Total { get; set; }

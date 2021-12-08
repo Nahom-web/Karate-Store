@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace nhH60Services.Models {
     public partial class Order {
@@ -18,8 +19,12 @@ namespace nhH60Services.Models {
 
         public int OrderId { get; set; }
         public int CustomerId { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime DateCreated { get; set; }
-        public DateTime DateFulfilled { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? DateFulfilled { get; set; }
         public decimal? Total { get; set; }
         public decimal? Taxes { get; set; }
 

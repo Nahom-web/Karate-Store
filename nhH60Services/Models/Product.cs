@@ -4,7 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-
+using AutoMapper;
+using nhH60Services.Dtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace nhH60Services.Models {
     public partial class Product {
@@ -12,10 +14,17 @@ namespace nhH60Services.Models {
         [NotMapped]
         private readonly H60Assignment2DB_nhContext _context;
 
+        private readonly IMapper _mapper;
+
         public Product() {
             _context = new H60Assignment2DB_nhContext();
             CartItems = new HashSet<CartItem>();
             OrderItems = new HashSet<OrderItem>();            
+        }
+
+        public Product(IMapper mapper) {
+            _mapper = mapper;
+            _context = new H60Assignment2DB_nhContext();
         }
 
         public int ProductId { get; set; }
@@ -34,6 +43,11 @@ namespace nhH60Services.Models {
             return await _context.Products.Include(x => x.ProdCat).OrderBy(x => x.Description).ToListAsync();
         }
 
+        public async Task<List<ProductDTO>> GetProductForCustomers() {
+            List<Product> Products = await GetAllProducts();
+            IEnumerable<ProductDTO> pDTO = from p in Products select _mapper.Map<ProductDTO>(p);
+            return pDTO.ToList();
+        }
 
         public async Task<Product> FindProductById(int id) {
             return await _context.Products.Include(p => p.ProdCat).Where(x => x.ProductId == id).FirstAsync(); ;

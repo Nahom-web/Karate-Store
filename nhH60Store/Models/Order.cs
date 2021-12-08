@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace nhH60Store.Models {
     public class Order {
@@ -15,10 +13,12 @@ namespace nhH60Store.Models {
         public int CustomerId { get; set; }
 
         [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
         public DateTime DateCreated { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime DateFulfilled { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? DateFulfilled { get; set; }
 
         [Column(TypeName = "numeric(10,2)")]
         public decimal? Total { get; set; }

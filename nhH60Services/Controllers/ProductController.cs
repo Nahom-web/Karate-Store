@@ -6,11 +6,21 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nhH60Services.Models;
+using nhH60Services.Dtos;
+using System.Collections;
+using AutoMapper;
 
 namespace nhH60Services.Controllers {
     [Route("api/Products")]
     [ApiController]
     public class ProductController : ControllerBase {
+
+
+        private readonly IMapper _mapper;
+
+        public ProductController(IMapper mapper) {
+            _mapper = mapper;
+        }
 
         // GET: api/Products
         [HttpGet]
@@ -29,9 +39,28 @@ namespace nhH60Services.Controllers {
 
         }
 
-        // GET: api/Products/ByCategory
-        [HttpGet("ByCategory")]
-        public async Task<ActionResult<List<Product>>> ByCategory() {
+        // GET: api/Products/CustomerProducts
+        [HttpGet("CustomerProducts")]
+        public async Task<ActionResult<List<ProductDTO>>> CustomerProducts() {
+
+            Product product = new Product(_mapper);
+
+            var products = await product.GetProductForCustomers();
+
+            return products;
+
+
+            //return new ActionResult<IEnumerable<ProductDTO>>(await product.GetProductForCustomers());
+
+
+            //return await product.GetProductForCustomers();
+
+
+        }
+
+        // GET: api/Products/ProductCategories
+        [HttpGet("ProductCategories")]
+        public async Task<ActionResult<List<Product>>> ProductCategories() {
             Product product = new Product();
 
             try {

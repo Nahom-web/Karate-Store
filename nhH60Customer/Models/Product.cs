@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
+using nhH60Customer.Dtos;
 
 namespace nhH60Customer.Models {
 
@@ -66,6 +67,11 @@ namespace nhH60Customer.Models {
             List<Product> Products = Serializer.ReadObject(await StreamTask) as List<Product>;
 
             return Products;
+
+            //List<Product> Products = await GetAllProducts();
+            //IEnumerable<ProductDTO> pDTO = from p in Products select _mapper.Map<ProductDTO>(p);
+            //return pDTO.ToList();
+
         }
 
         public async Task<List<Product>> FindProduct(string ProductName) {
