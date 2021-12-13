@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace nhH60Customer.Controllers {
     public class HomeController : Controller {
@@ -19,7 +20,8 @@ namespace nhH60Customer.Controllers {
             if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
-            return View();
+            HttpContext.Session.SetString("CustomersName", User.Identity.Name);
+            return RedirectToAction("Create", "ShoppingCart");
         }
 
         public IActionResult Privacy() {

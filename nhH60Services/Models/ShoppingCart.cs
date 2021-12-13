@@ -31,7 +31,7 @@ namespace nhH60Services.Models {
         }
 
         public async Task<ShoppingCart> FindCartById(int id) {
-            return await _context.ShoppingCarts.Where(x => x.CartId == id).FirstAsync();
+            return await _context.ShoppingCarts.Where(x => x.CartId == id).Include(t => t.CartItems).ThenInclude(p => p.Product).FirstAsync();
         }
 
         public async Task Create() {

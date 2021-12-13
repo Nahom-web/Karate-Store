@@ -14,7 +14,9 @@ namespace nhH60Customer.Controllers {
 
         [Route("{string?}")]
 
+        #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         public async Task<IActionResult> Index(string? ProductName) {
+            #pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
             if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }

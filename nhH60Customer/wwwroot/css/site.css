@@ -95,11 +95,27 @@ header{
 
 /*Products*/
 
-#container-products-and-cart{
+.container-products{
     display: grid;
     grid-template-columns: 1fr;
-    margin-top: 3em;
-    margin-bottom: 10em;
+    grid-gap: 1.2em;
+    margin-top: 2em;
+    margin-bottom: 4em;
+}
+
+.container-products .card-img-top{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container-products .card-title{
+    font-size: 1em;
+    font-weight: bold;
+}
+
+#inStock, #outOfStock{
+    font-size: 1.6em;
 }
 
 
@@ -148,4 +164,24 @@ footer p{
         grid-template-columns: 8fr 4fr;
         grid-gap: 3em;
     }
+
+    .container-products {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media all and (min-width: 992px)
+{
+    .container-products {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+}
+
+@media all and (min-width: 1200px)
+{
+    .container-products {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
 }

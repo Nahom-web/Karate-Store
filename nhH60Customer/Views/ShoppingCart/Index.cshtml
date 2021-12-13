@@ -1,0 +1,15 @@
+﻿@model nhH60Customer.Models.ShoppingCart
+
+
+<main>
+
+    <div>
+        @foreach (var item in Model.CartItems) {
+            <div>
+                @item.Product.Description
+            </div>
+        }
+    </div>
+
+
+</main>

@@ -24,6 +24,8 @@ namespace nhH60Customer {
         public void ConfigureServices(IServiceCollection services) {
             services.AddControllersWithViews();
 
+            services.AddTransient<FormattingService>();
+
             services.AddDbContext<H60Assignment2DB_nhContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection"))
             );
@@ -36,6 +38,12 @@ namespace nhH60Customer {
                 options.Cookie.HttpOnly = true;
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AcessDenied";
+            });
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(15);
+                options.Cookie.Name = "KarateStore_Session";
             });
         }
 
@@ -52,6 +60,8 @@ namespace nhH60Customer {
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using nhH60Services.Models;
 
 namespace nhH60Services.Controllers {
-    [Route("api/[controller]")]
+    [Route("api/CartItems")]
     [ApiController]
     public class CartItemController : ControllerBase {
 

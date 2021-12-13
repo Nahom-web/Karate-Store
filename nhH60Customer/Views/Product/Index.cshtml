@@ -1,4 +1,4 @@
-﻿@model IEnumerable<nhH60Customer.Models.Product>
+﻿@model IEnumerable<nhH60Customer.Dtos.ProductDTO>
 
 
 <main>
@@ -17,12 +17,9 @@
 
     </div>
 
-    <div id="container-products">
+    <div class="container-products">
         @foreach (var product in Model) {
-            <div>
-                @product.Description <br />
-                Sell Price: @product.SellPrice
-            </div>
+            @await Html.PartialAsync("_Products", product)
         }
     </div>
 

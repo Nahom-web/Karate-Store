@@ -8,30 +8,22 @@ using Microsoft.EntityFrameworkCore;
 using nhH60Services.Models;
 using nhH60Services.Dtos;
 using System.Collections;
-using AutoMapper;
 
 namespace nhH60Services.Controllers {
     [Route("api/Products")]
     [ApiController]
     public class ProductController : ControllerBase {
 
-
-        private readonly IMapper _mapper;
-
-        public ProductController(IMapper mapper) {
-            _mapper = mapper;
-        }
-
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> Products(string? ProductName) {    
+        public async Task<ActionResult<IEnumerable<Product>>> Products(string? ProductName) {
 
             Product product = new Product();
 
             try {
                 if (ProductName != null) {
                     return await product.FindProductByName(ProductName);
-                } 
+                }
                 return await product.GetAllProducts();
             } catch (Exception) {
                 return NotFound();
@@ -39,23 +31,18 @@ namespace nhH60Services.Controllers {
 
         }
 
-        // GET: api/Products/CustomerProducts
         [HttpGet("CustomerProducts")]
-        public async Task<ActionResult<List<ProductDTO>>> CustomerProducts() {
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> CustomerProducts(string? ProductName) {
+            Product product = new Product();
 
-            Product product = new Product(_mapper);
-
-            var products = await product.GetProductForCustomers();
-
-            return products;
-
-
-            //return new ActionResult<IEnumerable<ProductDTO>>(await product.GetProductForCustomers());
-
-
-            //return await product.GetProductForCustomers();
-
-
+            try {
+                if (ProductName != null) {
+                    return await product.FindProductByNameDTO(ProductName);
+                }
+                return await product.GetProductForCustomers();
+            } catch (Exception) {
+                return NotFound();
+            }
         }
 
         // GET: api/Products/ProductCategories

@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 #nullable disable
 
 namespace nhH60Customer.Models {
-    public partial class H60Assignment2DB_nhContext : DbContext {
-        public H60Assignment2DB_nhContext() {
+    public partial class H60Assignment3DB_nhContext : DbContext {
+        public H60Assignment3DB_nhContext() {
         }
 
-        public H60Assignment2DB_nhContext(DbContextOptions<H60Assignment2DB_nhContext> options)
+        public H60Assignment3DB_nhContext(DbContextOptions<H60Assignment3DB_nhContext> options)
             : base(options) {
         }
 
@@ -26,7 +26,7 @@ namespace nhH60Customer.Models {
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductCategory> ProductCategories { get; set; }
-        public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public virtual DbSet<ShoppingCart> Carts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
@@ -150,11 +150,17 @@ namespace nhH60Customer.Models {
 
                 entity.Property(e => e.Email).HasMaxLength(30);
 
-                entity.Property(e => e.FirstName).HasMaxLength(20);
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasDefaultValueSql("(N'')");
 
-                entity.Property(e => e.LastName).HasMaxLength(30);
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .HasDefaultValueSql("(N'')");
 
-                entity.Property(e => e.PhoneNumber).HasMaxLength(10);
+                entity.Property(e => e.PhoneNumber).HasMaxLength(14);
 
                 entity.Property(e => e.Province).HasMaxLength(2);
             });
@@ -215,7 +221,7 @@ namespace nhH60Customer.Models {
                 entity.Property(e => e.SellPrice).HasColumnType("numeric(8, 2)");
 
                 entity.HasOne(d => d.ProdCat)
-                    .WithMany(p => p.Product)
+                    .WithMany(p => p.Products)
                     .HasForeignKey(d => d.ProdCatId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Product_ProductCategory");

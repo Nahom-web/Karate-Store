@@ -52,7 +52,7 @@ namespace nhH60Customer.Models {
         [DataMember(Name = "orderItems")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
 
-        public async Task<List<Product>> GetAllProducts() {
+        public async Task<List<ProductDTO>> GetAllProducts() {
             HttpClient Client = new();
 
             Client.DefaultRequestHeaders.Accept.Clear();
@@ -60,21 +60,17 @@ namespace nhH60Customer.Models {
                 new MediaTypeWithQualityHeaderValue("application/json")
                 );
 
-            var StreamTask = Client.GetStreamAsync(API_URL);
+            var StreamTask = Client.GetStreamAsync(API_URL + "/CustomerProducts");
 
-            var Serializer = new DataContractJsonSerializer(typeof(List<Product>));
+            var Serializer = new DataContractJsonSerializer(typeof(List<ProductDTO>));
 
-            List<Product> Products = Serializer.ReadObject(await StreamTask) as List<Product>;
+            List<ProductDTO> Products = Serializer.ReadObject(await StreamTask) as List<ProductDTO>;
 
             return Products;
 
-            //List<Product> Products = await GetAllProducts();
-            //IEnumerable<ProductDTO> pDTO = from p in Products select _mapper.Map<ProductDTO>(p);
-            //return pDTO.ToList();
-
         }
 
-        public async Task<List<Product>> FindProduct(string ProductName) {
+        public async Task<List<ProductDTO>> FindProduct(string ProductName) {
             HttpClient Client = new();
             Client.DefaultRequestHeaders.Accept.Clear();
             Client.DefaultRequestHeaders.Accept.Add(
@@ -83,13 +79,13 @@ namespace nhH60Customer.Models {
 
             Client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository");
 
-            string TaskString = API_URL + "?ProductName=" + ProductName;
+            string TaskString = API_URL + "/CustomerProducts?ProductName=" + ProductName;
 
             var StreamTask = Client.GetStreamAsync(TaskString);
 
-            var Serializer = new DataContractJsonSerializer(typeof(List<Product>));
+            var Serializer = new DataContractJsonSerializer(typeof(List<ProductDTO>));
 
-            List<Product> product = Serializer.ReadObject(await StreamTask) as List<Product>;
+            List<ProductDTO> product = Serializer.ReadObject(await StreamTask) as List<ProductDTO>;
 
             return product;
 
