@@ -20,9 +20,7 @@ namespace nhH60Customer.Areas.Identity.Pages.Account {
         private readonly SignInManager<nhH60CustomerUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<nhH60CustomerUser> signInManager,
-            ILogger<LoginModel> logger,
-            UserManager<nhH60CustomerUser> userManager) {
+        public LoginModel(SignInManager<nhH60CustomerUser> signInManager, ILogger<LoginModel> logger, UserManager<nhH60CustomerUser> userManager) {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;

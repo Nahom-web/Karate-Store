@@ -7,21 +7,25 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using nhH60Customer.Areas.Identity.Data;
 
 namespace nhH60Customer.Controllers {
     public class HomeController : Controller {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger) {
+        private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<nhH60CustomerUser> _userManager;
+
+        public HomeController(ILogger<HomeController> logger, UserManager<nhH60CustomerUser> userManager) {
             _logger = logger;
+            _userManager = userManager;
         }
 
         public IActionResult Index() {
             if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
-            HttpContext.Session.SetString("CustomersName", User.Identity.Name);
-            return RedirectToAction("Create", "ShoppingCart");
+            return View();
         }
 
         public IActionResult Privacy() {

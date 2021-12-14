@@ -44,15 +44,7 @@ namespace nhH60Customer.Models {
         public virtual ICollection<CartItem> CartItems { get; set; }
 
 
-        public async Task<Customer> GetCurrentCustomer(string CustomersName) {
-            return await new Customer().FindCustomer(CustomersName);
-        }
-
-
-        public async Task<ShoppingCart> GetShoppingCart(string CustomersName) {
-            var customerFound = await GetCurrentCustomer(CustomersName);
-
-            var id = customerFound.CustomerId;
+        public async Task<ShoppingCart> GetShoppingCart(int CustomerId) {
 
             HttpClient Client = new();
 
@@ -61,7 +53,7 @@ namespace nhH60Customer.Models {
                 new MediaTypeWithQualityHeaderValue("application/json")
                 );
 
-            var StreamTask = Client.GetStreamAsync(API_URL + "/" + id);
+            var StreamTask = Client.GetStreamAsync(API_URL + "/" + CustomerId.ToString());
 
             var Serializer = new DataContractJsonSerializer(typeof(ShoppingCart));
 
@@ -71,11 +63,13 @@ namespace nhH60Customer.Models {
 
         }
 
-        public async Task<HttpResponseMessage> Create(string CustomersName) {
-            var customerFound = await GetCurrentCustomer(CustomersName);
+        public async Task<HttpResponseMessage> Create(Customer customer) {
 
-            if (customerFound.Cart == null) {
-                this.CustomerId = customerFound.CustomerId;
+            var cart = await GetShoppingCart(customer.CustomerId);
+
+            if (cart == null) {
+
+                this.CustomerId = customer.CustomerId;
 
                 this.DateCreated = DateTime.Now;
 

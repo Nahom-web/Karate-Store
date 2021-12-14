@@ -14,12 +14,13 @@ namespace nhH60Services.Controllers {
 
         // GET: api/Customer
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> Customers(string? Name) {
+        public async Task<ActionResult<IEnumerable<Customer>>> Customers(string? Email) {
             Customer customer = new Customer();
 
             try {
-                if (Name != null) {
-                    return await customer.FindCustomerByName(Name);
+                if(Email != null) {
+                    var Customer = await customer.FindCustomerByEmail(Email);
+                    return Customer;
                 }
                 return await customer.GetAllCustomers(); ;
             } catch (Exception e) {

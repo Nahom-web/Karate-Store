@@ -26,7 +26,7 @@ namespace nhH60Customer {
 
             services.AddTransient<FormattingService>();
 
-            services.AddDbContext<H60Assignment2DB_nhContext>(options =>
+            services.AddDbContext<H60Assignment3DB_nhContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection"))
             );
 

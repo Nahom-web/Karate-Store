@@ -3,13 +3,19 @@
 
 <main>
 
-    <div>
-        @foreach (var item in Model.CartItems) {
-            <div>
-                @item.Product.Description
-            </div>
-        }
-    </div>
+
+    @if (Model.CartItems == null) {
+        <p>Your shopping cart is empty</p>
+    } else {
+        <div>
+            @foreach (var item in Model.CartItems) {
+                <div>
+                    @item.Product.Description
+                </div>
+            }
+        </div>
+    }
+
 
 
 </main>

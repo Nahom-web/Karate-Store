@@ -44,7 +44,7 @@ namespace nhH60Customer.Models {
         [DataMember(Name = "shoppingCart")]
         public virtual ShoppingCart Cart { get; set; }
 
-        public async Task<Customer> FindCustomer(string Name) {
+        public async Task<Customer> FindCustomer(string CustomerEmail) {
             HttpClient Client = new();
             Client.DefaultRequestHeaders.Accept.Clear();
             Client.DefaultRequestHeaders.Accept.Add(
@@ -53,15 +53,15 @@ namespace nhH60Customer.Models {
 
             Client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository");
 
-            string TaskString = CUSTOMERS_URL + "?Name=" + Name;
+            string TaskString = CUSTOMERS_URL + "?Email=" + CustomerEmail;
 
             var StreamTask = Client.GetStreamAsync(TaskString);
 
-            var Serializer = new DataContractJsonSerializer(typeof(Customer));
+            var Serializer = new DataContractJsonSerializer(typeof(List<Customer>));
 
-            Customer customer = Serializer.ReadObject(await StreamTask) as Customer;
+            List<Customer> Customers = Serializer.ReadObject(await StreamTask) as List<Customer>;
 
-            return customer;
+            return Customers[0];
 
         }
 
