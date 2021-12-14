@@ -3,17 +3,30 @@
 
 <main>
 
+    <div class="messages">
+        @if (TempData["ErrorMessage"] != null) {
+            <div class="alert alert-danger" role="alert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+    </div>
 
-    @if (Model.CartItems == null) {
-        <p>Your shopping cart is empty</p>
-    } else {
-        <div>
-            @foreach (var item in Model.CartItems) {
-                <div>
-                    @item.Description
-                </div>
-            }
-        </div>
+    @if (Model != null) {
+        <a title="Delete Cart" href="@Url.Action("Delete", "ShoppingCart", new { id = Model.CartId  })"><img src="~/Images/trash.svg" alt="delete category icon" class="trashIcon" /></a>
+
+
+        @if (Model.CartItems == null) {
+            <p>Your shopping cart is empty</p>
+        } else {
+            <div>
+                @foreach (var item in Model.CartItems) {
+                    <div>
+                        @item.Description
+                    </div>
+                }
+            </div>
+        }
     }
+
 
 </main>

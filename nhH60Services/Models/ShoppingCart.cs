@@ -56,7 +56,15 @@ namespace nhH60Services.Models {
         }
 
         public async Task Delete() {
+
+            List<CartItem> Items = await _context.CartItems.Where(c => c.CartId == this.CartId).ToListAsync();
+
+            if (Items.Count != 0) {
+                throw new Exception("Cannot delete your shopping cart because you have products in it.");
+            }
+
             _context.ShoppingCarts.Remove(this);
+
             await _context.SaveChangesAsync();
         }
     }

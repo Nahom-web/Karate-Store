@@ -109,6 +109,14 @@ namespace nhH60Customer.Models {
 
         }
 
+        public async Task<HttpResponseMessage> Delete(int id) {
+
+            HttpClient Client = new();
+
+            HttpResponseMessage Response = await Client.DeleteAsync(API_URL + "/" + id.ToString());
+
+            return Response;
+        }
 
         private bool CheckIfCustomerHasCart(List<ShoppingCartDTO> Carts, int CustomerId) {
             foreach(var c in Carts) {
