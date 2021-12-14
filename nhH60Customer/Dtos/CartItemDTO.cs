@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+using nhH60Customer.Models;
 using System.Runtime.Serialization;
 
-namespace nhH60Customer.Models {
+namespace nhH60Customer.Dtos {
 
     [DataContract(Name = "CartItem")]
 
-    public partial class CartItem {
-
-        [NotMapped]
-        private const string API_URL = "http://localhost:63164/api/CartItems";
+    public class CartItemDTO {
 
         [DataMember(Name = "cartItemId")]
         public int CartItemId { get; set; }
@@ -23,17 +21,19 @@ namespace nhH60Customer.Models {
         public int ProductId { get; set; }
 
         [DataMember(Name = "quantity")]
-        [Required]
         public int Quantity { get; set; }
 
         [DataMember(Name = "price")]
         public decimal? Price { get; set; }
 
+        [DataMember(Name = "total")]
+        public decimal? Total { get; set; }
+
         [DataMember(Name = "cart")]
+        public virtual ShoppingCartDTO Cart { get; set; }
 
-        public virtual ShoppingCart Cart { get; set; }
+        [DataMember(Name = "description")]
+        public string Description { get; set; }
 
-        [DataMember(Name = "product")]
-        public virtual Product Product { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using nhH60Services.Models;
+using nhH60Services.Dtos;
 
 namespace nhH60Services.Controllers {
     [Route("api/ShoppingCarts")]
@@ -10,17 +11,30 @@ namespace nhH60Services.Controllers {
     public class ShoppingCartController : ControllerBase {
 
 
-        // GET: api/ShoppingCart
+        // GET: api/ShoppingCarts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ShoppingCart>>> ShoppingCarts(int? CustomerId) {
+        public async Task<ActionResult<List<ShoppingCart>>> ShoppingCarts() {
             ShoppingCart ShoppingCart = new ShoppingCart();
 
             try {
-                if (CustomerId != null) {
-                    var Cart = await ShoppingCart.GetCartWithCustomerId((int)CustomerId);
+                return await ShoppingCart.AllShoppingCarts();
+            } catch (Exception e) {
+                return NotFound(e.Message);
+            }
+        }
+
+        // GET: api/ShoppingCart
+        [HttpGet("Customers/{CustomerId}")]
+        public async Task<ActionResult<ShoppingCartDTO>> Customers(int CustomerId) {
+            ShoppingCart ShoppingCart = new ShoppingCart();
+
+            try {
+                var cart = await ShoppingCart.GetCartWithCustomerId((int)CustomerId);
+                if(cart != null) {
+                    return ShoppingCart.ToDTO(cart);
+                } else {
+                    return NotFound();
                 }
-                var ShoppingCarts = await ShoppingCart.GetAllCarts();
-                return ShoppingCarts;
             } catch (Exception e) {
                 return NotFound(e.Message);
             }
@@ -33,8 +47,7 @@ namespace nhH60Services.Controllers {
             ShoppingCart ShoppingCart = new ShoppingCart();
 
             try {
-                var ShoppingCartFound = await ShoppingCart.FindCartById(id);
-                return ShoppingCartFound;
+                return await ShoppingCart.FindCartById(id);
             } catch (Exception e) {
                 return NotFound(e.Message);
             }

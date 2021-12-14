@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using nhH60Customer.Areas.Identity.Data;
+using System.Net.Http;
 
 namespace nhH60Customer.Controllers {
     public class HomeController : Controller {
@@ -21,20 +22,29 @@ namespace nhH60Customer.Controllers {
             _userManager = userManager;
         }
 
-        public IActionResult Index() {
+        public async Task<IActionResult> Index() {
             if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }
+            Customer customer = new Customer();
+            var user = await _userManager.GetUserAsync(User);
+            var email = _userManager.GetEmailAsync(user);
+            var customerFound = await customer.FindCustomer(email.Result);
+            ShoppingCart cart = new ShoppingCart();
+            HttpResponseMessage response = await cart.Create(customerFound);
+
+            if (response != null) {
+                int SCode = (int)response.StatusCode;
+                if (SCode == 204) {
+                    return View();
+                } else if (SCode == 404) {
+                    TempData["ErrorMessage"] = "Coudldn't create the shopping cart. Please check that your databases is linked correctly.";
+                    return View();
+                }
+            }
+
             return View();
         }
 
-        public IActionResult Privacy() {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

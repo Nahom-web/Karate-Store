@@ -1,4 +1,4 @@
-﻿@model nhH60Customer.Models.ShoppingCart
+﻿@model nhH60Customer.Dtos.ShoppingCartDTO
 
 
 <main>
@@ -10,12 +10,10 @@
         <div>
             @foreach (var item in Model.CartItems) {
                 <div>
-                    @item.Product.Description
+                    @item.Description
                 </div>
             }
         </div>
     }
-
-
 
 </main>

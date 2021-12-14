@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using nhH60Customer.Areas.Identity.Data;
 using System.Net.Http;
+using nhH60Customer.Dtos;
 
 namespace nhH60Customer.Controllers {
     public class ShoppingCartController : Controller {
@@ -19,26 +20,17 @@ namespace nhH60Customer.Controllers {
         }
 
         public async Task<IActionResult> Index() {
+            if (!User.Identity.IsAuthenticated) {
+                return LocalRedirect("/Identity/Account/Login");
+            }
             try {
                 Customer customer = new Customer();
                 var user = await _userManager.GetUserAsync(User);
                 var email = _userManager.GetEmailAsync(user);
                 var customerFound = await customer.FindCustomer(email.Result);
-                ShoppingCart cart = new ShoppingCart();
-                HttpResponseMessage response = await cart.Create(customerFound);
-
-                if(response != null) {
-                    int SCode = (int)response.StatusCode;
-                    if (SCode == 204) {
-                        Product allProduct = new Product();
-                        return View(await cart.GetShoppingCart(customerFound.CustomerId));
-                    } else if (SCode == 404) {
-                        TempData["ErrorMessage"] = "Coudldn't create the shopping cart. Please check that your databases is linked correctly.";
-                        return View(cart);
-                    }
-                }
-
-                return View(await cart.GetShoppingCart(customerFound.CustomerId));
+                ShoppingCart ShoppingCart = new ShoppingCart();
+                ShoppingCartDTO CustomersCart = await ShoppingCart.GetShoppingCart(customerFound.CustomerId);
+                return View(CustomersCart);
             } catch (Exception e) {
                 TempData["ErrorMessage"] = e.Message;
                 return View();
@@ -46,12 +38,12 @@ namespace nhH60Customer.Controllers {
         }
 
         [HttpGet]
-        public IActionResult Create() {
+        public IActionResult Delete() {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(ShoppingCart cart) {
+        public IActionResult Delete(ShoppingCart cart) {
             return View();
         }
 

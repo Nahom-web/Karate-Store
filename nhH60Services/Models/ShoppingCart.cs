@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using nhH60Services.Dtos;
 
 
 namespace nhH60Services.Models {
@@ -26,16 +27,21 @@ namespace nhH60Services.Models {
         public virtual ICollection<CartItem> CartItems { get; set; }
 
 
-        public async Task<List<ShoppingCart>> GetAllCarts() {
+        public async Task<List<ShoppingCart>> AllShoppingCarts() {
             return await _context.ShoppingCarts.ToListAsync();
         }
 
-        public async Task<ShoppingCart> FindCartById(int id) {
-            return await _context.ShoppingCarts.Where(x => x.CartId == id).Include(t => t.CartItems).ThenInclude(p => p.Product).FirstAsync();
+        public ShoppingCartDTO ToDTO(ShoppingCart Cart) {
+            return new ShoppingCartDTO(Cart);
         }
 
-        public async Task<List<ShoppingCart>> GetCartWithCustomerId(int id) {
-            return await _context.ShoppingCarts.Where(x => x.CustomerId == id).Include(t => t.CartItems).ThenInclude(p => p.Product).ToListAsync();
+        public async Task<ShoppingCart> FindCartById(int id) {
+            return await _context.ShoppingCarts.Where(x => x.CartId == id).Include(t => t.CartItems).ThenInclude(p => p.Product).FirstOrDefaultAsync();
+        }
+
+        public async Task<ShoppingCart> GetCartWithCustomerId(int id) {
+            var customerdto = await _context.ShoppingCarts.Where(x => x.CustomerId == id).Include(t => t.CartItems).ThenInclude(p => p.Product).FirstOrDefaultAsync();
+            return customerdto;
         }
 
         public async Task Create() {
@@ -43,13 +49,11 @@ namespace nhH60Services.Models {
             await _context.SaveChangesAsync();
         }
 
-
         public async Task Update() {
             H60Assignment2DB_nhContext _db = new H60Assignment2DB_nhContext();
             _db.Entry(this).State = EntityState.Modified;
             await _db.SaveChangesAsync();
         }
-
 
         public async Task Delete() {
             _context.ShoppingCarts.Remove(this);

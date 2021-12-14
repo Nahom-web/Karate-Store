@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using nhH60Services.Dtos;
 
 
 namespace nhH60Services.Models {
@@ -27,6 +28,7 @@ namespace nhH60Services.Models {
 
         public virtual ShoppingCart ShoppingCart { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
+
 
         public async Task<List<Customer>> GetAllCustomers() {
             return await _context.Customers.OrderBy(ln => ln.LastName).ToListAsync();

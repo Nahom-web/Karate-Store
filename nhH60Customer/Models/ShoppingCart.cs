@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Runtime.Serialization.Json;
+using nhH60Customer.Dtos;
 
 #nullable disable
 
@@ -44,7 +45,7 @@ namespace nhH60Customer.Models {
         public virtual ICollection<CartItem> CartItems { get; set; }
 
 
-        public async Task<ShoppingCart> GetShoppingCart(int CustomerId) {
+        public async Task<List<ShoppingCartDTO>> GetShoppingCarts() {
 
             HttpClient Client = new();
 
@@ -53,25 +54,40 @@ namespace nhH60Customer.Models {
                 new MediaTypeWithQualityHeaderValue("application/json")
                 );
 
-            //var StreamTask = Client.GetStreamAsync(API_URL + "?CustomerId=" + CustomerId.ToString());
+            var StreamTask = Client.GetStreamAsync(API_URL);
 
-            //var Serializer = new DataContractJsonSerializer(typeof(List<ShoppingCart>));
+            var Serializer = new DataContractJsonSerializer(typeof(List<ShoppingCartDTO>));
 
-            //List<ShoppingCart> Cart = Serializer.ReadObject(await StreamTask) as List<ShoppingCart>;
+            List<ShoppingCartDTO> Carts = Serializer.ReadObject(await StreamTask) as List<ShoppingCartDTO>;
 
-            var StreamTask = await Client.GetAsync(API_URL + "?CustomerId=" + CustomerId.ToString());
+            return Carts;
 
-            List<ShoppingCart> Cart = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ShoppingCart>>(await StreamTask.Content.ReadAsStringAsync());
+        }
 
-            return Cart[0];
+        public async Task<ShoppingCartDTO> GetShoppingCart(int CustomerId) {
+
+            HttpClient Client = new();
+
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+                );
+
+            var StreamTask = Client.GetStreamAsync(API_URL + "/Customers/" + CustomerId.ToString());
+
+            var Serializer = new DataContractJsonSerializer(typeof(ShoppingCartDTO));
+
+            var Cart = Serializer.ReadObject(await StreamTask);
+
+            return (ShoppingCartDTO) Cart;
 
         }
 
         public async Task<HttpResponseMessage> Create(Customer customer) {
 
-            var cart = await GetShoppingCart(customer.CustomerId);
+            var Carts = await GetShoppingCarts();
 
-            if (cart == null) {
+            if (!CheckIfCustomerHasCart(Carts, customer.CustomerId)) {
 
                 this.CustomerId = customer.CustomerId;
 
@@ -86,10 +102,21 @@ namespace nhH60Customer.Models {
                 HttpResponseMessage Response = await Client.PostAsync(API_URL, HttpContext);
 
                 return Response;
+
             }
 
             return null;
 
+        }
+
+
+        private bool CheckIfCustomerHasCart(List<ShoppingCartDTO> Carts, int CustomerId) {
+            foreach(var c in Carts) {
+                if(c.CustomerId == CustomerId) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
