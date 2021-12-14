@@ -7,6 +7,7 @@ using nhH60Customer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using nhH60Customer.Areas.Identity.Data;
+using System.Net.Http;
 
 namespace nhH60Customer.Controllers {
     public class ShoppingCartController : Controller {
@@ -24,7 +25,19 @@ namespace nhH60Customer.Controllers {
                 var email = _userManager.GetEmailAsync(user);
                 var customerFound = await customer.FindCustomer(email.Result);
                 ShoppingCart cart = new ShoppingCart();
-                await cart.Create(customerFound);
+                HttpResponseMessage response = await cart.Create(customerFound);
+
+                if(response != null) {
+                    int SCode = (int)response.StatusCode;
+                    if (SCode == 204) {
+                        Product allProduct = new Product();
+                        return View(await cart.GetShoppingCart(customerFound.CustomerId));
+                    } else if (SCode == 404) {
+                        TempData["ErrorMessage"] = "Coudldn't create the shopping cart. Please check that your databases is linked correctly.";
+                        return View(cart);
+                    }
+                }
+
                 return View(await cart.GetShoppingCart(customerFound.CustomerId));
             } catch (Exception e) {
                 TempData["ErrorMessage"] = e.Message;

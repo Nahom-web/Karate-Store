@@ -12,10 +12,13 @@ namespace nhH60Services.Controllers {
 
         // GET: api/ShoppingCart
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ShoppingCart>>> ShoppingCarts() {
+        public async Task<ActionResult<IEnumerable<ShoppingCart>>> ShoppingCarts(int? CustomerId) {
             ShoppingCart ShoppingCart = new ShoppingCart();
 
             try {
+                if (CustomerId != null) {
+                    var Cart = await ShoppingCart.GetCartWithCustomerId((int)CustomerId);
+                }
                 var ShoppingCarts = await ShoppingCart.GetAllCarts();
                 return ShoppingCarts;
             } catch (Exception e) {

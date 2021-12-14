@@ -53,13 +53,17 @@ namespace nhH60Customer.Models {
                 new MediaTypeWithQualityHeaderValue("application/json")
                 );
 
-            var StreamTask = Client.GetStreamAsync(API_URL + "/" + CustomerId.ToString());
+            //var StreamTask = Client.GetStreamAsync(API_URL + "?CustomerId=" + CustomerId.ToString());
 
-            var Serializer = new DataContractJsonSerializer(typeof(ShoppingCart));
+            //var Serializer = new DataContractJsonSerializer(typeof(List<ShoppingCart>));
 
-            ShoppingCart Cart = Serializer.ReadObject(await StreamTask) as ShoppingCart;
+            //List<ShoppingCart> Cart = Serializer.ReadObject(await StreamTask) as List<ShoppingCart>;
 
-            return Cart;
+            var StreamTask = await Client.GetAsync(API_URL + "?CustomerId=" + CustomerId.ToString());
+
+            List<ShoppingCart> Cart = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ShoppingCart>>(await StreamTask.Content.ReadAsStringAsync());
+
+            return Cart[0];
 
         }
 
