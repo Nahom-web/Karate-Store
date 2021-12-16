@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using nhH60Services.Dtos;
 using nhH60Services.Models;
 
 namespace nhH60Services.Controllers {
@@ -37,6 +38,19 @@ namespace nhH60Services.Controllers {
             try {
                 var CustomerFound = await customer.FindCustomer(id);
                 return CustomerFound;
+            } catch (Exception e) {
+                return NotFound(e.Message);
+            }
+        }
+
+        // GET: api/Customer/ValidateCreditCard/5
+        [HttpGet("{id}/ValidateCreditCard")]
+        public async Task<ActionResult<int>> ValidateCreditCard(int id) {
+            Customer customer = new Customer();
+
+            try {
+                var CustomerFound = await customer.FindCustomer(id);
+                return await CustomerFound.ValidateCreditCard();
             } catch (Exception e) {
                 return NotFound(e.Message);
             }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
+using nhH60Services.Dtos;
 
 namespace nhH60Services.Models {
     public partial class Order {
@@ -33,11 +34,36 @@ namespace nhH60Services.Models {
 
 
         public async Task<List<Order>> GetAllOrders() {
-            return await _context.Orders.ToListAsync();
+            var orders = await _context.Orders.Include(c => c.Customer).Include(o => o.OrderItems).ThenInclude(p => p.Product).ToListAsync();
+            return orders;
         }
 
         public async Task<Order> FindOrderById(int id) {
-            return await _context.Orders.Where(x => x.OrderId == id).FirstAsync();
+            return await _context.Orders.Where(x => x.OrderId == id).Include(c => c.Customer).Include(o => o.OrderItems).ThenInclude(p => p.Product).FirstOrDefaultAsync();
+        }
+
+
+        public OrderDTO ToSingleDTO(Order order) {
+            return new OrderDTO(order);
+        }
+
+        public List<OrderDTO> ToDTO(List<Order> orders) {
+            List<OrderDTO> oDTO = new();
+
+            foreach(var o in orders) {
+                oDTO.Add(new OrderDTO(o));
+            }
+
+            return oDTO;
+        }
+
+        public async Task<List<Order>> FindOrderByDate(string date) {
+            var toDate = Convert.ToDateTime(date);
+            return await _context.Orders.Where(x => x.DateFulfilled == toDate).ToListAsync();
+        }
+
+        public async Task<List<Order>> FindOrdersForCustomer(int id) {
+            return await _context.Orders.Where(x => x.CustomerId == id).Include(c => c.Customer).ToListAsync();
         }
 
         public async Task Create() {
@@ -55,5 +81,6 @@ namespace nhH60Services.Models {
             _context.Orders.Remove(this);
             await _context.SaveChangesAsync();
         }
+
     }
 }

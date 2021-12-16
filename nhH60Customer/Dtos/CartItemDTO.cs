@@ -23,6 +23,9 @@ namespace nhH60Customer.Dtos {
         [DataMember(Name = "quantity")]
         public int Quantity { get; set; }
 
+        [DataMember(Name = "stock")]
+        public int? Stock { get; set; }
+
         [DataMember(Name = "price")]
         public decimal? Price { get; set; }
 
@@ -34,6 +37,9 @@ namespace nhH60Customer.Dtos {
 
         [DataMember(Name = "description")]
         public string Description { get; set; }
+
+        [DataMember(Name = "qauntityAndStock")]
+        public int QauntityAndStock { get; set; }
 
     }
 }

@@ -1,0 +1,29 @@
+﻿@model nhH60Customer.Dtos.CartItemDTO
+
+
+<tr>
+    <td>@Model.Description</td>
+    <td>
+
+        <form action="/CartItem/Update/@Model.CartItemId" method="post">
+
+            <input class="d-none text-box single-line" data-val="true" data-val-required="The CartItemId field is required." asp-for="@Model.CartItemId">
+
+            <select data-val="true" data-val-required="The Quantity field is required." asp-for="@Model.Quantity">
+                @for (int s = 1; s <= Model.QauntityAndStock; s++) {
+                    if (s == Model.Quantity) {
+                        <option value="@s" selected>@s</option>
+                    } else {
+                        <option value="@s">@s</option>
+                    }
+                }
+            </select>
+
+            <input type="submit" value="Update" class="submitBtn btn btn-warning" id="updateQuantity" />
+
+        </form>
+    </td>
+    <td>
+        <a title="Remove from cart" href="@Url.Action("Delete", "CartItem", new { id = Model.CartItemId  })"><img src="~/Images/trash.svg" alt="remove cart item icon" class="trashIcon" /></a>
+    </td>
+</tr>

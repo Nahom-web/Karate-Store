@@ -5,7 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using nhH60Services.Dtos;
-
+using System.ServiceModel.Channels;
+using System.ServiceModel;
+using CreditCardServiceReference;
 
 namespace nhH60Services.Models {
     public partial class Customer {
@@ -65,6 +67,20 @@ namespace nhH60Services.Models {
             _context.Customers.Remove(this);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> ValidateCreditCard() {
+
+            Binding binding = new BasicHttpBinding(BasicHttpSecurityMode.None);
+
+            EndpointAddress endPoint = new EndpointAddress("http://csdev.cegep-heritage.qc.ca/cartService/checkCreditCard.asmx");
+
+            var client = new CheckCreditCardSoapClient(binding, endPoint);
+
+            var resultObject = await client.CreditCardCheckAsync(this.CreditCard);
+
+            return resultObject;
+
         }
     }
 }

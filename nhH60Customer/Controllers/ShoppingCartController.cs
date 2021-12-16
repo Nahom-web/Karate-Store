@@ -26,7 +26,7 @@ namespace nhH60Customer.Controllers {
             return await customer.FindCustomer(email.Result);
         }
 
-        public async Task<IActionResult> Index() {
+        public async Task<IActionResult> Cart() {
             if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }

@@ -34,20 +34,66 @@ namespace nhH60Services.Models {
             return await _context.CartItems.Where(x => x.CartItemId == id).FirstAsync();
         }
 
-        public async Task Create() {
-            _context.CartItems.Add(this);
+        private async Task UpdateProductStock(int quantity) {
+            var product = await _context.Products.Where(x => x.ProductId == this.ProductId).FirstOrDefaultAsync();
+
+            product.Stock -= quantity;
+
+            H60Assignment2DB_nhContext _db = new H60Assignment2DB_nhContext();
+
+            _context.Entry(product).State = EntityState.Modified;
+
             await _context.SaveChangesAsync();
+        }
+
+        public async Task Create() {
+
+            var checkIfExists = await _context.CartItems.Where(x => x.ProductId == this.ProductId).FirstOrDefaultAsync();
+
+            if(checkIfExists != null) {
+
+                checkIfExists.Quantity += this.Quantity;
+
+                H60Assignment2DB_nhContext _db = new H60Assignment2DB_nhContext();
+
+                _context.Entry(checkIfExists).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                await UpdateProductStock(this.Quantity);
+
+            } else {
+                _context.CartItems.Add(this);
+
+                await _context.SaveChangesAsync();
+
+                await UpdateProductStock(this.Quantity);
+            }
+
+
         }
 
 
         public async Task Update() {
+
+            var item = await FindItemById(this.CartItemId);
+
+            var initialQuantity = item.Quantity;
+
+            item.Quantity = this.Quantity;      
+
             H60Assignment2DB_nhContext _db = new H60Assignment2DB_nhContext();
-            _db.Entry(this).State = EntityState.Modified;
-            await _db.SaveChangesAsync();
+
+            _context.Entry(item).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            await UpdateProductStock(this.Quantity - initialQuantity);
         }
 
 
         public async Task Delete() {
+            await UpdateProductStock(-this.Quantity);
             _context.CartItems.Remove(this);
             await _context.SaveChangesAsync();
         }

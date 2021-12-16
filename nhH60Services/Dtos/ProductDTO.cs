@@ -15,14 +15,11 @@ namespace nhH60Services.Dtos {
 
         public int? Stock { get; set; }
 
-        public string Manufacturer { get; set; }
-
         public ProductDTO(Product P) {
             ProductId = P.ProductId;
             Description = P.Description;
             SellPrice = P.SellPrice;
             Stock = P.Stock;
-            Manufacturer = P.Manufacturer;
         }
 
     }

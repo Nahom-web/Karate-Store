@@ -1,5 +1,12 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model nhH60Customer.Dtos.OrderDTO
+
+
+<main>
+
+    @await Html.PartialAsync("_MessageDisplays")
+
+    <h1 class="text-center">Order</h1>
+
+    @Model.OrderId
+
+</main>

@@ -32,17 +32,17 @@ namespace nhH60Services {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "nhH60Services", Version = "v1" });
             });
 
+            services.AddTransient<H60Assignment2DB_nhContext>();
+
             services.AddDbContext<H60Assignment2DB_nhContext>(options => {
-                string connectionString = Configuration.GetConnectionString("MyConnection");
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(Configuration.GetConnectionString("MyConnection"));
             });
 
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
                 builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
+                .AllowAnyHeader());
             });
         }
 
@@ -57,6 +57,8 @@ namespace nhH60Services {
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();

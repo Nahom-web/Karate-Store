@@ -22,6 +22,7 @@ namespace nhH60Services.Dtos {
             LastName = c.LastName;
             Email = c.Email;
             PhoneNumber = "(" + c.PhoneNumber.Substring(0, 3) + ")-" + c.PhoneNumber.Substring(3, 3) + "-" + c.PhoneNumber.Substring(6, 4);
+            Province = c.Province;
             CreditCard = string.Format("{0:#### #### #### ####}", Convert.ToInt64(c.CreditCard));
         }
 

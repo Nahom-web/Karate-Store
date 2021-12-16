@@ -40,15 +40,11 @@ namespace nhH60Services.Controllers {
             }
         }
 
-        // PUT: api/CartItem/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCartItem(int id, CartItem CartItem) {
-            if (CartItem.FindItemById(id) == null) {
-                return NotFound();
-            }
-
+        // POST: api/CartItem
+        [HttpPost]
+        public async Task<ActionResult<CartItem>> PostCartItem(CartItem CartItem) {
             try {
-                await CartItem.Update();
+                await CartItem.Create();
             } catch (Exception e) {
                 return BadRequest(e.Message);
             }
@@ -56,11 +52,15 @@ namespace nhH60Services.Controllers {
             return NoContent();
         }
 
-        // POST: api/CartItem
-        [HttpPost]
-        public async Task<ActionResult<CartItem>> PostCartItem(CartItem CartItem) {
+        // PUT: api/CartItem/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCartItem(int id, CartItem CartItem) {
+            if (await CartItem.FindItemById(id) == null) {
+                return NotFound();
+            }
+
             try {
-                await CartItem.Create();
+                await CartItem.Update();
             } catch (Exception e) {
                 return BadRequest(e.Message);
             }

@@ -1,7 +1,12 @@
-﻿using System;
+﻿using nhH60Customer.Dtos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Http;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 #nullable disable
 
@@ -33,5 +38,28 @@ namespace nhH60Customer.Models {
 
         [DataMember(Name = "product")]
         public virtual Product Product { get; set; }
+
+
+        public async Task<HttpResponseMessage> Create(int orderId, CartItemDTO cartItem) {
+
+            this.OrderId = orderId;
+
+            this.ProductId = cartItem.ProductId;
+
+            this.Quantity = cartItem.Quantity;
+
+            this.Price = cartItem.Price;
+
+            string JsonString = JsonSerializer.Serialize<OrderItem>(this);
+
+            var HttpContext = new StringContent(JsonString, Encoding.UTF8, "application/json");
+
+            HttpClient Client = new();
+
+            HttpResponseMessage Response = await Client.PostAsync(API_URL, HttpContext);
+
+            return Response;
+
+        }
     }
 }

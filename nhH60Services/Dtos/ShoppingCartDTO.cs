@@ -16,7 +16,7 @@ namespace nhH60Services.Dtos {
         public ShoppingCartDTO(ShoppingCart cart) {
             CartId = cart.CartId;
             CustomerId = cart.CustomerId;
-            DateCreated = cart.DateCreated.ToString("yyyy\\/MM\\/dd");
+            DateCreated = cart.DateCreated.ToString("yyyy\\MM\\/dd");
             CartItems = ToDTO(cart.CartItems);
         }
 

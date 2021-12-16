@@ -134,9 +134,9 @@ namespace nhH60Customer.Models {
 
                 entity.Property(e => e.Price).HasColumnType("numeric(8, 2)");
 
-                entity.HasOne(d => d.Cart)
-                    .WithMany(p => p.CartItems)
-                    .HasForeignKey(d => d.CartId);
+                //entity.HasOne(d => d.Cart)
+                //    .WithMany(p => p.CartItems)
+                //    .HasForeignKey(d => d.CartId);
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.CartItems)

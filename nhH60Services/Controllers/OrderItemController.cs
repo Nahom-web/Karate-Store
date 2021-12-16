@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using nhH60Services.Dtos;
 using nhH60Services.Models;
 
 namespace nhH60Services.Controllers {
@@ -14,11 +15,11 @@ namespace nhH60Services.Controllers {
 
         // GET: api/OrderItem
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderItem>>> OrderItems() {
+        public async Task<ActionResult<IEnumerable<OrderItemDTO>>> OrderItems() {
             OrderItem OrderItem = new OrderItem();
 
             try {
-                var OrderItems = await OrderItem.GetAllOrdersItems();
+                var OrderItems = OrderItem.ToDTO(await OrderItem.GetAllOrdersItems());
                 return OrderItems;
             } catch (Exception e) {
                 return NotFound(e.Message);
@@ -28,11 +29,11 @@ namespace nhH60Services.Controllers {
 
         // GET: api/OrderItem/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderItem>> OrderItem(int id) {
+        public async Task<ActionResult<OrderItemDTO>> OrderItem(int id) {
             OrderItem OrderItem = new OrderItem();
 
             try {
-                var OrderItemFound = await OrderItem.FindOrderItemById(id);
+                var OrderItemFound = OrderItem.ToSingleDTO(await OrderItem.FindOrderItemById(id));
                 return OrderItemFound;
             } catch (Exception e) {
                 return NotFound(e.Message);

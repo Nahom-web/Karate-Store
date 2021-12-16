@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using nhH60Services.Dtos;
 using nhH60Services.Models;
 
 namespace nhH60Services.Controllers {
@@ -12,23 +13,22 @@ namespace nhH60Services.Controllers {
     [ApiController]
     public class OrdersController : ControllerBase {
 
-        // GET: api/Order
+        // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> Orders() {
+        public async Task<ActionResult<IEnumerable<OrderDTO>>> Orders() {
             Order Order = new Order();
 
             try {
-                var Orders = await Order.GetAllOrders();
+                var Orders = Order.ToDTO(await Order.GetAllOrders());
                 return Orders;
             } catch (Exception e) {
                 return NotFound(e.Message);
             }
         }
 
-
         // GET: api/Order/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> Order(int id) {
+        public async Task<ActionResult<Order>> GetOrder(int id) {
             Order Order = new Order();
 
             try {
@@ -39,7 +39,47 @@ namespace nhH60Services.Controllers {
             }
         }
 
-        // PUT: api/Order/5
+
+        // GET: api/Order/5
+        [HttpGet("OrderDTO/{id}")]
+        public async Task<ActionResult<OrderDTO>> Order(int id) {
+            Order Order = new Order();
+
+            try {
+                var OrderFound = Order.ToSingleDTO(await Order.FindOrderById(id));
+                return OrderFound;
+            } catch (Exception e) {
+                return NotFound(e.Message);
+            }
+        }
+
+        // GET: api/Orders/
+        [HttpGet("Date/{date}")]
+        public async Task<ActionResult<List<OrderDTO>>> Date(string date) {
+            Order Order = new Order();
+
+            try {
+                var OrderFound = Order.ToDTO(await Order.FindOrderByDate(date));
+                return OrderFound;
+            } catch (Exception e) {
+                return NotFound(e.Message);
+            }
+        }
+
+        // GET: api/Orders/Customers/
+        [HttpGet("Customers/{id}")]
+        public async Task<ActionResult<List<OrderDTO>>> Customers(int id) {
+            Order Order = new Order();
+
+            try {
+                var OrderFound = Order.ToDTO(await Order.FindOrdersForCustomer(id));
+                return OrderFound;
+            } catch (Exception e) {
+                return NotFound(e.Message);
+            }
+        }
+
+        // PUT: api/Orders/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOrder(int id, Order Order) {
             if (Order.FindOrderById(id) == null) {
@@ -55,19 +95,18 @@ namespace nhH60Services.Controllers {
             return NoContent();
         }
 
-        // POST: api/Order
+        // POST: api/Orders
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder(Order Order) {
             try {
                 await Order.Create();
+                return CreatedAtAction("GetOrder", new { id = Order.OrderId}, Order);
             } catch (Exception e) {
                 return BadRequest(e.Message);
             }
-
-            return NoContent();
         }
 
-        // DELETE: api/Order/5
+        // DELETE: api/Orders/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id) {
             var Order = await new Order().FindOrderById(id);

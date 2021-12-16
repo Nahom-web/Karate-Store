@@ -1,30 +1,52 @@
 ﻿@model nhH60Customer.Dtos.ProductDTO
 @inject nhH60Customer.Models.FormattingService DisplayFormat
 
+
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">@Model.Description</h5>
         <p class="card-text">
-            @if (Model.SellPrice == null) {
-                <span>No Sell Price Yet</span>
-            } else {
-                <span>@DisplayFormat.CurrencyFormat(Convert.ToDouble(@Model.SellPrice))</span>
-            }
-            <br />
-            @if (Model.Stock == null) {
+            @if (Model.Stock == null || Model.Stock == 0) {
                 <span class="text-danger" id="outOfStock">Out of stock</span>
+                <br />
+                <span class="font-weight-bold">We sincerely apologize for this inconvenience.</span>
+                <br />
+                <span>We've experienced an unusually high number of orders and have run out of inventory.</span>
             } else {
-                <span class="text-success" id="inStock">In stock</span>
-                @using (Html.BeginForm()) {
 
-                    @Html.LabelFor(x => x.ProductId, new { @class = "d-none" })
-                    @Html.EditorFor(x => x.ProductId, new { htmlAttributes = new { @class = "d-none" } })
+                @if (Model.SellPrice == null) {
+                    <span>No Sell Price Yet</span>
+                } else {
+                    <span>@DisplayFormat.CurrencyFormat(Convert.ToDouble(@Model.SellPrice))</span>
+                }
+
+                <br />
+
+                <span class="text-success" id="inStock">In stock</span>
+
+                <form action="/CartItem/Create" method="post">
+
+                    <input class="d-none text-box single-line" asp-for="@Model.ProductId">
+
+                    <input class="d-none text-box single-line" asp-for="@Model.SellPrice">
+
 
                     <label for="@Model.Stock">Quantity:</label>
-                    @Html.DropDownListFor(m => m.Stock, Enumerable.Range(1, Convert.ToInt32(Model.Stock)).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }))
+
+                    <select data-val="true" data-val-required="The Quantity field is required." name="Quantity">
+                        @for (int s = 1; s <= Model.Stock; s++) {
+                            if (s == 1) {
+                                <option value="@s" selected>@s</option>
+                            } else {
+                                <option value="@s">@s</option>
+                            }
+                        }
+                    </select>
+
                     <br />
                     <input type="submit" value="Add" class="submitBtn btn btn-info" id="addToStock" />
-                }
+
+                </form>
             }
         </p>
         @*Image Sources:

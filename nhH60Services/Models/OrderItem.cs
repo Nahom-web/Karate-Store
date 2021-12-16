@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using nhH60Services.Dtos;
 
 
 namespace nhH60Services.Models {
@@ -24,17 +25,50 @@ namespace nhH60Services.Models {
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
 
+        public OrderItemDTO ToSingleDTO(OrderItem order) {
+            return new OrderItemDTO(order);
+        }
+
+        public List<OrderItemDTO> ToDTO(List<OrderItem> orders) {
+            List<OrderItemDTO> oDTO = new();
+
+            foreach (var o in orders) {
+                oDTO.Add(new OrderItemDTO(o));
+            }
+
+            return oDTO;
+        }
+
         public async Task<List<OrderItem>> GetAllOrdersItems() {
-            return await _context.OrderItems.ToListAsync();
+            return await _context.OrderItems
+                            .Include(o => o.Order)
+                            .ThenInclude(c => c.Customer)
+                            .Include(p => p.Product)
+                            .ToListAsync();
         }
 
         public async Task<OrderItem> FindOrderItemById(int id) {
-            return await _context.OrderItems.Where(x => x.OrderItemId == id).FirstAsync();
+            return await _context.OrderItems
+                             .Where(x => x.OrderItemId == id)
+                             .Include(o => o.Order)
+                             .ThenInclude(c => c.Customer)
+                             .Include(p => p.Product)
+                             .FirstAsync();
         }
 
         public async Task Create() {
+
+            Order orderObj = new Order();
+
+            var order = await orderObj.FindOrderById(this.OrderId);
+
+            order.Total += this.CalculateTotalOrderItemPrice();
+
             _context.OrderItems.Add(this);
+
             await _context.SaveChangesAsync();
+
+            await order.Update();
         }
 
         public async Task Update() {
@@ -46,6 +80,10 @@ namespace nhH60Services.Models {
         public async Task Delete() {
             _context.OrderItems.Remove(this);
             await _context.SaveChangesAsync();
+        }
+
+        public decimal CalculateTotalOrderItemPrice() {
+            return (decimal)(this.Price * this.Quantity);
         }
     }
 }

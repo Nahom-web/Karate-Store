@@ -118,6 +118,31 @@ header{
     font-size: 1.6em;
 }
 
+.OutOfStock{
+    pointer-events: none;
+}
+
+/*Shopping Cart*/
+
+.trashIcon{
+    width: 2em;
+}
+
+#checkoutCartBtn{
+    float: right;
+    text-decoration: none;
+    font-size: 1.3em;
+    margin-bottom: 1em;
+}
+
+#cart-image{
+    width: 1em;
+    margin-top: -0.4em;
+}
+
+#cart{
+    margin-top: 3em;
+}
 
 /*footer*/
 

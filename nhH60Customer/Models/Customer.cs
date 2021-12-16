@@ -65,5 +65,28 @@ namespace nhH60Customer.Models {
 
         }
 
+        public async Task<int> ValidateCreditCard() {
+
+            HttpClient Client = new();
+
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+                );
+
+            var StreamTask = Client.GetStreamAsync(CUSTOMERS_URL + "/" + this.CustomerId.ToString() + "/ValidateCreditCard" );
+
+            var Serializer = new DataContractJsonSerializer(typeof(int));
+
+            int response = (int)Serializer.ReadObject(await StreamTask);
+
+            return response;
+
+        }
+
+        public bool IsValidCreditCard(int creditCard) {
+            return creditCard == 0;
+        }
+
     }
 }

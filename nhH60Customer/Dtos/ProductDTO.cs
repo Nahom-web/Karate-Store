@@ -21,8 +21,5 @@ namespace nhH60Customer.Dtos {
         [DataMember(Name = "stock")]
         public int? Stock { get; set; }
 
-        [DataMember(Name = "manufacturer")]
-        public string Manufacturer { get; set; }
-
     }
 }

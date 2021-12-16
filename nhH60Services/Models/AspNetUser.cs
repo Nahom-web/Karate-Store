@@ -3,15 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace nhH60Services.Models {
     public partial class AspNetUser {
+
+        [NotMapped]
+        private readonly H60Assignment2DB_nhContext _context;
+
 
         public AspNetUser() {
             AspNetUserClaims = new HashSet<AspNetUserClaim>();
             AspNetUserLogins = new HashSet<AspNetUserLogin>();
             AspNetUserRoles = new HashSet<AspNetUserRole>();
             AspNetUserTokens = new HashSet<AspNetUserToken>();
+            _context = new H60Assignment2DB_nhContext();
         }
 
         public string Id { get; set; }
@@ -34,6 +41,15 @@ namespace nhH60Services.Models {
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
+
+
+        public async Task<AspNetUser> GetUser(string Email) {
+            return await _context.AspNetUsers.Where(x => x.Email == Email).Include(r => r.AspNetUserRoles).ThenInclude(s => s.Role).FirstOrDefaultAsync();
+        }
+
+        public bool IsManager() {
+            return this.AspNetUserRoles.First().Role.Name == "manager";
+        }
 
     }
 }
