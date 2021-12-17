@@ -20,6 +20,9 @@ namespace nhH60Customer.Dtos {
         [DataMember(Name = "lastName")]
         public string LastName { get; set; }
 
+        [DataMember(Name = "name")]
+        public string Name { get; set; }
+
         [DataMember(Name = "email")]
         public string Email { get; set; }
 

@@ -68,9 +68,11 @@ nav{
 
 /*Products*/
 
-/*.searchProduct{*/
-/*    width: 40em;*/
-/*}*/
+#productNameLbl{
+    font-weight: bold;
+    font-size: 1.3em;
+    padding-right: 0.4em;
+}
 
 #inpProduct{
     width: 30em;
@@ -113,6 +115,12 @@ nav{
 #container-products .card-title, #container-products-by-categories .card-title{
     font-size: 1em;
     font-weight: bold;
+}
+
+/*Orders*/
+
+.container-orders{
+    margin-top: 2em;
 }
 
 footer{

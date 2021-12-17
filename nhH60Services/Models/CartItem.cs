@@ -92,10 +92,16 @@ namespace nhH60Services.Models {
         }
 
 
-        public async Task Delete() {
+        public async Task Remove() {
             await UpdateProductStock(-this.Quantity);
             _context.CartItems.Remove(this);
             await _context.SaveChangesAsync();
         }
+
+        public async Task Delete() {
+            _context.CartItems.Remove(this);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

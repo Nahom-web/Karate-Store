@@ -11,6 +11,7 @@ namespace nhH60Services.Dtos {
         public int CustomerId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Province { get; set; }
@@ -20,6 +21,7 @@ namespace nhH60Services.Dtos {
             CustomerId = c.CustomerId;
             FirstName = c.FirstName;
             LastName = c.LastName;
+            Name = FirstName + " " + LastName;
             Email = c.Email;
             PhoneNumber = "(" + c.PhoneNumber.Substring(0, 3) + ")-" + c.PhoneNumber.Substring(3, 3) + "-" + c.PhoneNumber.Substring(6, 4);
             Province = c.Province;

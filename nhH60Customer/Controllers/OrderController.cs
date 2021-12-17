@@ -26,15 +26,8 @@ namespace nhH60Customer.Controllers {
         }
 
 
-        public async Task<IActionResult> Index() {
-            try {
-                Order order = new Order();
-                var orders = await order.AllOrders();
-                return View(orders);
-            } catch (Exception e) {
-                TempData["ErrorMessage"] = e.Message;
-                return View();
-            }
+        public IActionResult Index() {
+            return View();
         }
 
         [HttpGet, Route("Create/{id}")]
@@ -53,21 +46,49 @@ namespace nhH60Customer.Controllers {
 
                     var cartItems = cart.CartItems;
 
-                    var finalizedOrder = await createdOrder.GetOrder();
-
                     foreach (var item in cartItems) {
                         OrderItem oItem = new OrderItem();
-                        await oItem.Create(finalizedOrder.OrderId, item);
+                        await oItem.Create(createdOrder.OrderId, item);
                     }
 
-                    return View("Index", finalizedOrder);
+                    var updatedOrder = await order.GetOrderDTO(createdOrder.OrderId);
+
+                    return View("Index", updatedOrder);
+
                 } else {
-                    return RedirectToAction("InvalidCreditCard", "Customer", checkCreditCard);
+                    return RedirectToAction("InvalidCreditCard", "Customer", new { id = checkCreditCard });
                 }
             } catch (Exception e) {
-                TempData["ErrorMessage"] = "You deleted your cart or it just cannot be found";
-                return View();
+                TempData["ErrorMessage"] = e.Message;
+                return RedirectToAction("Cart", "ShoppingCart");
             }
         }
+
+        [HttpGet, Route("OrderConfirmed/{id}")]
+        public async Task<IActionResult> OrderConfirmed(int id) {
+            try {
+
+                Order order = new Order();
+
+                var orderToConfirm = await order.GetOrderDTO(id);
+
+                var setDateFulfilled = await order.FinalizeOrder(orderToConfirm);
+
+                var customerShoppingCart = await FindCurrentCustomer();
+
+                ShoppingCart cartObj = new ShoppingCart();
+
+                var cart = await cartObj.GetShoppingCart(customerShoppingCart.CustomerId);
+
+                await cartObj.RemoveCartAndItemsAsync(cart);
+
+                return View();
+
+            } catch (Exception e) {
+                TempData["ErrorMessage"] = e.Message;
+                return RedirectToAction("Cart", "ShoppingCart");
+            }
+        }
+
     }
 }

@@ -1,12 +1,62 @@
 ﻿@model nhH60Customer.Dtos.OrderDTO
+@inject nhH60Customer.Models.FormattingService DisplayFormat
+
 
 
 <main>
 
     @await Html.PartialAsync("_MessageDisplays")
 
-    <h1 class="text-center">Order</h1>
+    <h1 class="text-center">Order Summary</h1>
+    <hr />
+    <h3 class="text-center">Customer Information</h3>
+    <div id="container-order">
+        <div id="customer-info">
+            <div>
+                <h2 class="card-title">@Model.Customer.Name</h2>
+                <p class="card-text">
+                    <span>@Model.Customer.Email</span><br /><br />
+                    <span>Shipping to <b>@DisplayFormat.DisplayProvince(Model.Customer.Province)</b></span><br /><br />
+                    <span>Credit Card Used: @Model.Customer.CreditCard</span>
+                </p>
+            </div>
+        </div>
+        <div id="container-order-items">
+            <table class="table table-striped bg-white" id="cart">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderItem in Model.OrderItems) {
+                        <tr>
+                            <td>@orderItem.Product.Description</td>
+                            <td>@orderItem.Quantity</td>
+                            <td>@DisplayFormat.CurrencyFormat((Double)@orderItem.Price)</td>
+                            <td>@DisplayFormat.CurrencyFormat((Double)@orderItem.Total)</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="3" class="font-weight-bold text-right">Sub-Toal:</td>
+                        <td>@DisplayFormat.CurrencyFormat((Double)@Model.Total)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="font-weight-bold text-right">Taxes:</td>
+                        <td>@DisplayFormat.CurrencyFormat((Double)@Model.Taxes)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="font-weight-bold text-right">Total:</td>
+                        <td style="font-weight: bold; font-size: 1.3em">@DisplayFormat.CurrencyFormat((Double)@Model.GrandTotal)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    @Model.OrderId
+    <a title="Confirm Order" href="@Url.Action("OrderConfirmed", "Order", new { id = Model.OrderId  })" class="btn btn-success" id="checkoutCartBtn">Confirm Order</a>
 
 </main>

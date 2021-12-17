@@ -36,5 +36,8 @@ namespace nhH60Customer.Dtos {
         [DataMember(Name = "grandTotal")]
         public decimal GrandTotal { get; set; }
 
+        [DataMember(Name = "orderItems")]
+        public virtual List<OrderItemDTO> OrderItems { get; set; }
+
     }
 }

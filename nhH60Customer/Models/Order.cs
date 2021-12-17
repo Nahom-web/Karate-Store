@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using nhH60Customer.Dtos;
 
@@ -33,6 +34,7 @@ namespace nhH60Customer.Models {
 
         [DataMember(Name = "dateCreated")]
         [DataType(DataType.Date)]
+        //[JsonIgnore]
         public DateTime DateCreated { get; set; }
 
         [DataMember(Name = "dateFulfilled")]
@@ -51,7 +53,7 @@ namespace nhH60Customer.Models {
         [DataMember(Name = "orderItems")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
 
-        public async Task<OrderDTO> GetOrder() {
+        public async Task<Order> GetOrder(int id) {
 
             HttpClient Client = new();
 
@@ -60,7 +62,26 @@ namespace nhH60Customer.Models {
                 new MediaTypeWithQualityHeaderValue("application/json")
                 );
 
-            var StreamTask = Client.GetStreamAsync(API_URL + "/" + this.OrderId.ToString());
+            var StreamTask = Client.GetStreamAsync(API_URL + "/" + id.ToString());
+
+            var Serializer = new DataContractJsonSerializer(typeof(Order));
+
+            Order order = Serializer.ReadObject(await StreamTask) as Order;
+
+            return order;
+
+        }
+
+        public async Task<OrderDTO> GetOrderDTO(int id) {
+
+            HttpClient Client = new();
+
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+                );
+
+            var StreamTask = Client.GetStreamAsync(API_URL + "/OrderDTO/" + id.ToString());
 
             var Serializer = new DataContractJsonSerializer(typeof(OrderDTO));
 
@@ -91,8 +112,6 @@ namespace nhH60Customer.Models {
 
             this.CustomerId = id;
 
-            this.DateCreated = DateTime.Now;
-
             string JsonString = JsonSerializer.Serialize<Order>(this);
 
             var HttpContext = new StringContent(JsonString, Encoding.UTF8, "application/json");
@@ -105,5 +124,23 @@ namespace nhH60Customer.Models {
 
         }
 
+        public async Task<HttpResponseMessage> FinalizeOrder(OrderDTO orderToConfirm) {
+
+            this.DateFulfilled = DateTime.Now;
+
+            this.OrderId = orderToConfirm.OrderId;
+
+            this.Taxes = orderToConfirm.Taxes;
+
+            string JsonString = JsonSerializer.Serialize<Order>(this);
+
+            var HttpContext = new StringContent(JsonString, Encoding.UTF8, "application/json");
+
+            HttpClient Client = new();
+
+            HttpResponseMessage Response = await Client.PutAsync(API_URL + "/FinalizedOrder/" + this.OrderId.ToString(), HttpContext);
+
+            return Response;
+        }
     }
 }

@@ -62,7 +62,11 @@ namespace nhH60Services.Models {
 
             var order = await orderObj.FindOrderById(this.OrderId);
 
-            order.Total += this.CalculateTotalOrderItemPrice();
+            if(order.Total == null) {
+                order.Total = this.CalculateTotalOrderItemPrice();
+            } else {
+                order.Total += this.CalculateTotalOrderItemPrice();
+            }            
 
             _context.OrderItems.Add(this);
 

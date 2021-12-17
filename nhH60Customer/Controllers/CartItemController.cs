@@ -44,7 +44,7 @@ namespace nhH60Customer.Controllers {
             if (SCode == 204) {
                 ShoppingCart cart = new ShoppingCart();
                 TempData["SuccessMessage"] = "Added product to your shopping cart.";
-                return RedirectToAction("Index", "ShoppingCart", await cart.GetShoppingCarts());
+                return RedirectToAction("Cart", "ShoppingCart", await cart.GetShoppingCarts());
             } else if (SCode == 400) {
                 TempData["ErrorMessage"] = "Coudldn't add product to your cart. Please check that your databases is linked correctly.";
                 return View(item);
@@ -67,7 +67,7 @@ namespace nhH60Customer.Controllers {
                 return View(result);
             } catch (Exception e) {
                 TempData["ErrorMessage"] = e.Message;
-                return RedirectToAction("Index", "ShoppingCart");
+                return RedirectToAction("Cart", "ShoppingCart");
             }
         }
 
@@ -84,23 +84,23 @@ namespace nhH60Customer.Controllers {
                     Product allProduct = new Product();
                     TempData["SuccessMessage"] = "Successfully updated your cart item.";
                     ShoppingCart cart = new ShoppingCart();
-                    return RedirectToAction("Index", "ShoppingCart", await cart.GetShoppingCarts());
+                    return RedirectToAction("Cart", "ShoppingCart", await cart.GetShoppingCarts());
                 } else if (SCode == 404) {
                     TempData["ErrorMessage"] = "Cannot find cart item in database.";
-                    return RedirectToAction("Index", "ShoppingCart");
+                    return RedirectToAction("Cart", "ShoppingCart");
                 } else if (SCode == 400) {
                     TempData["ErrorMessage"] = "Something went wrong when processing your request.";
-                    return RedirectToAction("Index", "ShoppingCart");
+                    return RedirectToAction("Cart", "ShoppingCart");
                 } else if (SCode == 500) {
                     TempData["ErrorMessage"] = "Database error.";
-                    return RedirectToAction("Index", "ShoppingCart");
+                    return RedirectToAction("Cart", "ShoppingCart");
                 }
 
-                return RedirectToAction("Index", "ShoppingCart");
+                return RedirectToAction("Cart", "ShoppingCart");
 
             } catch (Exception e) {
                 TempData["ErrorMessage"] = e.Message;
-                return RedirectToAction("Index", "ShoppingCart");
+                return RedirectToAction("Cart", "ShoppingCart");
             }
         }
 
@@ -110,21 +110,21 @@ namespace nhH60Customer.Controllers {
                 return LocalRedirect("/Identity/Account/Login");
             }
             CartItem cartTime = new CartItem();
-            HttpResponseMessage response = await cartTime.Delete(id);
+            HttpResponseMessage response = await cartTime.RemoveFromCart(id);
             int SCode = (int)response.StatusCode;
             if (SCode == 204) {
                 TempData["SuccessMessage"] = "Successfully deleted the cart item.";
                 ShoppingCart cart = new ShoppingCart();
-                return RedirectToAction("Index", "ShoppingCart", await cart.GetShoppingCarts());
+                return RedirectToAction("Cart", "ShoppingCart", await cart.GetShoppingCarts());
             } else if (SCode == 404) {
                 TempData["ErrorMessage"] = "Cannot find cart item in database.";
-                return RedirectToAction("Index", "ShoppingCart");
+                return RedirectToAction("Cart", "ShoppingCart");
             } else if (SCode == 500) {
                 TempData["ErrorMessage"] = "Database error.";
-                return RedirectToAction("Index", "ShoppingCart");
+                return RedirectToAction("Cart", "ShoppingCart");
             }
 
-            return RedirectToAction("Index", "ShoppingCart");
+            return RedirectToAction("Cart", "ShoppingCart");
         }
     }
 }

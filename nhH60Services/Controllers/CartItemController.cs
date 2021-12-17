@@ -68,8 +68,26 @@ namespace nhH60Services.Controllers {
             return NoContent();
         }
 
-        // DELETE: api/CartItem/5
-        [HttpDelete("{id}")]
+        // DELETE: api/CartItem/RemoveCartItem/5
+        [HttpDelete("RemoveCartItem/{id}")]
+        public async Task<IActionResult> RemoveCartItem(int id) {
+            var CartItem = await new CartItem().FindItemById(id);
+
+            if (CartItem == null) {
+                return NotFound();
+            }
+
+            try {
+                await CartItem.Remove();
+            } catch (Exception e) {
+                return BadRequest(e.Message);
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/CartItem/DeleteCartItem/5
+        [HttpDelete("DeleteCartItem/{id}")]
         public async Task<IActionResult> DeleteCartItem(int id) {
             var CartItem = await new CartItem().FindItemById(id);
 

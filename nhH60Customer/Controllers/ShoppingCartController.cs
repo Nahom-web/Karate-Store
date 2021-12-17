@@ -33,6 +33,7 @@ namespace nhH60Customer.Controllers {
             try {
                 var customerFound = await FindCurrentCustomer();
                 ShoppingCart ShoppingCart = new ShoppingCart();
+                await ShoppingCart.Create(customerFound);
                 ShoppingCartDTO CustomersCart = await ShoppingCart.GetShoppingCart(customerFound.CustomerId);
                 if(CustomersCart == null) {
                     HttpResponseMessage response = await ShoppingCart.Create(customerFound);
@@ -48,7 +49,7 @@ namespace nhH60Customer.Controllers {
                 }
                 return View(CustomersCart);
             } catch (Exception e) {
-                TempData["ErrorMessage"] = "You deleted your cart or it just cannot be found";
+                TempData["ErrorMessage"] = e.Message;
                 return View();
             }
         }

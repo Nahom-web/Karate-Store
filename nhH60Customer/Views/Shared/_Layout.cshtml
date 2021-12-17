@@ -26,9 +26,6 @@
                     <a asp-controller="Product" asp-action="Index">View Products</a>
                 </li>
                 <li>
-                    <a asp-controller="ProductCategory" asp-action="Index">View Product Categories</a>
-                </li>
-                <li>
                     <a asp-controller="ShoppingCart" asp-action="Cart">View Your Cart</a>
                 </li>
             </ul>
@@ -36,9 +33,9 @@
                 <div id="profile-and-logout-section">
                     <span id="name">
                         <img src="~/Images/person-circle.svg" alt="Person Icon" id="nameIcon" />
-                        Welcome @User.Identity.Name
+                        @User.Identity.Name
                     </span>
-                    <a class="btn btn-danger NavBtns" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                    <a class="logout" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
                 </div>
             }
 

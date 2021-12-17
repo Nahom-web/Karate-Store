@@ -11,6 +11,8 @@ namespace nhH60Services.Dtos {
 
         public string Description { get; set; }
 
+        public string Manufacturer { get; set; }
+
         public decimal? SellPrice { get; set; }
 
         public int? Stock { get; set; }
@@ -20,6 +22,7 @@ namespace nhH60Services.Dtos {
             Description = P.Description;
             SellPrice = P.SellPrice;
             Stock = P.Stock;
+            Manufacturer = P.Manufacturer;
         }
 
     }

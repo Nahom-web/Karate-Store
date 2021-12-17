@@ -10,7 +10,7 @@
             <input class="d-none text-box single-line" data-val="true" data-val-required="The CartItemId field is required." asp-for="@Model.CartItemId">
 
             <select data-val="true" data-val-required="The Quantity field is required." asp-for="@Model.Quantity">
-                @for (int s = 1; s <= Model.QauntityAndStock; s++) {
+                @for (int s = 1; s < Model.QauntityAndStock; s++) {
                     if (s == Model.Quantity) {
                         <option value="@s" selected>@s</option>
                     } else {

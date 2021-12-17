@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using nhH60Services.Dtos;
+using System.Text.Json.Serialization;
 
 namespace nhH60Services.Models {
     public partial class Order {
@@ -22,6 +23,7 @@ namespace nhH60Services.Models {
         public int CustomerId { get; set; }
 
         [DataType(DataType.Date)]
+        //[JsonIgnore]
         public DateTime DateCreated { get; set; }
 
         [DataType(DataType.Date)]
@@ -67,6 +69,7 @@ namespace nhH60Services.Models {
         }
 
         public async Task Create() {
+            this.DateCreated = DateTime.Now;
             _context.Orders.Add(this);
             await _context.SaveChangesAsync();
         }
@@ -75,6 +78,20 @@ namespace nhH60Services.Models {
             H60Assignment2DB_nhContext _db = new H60Assignment2DB_nhContext();
             _db.Entry(this).State = EntityState.Modified;
             await _db.SaveChangesAsync();
+        }
+
+        public async Task UpdateFinalizedOrder(int id) {
+            var order = await FindOrderById(id);
+
+            order.DateFulfilled = this.DateFulfilled;
+
+            order.Taxes = this.Taxes;
+
+            await order.Update();
+
+            //_context.Orders.Update(order);
+
+            //await _context.SaveChangesAsync();
         }
 
         public async Task Delete() {

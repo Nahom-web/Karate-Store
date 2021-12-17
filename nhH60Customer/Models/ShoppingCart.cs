@@ -109,6 +109,15 @@ namespace nhH60Customer.Models {
 
         }
 
+        public async Task RemoveCartAndItemsAsync(ShoppingCartDTO cart) {
+            foreach (var item in cart.CartItems) {
+                CartItem cartItem = new CartItem();
+                await cartItem.DeleteFromCart(item.CartItemId);
+            }
+
+            await Delete(cart.CartId);
+        }
+
         public async Task<HttpResponseMessage> Delete(int id) {
 
             HttpClient Client = new();

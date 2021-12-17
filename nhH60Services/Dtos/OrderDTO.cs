@@ -27,13 +27,13 @@ namespace nhH60Services.Dtos {
             DateCreated = o.DateCreated.ToString("yyyy\\-MM\\-dd"); ;
             DateFulfilled = Convert.ToDateTime(o.DateFulfilled).ToString("yyyy\\-MM\\-dd");
             Total = o.Total;
-            Taxes = o.Taxes;
             if (o.Customer != null) {
                 Customer = new CustomerDTO(o.Customer);
             }
             GrandTotal = Convert.ToDecimal(CalculateGrandTotalAsync().Result);
             //OrderItems = (ICollection<OrderDTO>)o.OrderItems.First().ToDTO((List<OrderItem>)o.OrderItems);
             OrderItems = CreateListOfOrderItemDTOS(o.OrderItems);
+            Taxes = GrandTotal - Total;
         }
 
         public List<OrderItemDTO> CreateListOfOrderItemDTOS(ICollection<OrderItem> items) {

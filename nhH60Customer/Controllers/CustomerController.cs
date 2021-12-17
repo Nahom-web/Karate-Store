@@ -11,8 +11,8 @@ namespace nhH60Customer.Controllers {
             return View();
         }
 
-        [HttpGet, Route("InvalidCreditCard/{id}")]
-        public IActionResult ValidateCreditCard(int id) {
+        [HttpGet]
+        public IActionResult InvalidCreditCard(int id) {
             switch (id) {
                 case -1:
                     TempData["ErrorMessage"] = "Your credit card has an invalid length";

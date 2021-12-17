@@ -15,6 +15,9 @@ namespace nhH60Customer.Dtos {
         [DataMember(Name = "description")]
         public string Description { get; set; }
 
+        [DataMember(Name = "manufacturer")]
+        public string Manufacturer { get; set; }
+
         [DataMember(Name = "sellPrice")]
         public decimal? SellPrice { get; set; }
 

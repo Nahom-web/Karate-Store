@@ -28,7 +28,7 @@ namespace nhH60Services.Controllers {
 
         // GET: api/Order/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id) {
+        public async Task<ActionResult<Order>> Orders(int id) {
             Order Order = new Order();
 
             try {
@@ -40,14 +40,15 @@ namespace nhH60Services.Controllers {
         }
 
 
-        // GET: api/Order/5
+        // GET: api/Order/OrderDTO/5
         [HttpGet("OrderDTO/{id}")]
-        public async Task<ActionResult<OrderDTO>> Order(int id) {
+        public async Task<ActionResult<OrderDTO>> OrderDTO(int id) {
             Order Order = new Order();
 
             try {
-                var OrderFound = Order.ToSingleDTO(await Order.FindOrderById(id));
-                return OrderFound;
+                var OrderFound = await Order.FindOrderById(id);
+                var OrderDTOobj = Order.ToSingleDTO(OrderFound);
+                return OrderDTOobj;
             } catch (Exception e) {
                 return NotFound(e.Message);
             }
@@ -95,12 +96,28 @@ namespace nhH60Services.Controllers {
             return NoContent();
         }
 
+        // PUT: api/Orders/5
+        [HttpPut("FinalizedOrder/{id}")]
+        public async Task<IActionResult> FinalizedOrder(int id, Order Order) {
+            if (Order.FindOrderById(id) == null) {
+                return NotFound();
+            }
+
+            try {
+                await Order.UpdateFinalizedOrder(id);
+            } catch (Exception e) {
+                return BadRequest(e.Message);
+            }
+
+            return NoContent();
+        }
+
         // POST: api/Orders
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder(Order Order) {
             try {
                 await Order.Create();
-                return CreatedAtAction("GetOrder", new { id = Order.OrderId}, Order);
+                return CreatedAtAction("Orders", new { id = Order.OrderId}, Order);
             } catch (Exception e) {
                 return BadRequest(e.Message);
             }

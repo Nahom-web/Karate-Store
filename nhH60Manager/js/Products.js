@@ -3,7 +3,6 @@ $$ = sel => document.querySelector(sel);
 const USERS_API = "http://localhost:63164/api/ASPUsers?Email=";
 const PRODUCTS_API = "http://localhost:63164/api/Products";
 const PRODUCT_CATEGORIES_API = "http://localhost:63164/api/ProductCategories";
-const ORDERS_API = "http://localhost:63164/api/Orders";
 
 let loginForm = $$("#account");
 let email = $$("#email");
@@ -17,8 +16,6 @@ let containerProductsByCategory = $$("#container-products-by-categories");
 let productEntered = $$("#inpProduct");
 let categoryTypes = $$("#categoryTypes");
 let allProductsByCategoryBtn = $$("#allProductsByCategoryBtn");
-
-let containerOrders = $$("#container-orders");
 
 class ProductManager{
     constructor() {
@@ -96,25 +93,6 @@ class ProductCategory {
         this.id = _id;
         this.name = _name;
         this.products = [];
-    }
-
-}
-
-class OrderReports {
-    constructor() {
-
-    }
-
-}
-
-class Order{
-    constructor(_id, _customerId, _dateCreated, _dateFulfilled, _total, _taxes) {
-        this.id = _id;
-        this.customerId = _customerId;
-        this.dateCreated = _dateCreated;
-        this.dateFulfilled = _dateFulfilled;
-        this.total = _total;
-        this.taxes = _taxes;
     }
 
 }

@@ -93,10 +93,18 @@ namespace nhH60Customer.Models {
             return Response;
         }
 
-        public async Task<HttpResponseMessage> Delete(int id) {
+        public async Task<HttpResponseMessage> RemoveFromCart(int id) {
             HttpClient Client = new();
 
-            HttpResponseMessage Response = await Client.DeleteAsync(API_URL + "/" + id.ToString());
+            HttpResponseMessage Response = await Client.DeleteAsync(API_URL + "/RemoveCartItem/" + id.ToString());
+
+            return Response;
+        }
+
+        public async Task<HttpResponseMessage> DeleteFromCart(int id) {
+            HttpClient Client = new();
+
+            HttpResponseMessage Response = await Client.DeleteAsync(API_URL + "/DeleteCartItem/" + id.ToString());
 
             return Response;
         }
