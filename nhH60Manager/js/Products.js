@@ -3,6 +3,7 @@ $$ = sel => document.querySelector(sel);
 const USERS_API = "http://localhost:63164/api/ASPUsers?Email=";
 const PRODUCTS_API = "http://localhost:63164/api/Products";
 const PRODUCT_CATEGORIES_API = "http://localhost:63164/api/ProductCategories";
+const ORDERS_API = "http://localhost:63164/api/Orders";
 
 let loginForm = $$("#account");
 let email = $$("#email");
@@ -16,6 +17,8 @@ let containerProductsByCategory = $$("#container-products-by-categories");
 let productEntered = $$("#inpProduct");
 let categoryTypes = $$("#categoryTypes");
 let allProductsByCategoryBtn = $$("#allProductsByCategoryBtn");
+
+let containerOrders = $$("#container-orders");
 
 class ProductManager{
     constructor() {
@@ -32,6 +35,7 @@ class ProductManager{
             })
             .then(response => {
                 this.foundProducts = [];
+                searchResult.innerHTML = "Search Results for: " + this.searchValue;
                 for(let i = 0; i < response.length; i++){
                     this.foundProducts.push(new Product(response[i].productId, response[i].prodCatId, response[i].description, response[i].manufacturer, response[i].stock, response[i].buyPrice, response[i].sellPrice))
                 }
@@ -161,22 +165,40 @@ let getProducts = async () => {
             console.table(productManager.products);
             for(let i = 0; i < response.length; i++){
                 productManager.products[i] = new Product(response[i].productId, response[i].prodCatId, response[i].description, response[i].manufacturer, response[i].stock, response[i].buyPrice, response[i].sellPrice);
-                productManager.categories[response[i].prodCatId] = new ProductCategory(response[i].prodCat.categoryId, response[i].prodCat.prodCat);
-                for(let x = 0; x < response[i].prodCat.products.length; x++){
-                    productManager.categories[response[i].prodCatId].products.push(new Product(response[i].prodCat.products[x].productId, response[i].prodCat.products[x].prodCatId, response[i].prodCat.products[x].description, response[i].prodCat.products[x].manufacturer, response[i].prodCat.products[x].stock, response[i].prodCat.products[x].buyPrice, response[i].prodCat.products[x].sellPrice))
-                }
             }
-
-            for(let c in productManager.categories){
-                categoryTypes.innerHTML += `<option value="${productManager.categories[c].id}">${productManager.categories[c].name}</option>`
-            }
-
             displayProducts()
         })
         .catch(err => {
             messages.style.display = "inline";
             productPageErrorMessage.innerHTML = err;
         })
+    await getProductCategories()
+}
+
+let getProductCategories = async () => {
+    await fetch(`${PRODUCT_CATEGORIES_API}`)
+        .then(resp => {
+            return resp.json();
+        })
+        .then(response => {
+            for(let i = 0; i < response.length; i++){
+                productManager.categories[response[i].categoryId] = new ProductCategory(response[i].categoryId, response[i].prodCat);
+                for(let x = 0; x < response[i].products.length; x++){
+                    productManager.categories[response[i].categoryId].products.push(new Product(response[i].products[x].productId, response[i].products[x].prodCatId, response[i].products[x].description, response[i].products[x].manufacturer, response[i].products[x].stock, response[i].products[x].buyPrice, response[i].products[x].sellPrice))
+                }
+            }
+        })
+        .catch(err => {
+            messages.style.display = "inline";
+            productPageErrorMessage.innerHTML = err;
+        })
+    displayProductCategories()
+}
+
+displayProductCategories = () =>{
+    for(let c in productManager.categories){
+        categoryTypes.innerHTML += `<option value="${productManager.categories[c].categoryId}">${productManager.categories[c].name}</option>`
+    }
 }
 
 let getProductsSortedByCategory = async () => {
