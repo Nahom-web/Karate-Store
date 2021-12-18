@@ -1,90 +1,7 @@
-$$ = sel => document.querySelector(sel);
-
-const ORDERS_API = "http://localhost:63164/api/Orders";
-
-let containerOrders = $$(".container-orders");
-let dates = $$("#dates");
-let customer = $$("#customer");
-
-class OrderReports {
-    constructor() {
-        this.orders = []
-        this.customers = []
-        this.dates = []
-    }
-
-    getCustomers(){
-        let arr = [];
-        for(let x = 0; x < this.orders.length; x++){
-            arr.push(this.orders[x].customer);
-        }
-        this.customers = [...new Set(arr)];
-    }
-
-    getDates(){
-        let arr = [];
-        for(let x = 0; x < this.orders.length; x++){
-            arr.push(this.orders[x].dateCreated);
-        }
-        this.dates = [...new Set(arr)];
-    }
-
-    async getOrdersByDate(date) {
-        await fetch(`${ORDERS_API}/Date/${date}`)
-            .then(resp => {
-                return resp.json();
-            })
-            .then(response => {
-                console.log(response);
-            })
-            .catch(err => {
-                messages.style.display = "inline";
-                productPageErrorMessage.innerHTML = err;
-            })
-    }
-
-
-    async getOrdersByCustomer() {
-        await fetch(`${ORDERS_API}/Customers/${date}`)
-            .then(resp => {
-                return resp.json();
-            })
-            .then(response => {
-                console.log(response);
-            })
-            .catch(err => {
-                messages.style.display = "inline";
-                productPageErrorMessage.innerHTML = err;
-            })
-    }
-
-}
-
-class Customer{
-    constructor(_id, _name) {
-        this.id = _id;
-        this.name = _name;
-    }
-
-}
-
-class OrderItem {
-    constructor(_product) {
-        this.product = _product;
-    }
-
-}
-
-class Order{
-    constructor(_dateCreated, _dateFulfilled, _total, _customer) {
-        this.dateCreated = _dateCreated;
-        this.dateFulfilled = _dateFulfilled;
-        this.total = _total;
-        this.customer = _customer;
-        this.orderItems = [];
-    }
-
-}
+// Nahom Haile
+// Web Programming VI
+// Order.js
+// File contents: has the functions for the order page
 
 let getOrders = async () => {
     orderReports = new OrderReports();
@@ -182,9 +99,9 @@ let displayOrdersForDate = (index) =>{
     }
 }
 
-let displayOrdersForCustomer = (index) => {
-
-}
+// let displayOrdersForCustomer = (index) => {
+//
+// }
 
 if(dates !== null){
     dates.addEventListener('change', async function() {
@@ -197,6 +114,5 @@ if(customer !== null){
         await displayOrdersForCustomer(customer.value);
     })
 }
-
 
 window.addEventListener('load', getOrders)

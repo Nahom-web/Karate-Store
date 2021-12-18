@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -74,7 +73,7 @@ namespace nhH60Customer.Models {
                 new MediaTypeWithQualityHeaderValue("application/json")
                 );
 
-            var StreamTask = Client.GetStreamAsync(CUSTOMERS_URL + "/" + this.CustomerId.ToString() + "/ValidateCreditCard" );
+            var StreamTask = Client.GetStreamAsync(CUSTOMERS_URL + "/" + this.CustomerId.ToString() + "/ValidateCreditCard");
 
             var Serializer = new DataContractJsonSerializer(typeof(int));
 

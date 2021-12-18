@@ -1,43 +1,70 @@
-﻿body {
+﻿/*Nahom Haile*/
+/*Web Programming VI */
+/*Index.css*/
+/*File contents: has all the styling for every page*/
+
+body {
     background-color: lightgrey;
 }
 
-nav{
-    background-color: white;
-    color: black;
-    padding: .8em;
-    margin: .5em;
+#EmailErrorMessage, #stockErrorMessage, #sellPriceErrorMessage, #buyPriceErrorMessage{
+    font-weight: bold;
 }
 
-.nav-link{
-    padding-left: 3em;
+.container-page{
+    position: relative;
+    min-height: 100vh;
+}
+
+#content{
+    margin-top: 3em;
+    padding-bottom: 2.5em;
+}
+
+#layoutHeader{
+    /*display: grid;*/
+    /*grid-template-columns: 1fr 12fr;*/
+    background-color: white;
+}
+
+#navigation ul {
+    list-style-type: none;
+    background-color: white;
+    width: max-content;
+    padding: 1em;
+    margin: 0.8em 0 .8em -2em;
+    border-left: 50px solid transparent;
+    transform: skewX(-20deg);
+}
+
+#navigation ul li {
+    display: inline;
+    padding: 2em;
+}
+
+#navigation ul li a{
+    text-decoration: none;
     color: black;
+}
+
+#profile-and-logout-section{
+    float: right;
+    margin-top: -3.2em;
+    margin-right: 2em;
 }
 
 #name{
-    float: right;
-    margin-right: 3em;
-    align-items: center;
+    margin-right: 1em;
 }
 
 #nameIcon {
     padding: 0 .6em .1em 0;
-    width: 2.1em;
-}
-
-#ManagerText{
-    position:fixed;
-    right: 0;
-    top: 0;
-    margin-right: 7em;
-    margin-top: 1.2em;
 }
 
 #logout{
-    float: right;
-    position: fixed;
-    right: 0;
-    margin-right: 2em;
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .title{
@@ -65,6 +92,21 @@ nav{
     width: max-content;
     display: none;
 }
+
+#indexContent{
+    margin-top: 2em;
+    font-size: 1.2em;
+}
+
+.textLinks{
+    color: black;
+    font-weight: bold;
+}
+
+#orderLink, #productLink{
+    text-decoration: none;
+}
+
 
 /*Products*/
 
@@ -103,7 +145,14 @@ nav{
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 1.2em;
+}
+
+#container-products{
     margin-top: 3em;
+}
+
+#container-products-by-categories{
+    margin-top: -2em;
 }
 
 #container-products .card-img-top, #container-products-by-categories .card-img-top{
@@ -117,6 +166,21 @@ nav{
     font-weight: bold;
 }
 
+#updateStock, #updatePrices{
+    margin: auto;
+    width: 27em;
+    margin-top: 3em;
+}
+
+#updateStock #stock, #updatePrices #sellPrice, #updatePrices #buyPrice{
+    width: 30em;
+}
+
+.editPricesImg{
+    vertical-align: top;
+    margin-top: -0.5em;
+}
+
 /*Orders*/
 
 .container-orders{
@@ -124,14 +188,12 @@ nav{
 }
 
 footer{
-    background-color: black;
-    color: white;
-    position: absolute;
+    background-color: #343a40;
+    position: fixed;
+    bottom: 0;
     width: 100%;
     text-align: center;
-    line-height: 5em;
-    margin-bottom: -1em;
-    /*margin-top: 14em;*/
+    line-height: 3em;
 }
 
 footer p{

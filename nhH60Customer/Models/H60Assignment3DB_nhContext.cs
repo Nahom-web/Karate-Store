@@ -1,8 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
-#nullable disable
 
 namespace nhH60Customer.Models {
     public partial class H60Assignment3DB_nhContext : DbContext {

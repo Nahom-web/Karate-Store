@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-#nullable disable
-
-namespace nhH60Customer.Models {
+﻿namespace nhH60Customer.Models {
     public partial class AspNetUserClaim {
         public int Id { get; set; }
         public string UserId { get; set; }

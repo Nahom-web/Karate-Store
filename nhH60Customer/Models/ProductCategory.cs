@@ -7,8 +7,6 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 
-#nullable disable
-
 namespace nhH60Customer.Models {
 
     [DataContract(Name = "ProductCategory")]

@@ -1,10 +1,16 @@
+<!--Nahom Haile-->
+<!--Web Programming VI-->
+<!--Products.html-->
+<!--File contents: product page to view all the products, search for products, list all products by category, and view all products in a category-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manager</title>
+    <link href="./images/faviconImage.png" rel="shortcut icon" type="image/jpg" />
+    <title>Products</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,15 +18,23 @@
     <link rel="stylesheet" href="styles/Index.css" type="text/css" />
 </head>
 <body>
-<header>
-    <nav class="nav">
-        <a class="nav-link active" href="Index.html">Home</a>
-        <a class="nav-link" href="Products.html">Products</a>
-        <a class="nav-link" href="Orders.html">Orders</a>
-        <div id="ManagerText">
-            <span class="navbar-text mr-sm-2"  id="name"><img src="./images/person-circle.svg" alt="Person Icon" id="nameIcon" />Welcome: Naomi</span>
+<header id="layoutHeader">
+    <nav id="navigation">
+        <ul>
+            <li>
+                <a href="Index.html">Home</a>
+            </li>
+            <li>
+                <a href="Products.html">View Products</a>
+            </li>
+            <li>
+                <a href="Orders.html">View The Oders</a>
+            </li>
+        </ul>
+        <div id="profile-and-logout-section">
+            <a id="logout" href="./Login.html">Logout</a>
         </div>
-        <a class="btn btn-danger NavBtns" href="./Login.html" id="logout">Logout</a>
+        <!--Source https://icons.getbootstrap.com/icons/person-circle/-->
     </nav>
 </header>
 <div class="container-page">
@@ -58,6 +72,8 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="js/Products.js"></script>
+<script src="./js/ClassesAndVariables.js"></script>
+<script src="./js/Login.js"></script>
+<script src="./js/Products.js"></script>
 </body>
 </html>

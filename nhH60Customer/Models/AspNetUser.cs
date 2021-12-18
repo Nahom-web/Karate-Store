@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
 namespace nhH60Customer.Models {
     public partial class AspNetUser {
         public AspNetUser() {

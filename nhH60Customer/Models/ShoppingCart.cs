@@ -6,15 +6,9 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using nhH60Customer.Models;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Runtime.Serialization.Json;
 using nhH60Customer.Dtos;
-
-#nullable disable
 
 namespace nhH60Customer.Models {
 

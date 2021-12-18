@@ -1,10 +1,15 @@
-﻿body{
+﻿/*Nahom Haile*/
+/*Web Programming VI */
+/*site.css*/
+/*File contents: has all the styling for every page*/
+
+body{
     background: rgba(192, 192, 192, 0.9);
 }
 
 /*Nav*/
 
-header{
+#layoutHeader{
     display: grid;
     grid-template-columns: 1fr 12fr;
     background-color: white;
@@ -143,6 +148,7 @@ header{
     background-color: #1c2e4d;
     border-radius: 5px;
     color: white;
+    border-color: #1c2e4d;
 }
 
 #cart-image{
@@ -166,6 +172,8 @@ header{
     width: max-content;
     margin: auto;
     text-align: center;
+    border-radius: 15px; 
+    padding: 5em;
 }
 
 #customer-info{
@@ -177,17 +185,29 @@ header{
     border-radius: 15px;
 }
 
+#grandTotal{
+    font-size: 1.3em;
+}
+
+#backToShoppinfBtn{
+    font-size: 1.4em; 
+    margin-top: 1em; 
+    border-radius: 5px;
+    background: green;
+    color: white;
+}
+
 /*footer*/
 
 
 footer{
     background-color: #343a40;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     text-align: center;
     line-height: 3em;
-    margin-bottom: -10em;
+/*    margin-bottom: -10em;*/
 }
 
 footer p{
@@ -236,8 +256,6 @@ footer p{
         grid-gap: 2em;
         margin-top: 2em;
     }
-
-
 
 }
 

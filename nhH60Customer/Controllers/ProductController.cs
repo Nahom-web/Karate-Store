@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using nhH60Customer.Models;
 
@@ -14,9 +12,9 @@ namespace nhH60Customer.Controllers {
 
         [Route("{string?}")]
 
-        #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         public async Task<IActionResult> Index(string? ProductName) {
-            #pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
             if (!User.Identity.IsAuthenticated) {
                 return LocalRedirect("/Identity/Account/Login");
             }

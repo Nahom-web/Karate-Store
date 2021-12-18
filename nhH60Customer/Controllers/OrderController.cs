@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using nhH60Customer.Models;
 using nhH60Customer.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
-using System.Net.Http;
-using nhH60Customer.Dtos;
 
 namespace nhH60Customer.Controllers {
     public class OrderController : Controller {
@@ -34,7 +30,7 @@ namespace nhH60Customer.Controllers {
         public async Task<IActionResult> Create(int id) {
             try {
                 var customer = await FindCurrentCustomer();
-                var checkCreditCard =  await customer.ValidateCreditCard();
+                var checkCreditCard = await customer.ValidateCreditCard();
                 if (customer.IsValidCreditCard(checkCreditCard)) {
                     Order order = new Order();
 

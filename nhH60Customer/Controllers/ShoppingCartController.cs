@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using nhH60Customer.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using nhH60Customer.Areas.Identity.Data;
 using System.Net.Http;
@@ -35,7 +32,7 @@ namespace nhH60Customer.Controllers {
                 ShoppingCart ShoppingCart = new ShoppingCart();
                 await ShoppingCart.Create(customerFound);
                 ShoppingCartDTO CustomersCart = await ShoppingCart.GetShoppingCart(customerFound.CustomerId);
-                if(CustomersCart == null) {
+                if (CustomersCart == null) {
                     HttpResponseMessage response = await ShoppingCart.Create(customerFound);
                     if (response != null) {
                         int SCode = (int)response.StatusCode;

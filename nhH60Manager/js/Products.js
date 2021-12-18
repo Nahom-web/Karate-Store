@@ -1,136 +1,7 @@
-$$ = sel => document.querySelector(sel);
-
-const USERS_API = "http://localhost:63164/api/ASPUsers?Email=";
-const PRODUCTS_API = "http://localhost:63164/api/Products";
-const PRODUCT_CATEGORIES_API = "http://localhost:63164/api/ProductCategories";
-
-let loginForm = $$("#account");
-let email = $$("#email");
-let Managaer;
-let productManager;
-const searchedProductBtn = $$("#searchProductBtn");
-let productPageErrorMessage = $$("#productPageErrorMessage");
-let messages = $$(".messages");
-let containerProducts = $$("#container-products");
-let containerProductsByCategory = $$("#container-products-by-categories");
-let productEntered = $$("#inpProduct");
-let categoryTypes = $$("#categoryTypes");
-let allProductsByCategoryBtn = $$("#allProductsByCategoryBtn");
-
-class ProductManager{
-    constructor() {
-        this.products = [];
-        this.categories = {};
-        this.searchValue = "";
-        this.foundProducts = [];
-    }
-
-    async searchValueResults() {
-        await fetch(`${PRODUCTS_API}?ProductName=${this.searchValue}`)
-            .then(resp => {
-                return resp.json();
-            })
-            .then(response => {
-                this.foundProducts = [];
-                searchResult.innerHTML = "Search Results for: " + this.searchValue;
-                for(let i = 0; i < response.length; i++){
-                    this.foundProducts.push(new Product(response[i].productId, response[i].prodCatId, response[i].description, response[i].manufacturer, response[i].stock, response[i].buyPrice, response[i].sellPrice))
-                }
-            })
-            .catch(err => {
-                messages.style.display = "inline";
-                productPageErrorMessage.innerHTML = err;
-            })
-    }
-
-
-    async productsByCategory() {
-        await fetch(`${PRODUCTS_API}/ProductCategories`)
-            .then(resp => {
-                return resp.json();
-            })
-            .then(response => {
-                this.foundProducts = [];
-                for(let i = 0; i < response.length; i++){
-                    this.foundProducts.push(new Product(response[i].productId, response[i].prodCatId, response[i].description, response[i].manufacturer, response[i].stock, response[i].buyPrice, response[i].sellPrice))
-                }
-            })
-            .catch(err => {
-                messages.style.display = "inline";
-                productPageErrorMessage.innerHTML = err;
-            })
-    }
-
-}
-
-class Product {
-    constructor(_id, _catId, _description, _manufacturer, _stock, _buyPrice, _sellPrice) {
-        this.id = _id;
-        this.catId = _catId;
-        this.description = _description;
-        this.manufacturer = _manufacturer;
-        this.stock = _stock;
-        this.buyPrice = _buyPrice;
-        this.sellPrice = _sellPrice;
-    }
-
-    displayProduct() {
-        return `<h5 class="card-title">${this.description}</h5>
-                <p class="card-text">
-                    Stock: ${this.stock}
-                    <a title="Update stock" href="./UpdateStock?id=${this.id}"><img src="./images/pencil.svg" alt="update product icon" class="pencilIcon"/></a><br>
-                    Sell Price: $${this.sellPrice.toFixed(2)} <br>
-                    Buy Price: $${this.buyPrice.toFixed(2)}
-                    <a title="Update prices" href="./UpdatePrices?id=${this.id}"><img src="./images/pencil.svg" alt="update product icon" class="pencilIcon"/></a>
-                </p>
-        `;
-    }
-
-}
-
-class ProductCategory {
-    constructor(_id, _name) {
-        this.id = _id;
-        this.name = _name;
-        this.products = [];
-    }
-
-}
-
-class Manager {
-    constructor(_id, _username) {
-        this.id = _id;
-        this.username = _username;
-    }
-
-}
-
-if(Managaer === undefined && (window.location === "./Index.html" || window.location === "./Orders.html" || window.location === "./Index.html")){
-    window.location = "./login.html";
-    $$("#error-message").innerHTML = "Can't Access Page";
-}
-
-if(Managaer !== undefined) {
-    $$(".nav").innerHTML += `<span class="navbar-text" id="name"><img src="../images/person-circle.svg" alt="Person Icon" id="nameIcon" />Welcome ${Managaer.username}</span>
-    <a class="btn btn-danger NavBtns" href="../Login.html" id="logout">Logout</a>`;
-}
-
-
-let checkForm = async (e) =>{
-    e.preventDefault();
-    await fetch(`${USERS_API}${email.value}`)
-        .then(resp => {
-            return resp.json();
-        })
-        .then(response => {
-            Managaer = new Manager(response.id, response.userName)
-            window.location = "./Index.html";
-        })
-        .catch(err => {
-            messages.style.display = "inline";
-            productPageErrorMessage.innerHTML = err;
-        })
-}
+// Nahom Haile
+// Web Programming VI
+// Product.js
+// File contents: has the functions for the product page
 
 let getProducts = async () => {
     productManager = new ProductManager();
@@ -139,8 +10,6 @@ let getProducts = async () => {
             return resp.json();
         })
         .then(response => {
-            //_id, _catId, _description, _manufacturer, _stock, _buyPrice, _sellPrice
-            console.table(productManager.products);
             for(let i = 0; i < response.length; i++){
                 productManager.products[i] = new Product(response[i].productId, response[i].prodCatId, response[i].description, response[i].manufacturer, response[i].stock, response[i].buyPrice, response[i].sellPrice);
             }
@@ -184,11 +53,12 @@ let getProductsSortedByCategory = async () => {
     console.table(productManager.products);
     containerProducts.innerHTML = "";
     containerProductsByCategory.innerHTML = "";
+    searchResult.innerHTML = "";
     let currentCategory = 0;
     for (let p = 0; p < productManager.foundProducts.length; p++) {
         if (productManager.foundProducts[p].catId !== currentCategory) {
             currentCategory = productManager.foundProducts[p].catId;
-            containerProductsByCategory.innerHTML += `<h4 class="categorySubTitle">${productManager.categories[productManager.foundProducts[p].catId].name}</h4>`;
+            containerProductsByCategory.innerHTML += `<h4 class="categorySubTitle">${productManager.categories[productManager.foundProducts[p].prodCatId].name}</h4>`;
             containerProductsByCategory.innerHTML += `<div class="card"><div class="card-body">${productManager.foundProducts[p].displayProduct()}</div></div>`
         } else {
             containerProductsByCategory.innerHTML += `<div class="card"><div class="card-body">${productManager.foundProducts[p].displayProduct()}</div></div>`
@@ -217,13 +87,10 @@ let displayProducts = async (e) => {
 let displayProductsForCategory = async (categoryNumber) => {
     containerProducts.innerHTML = "";
     containerProductsByCategory.innerHTML = "";
+    searchResult.innerHTML = "";
     for(let q = 0; q < productManager.categories[categoryNumber].products.length; q++){
         containerProducts.innerHTML += `<div class="card"><div class="card-body">${productManager.categories[categoryNumber].products[q].displayProduct()}</div></div>`;
     }
-}
-
-if (loginForm !== null){
-    loginForm.addEventListener('submit', checkForm);
 }
 
 if (searchedProductBtn !== null){
@@ -233,6 +100,7 @@ if (searchedProductBtn !== null){
 if (productEntered !== null){
     productEntered.addEventListener("keyup", async function(event) {
         if (event.key === "Enter") {
+            searchResult.innerHTML = "";
             await displayProducts();
         }
     });
@@ -248,6 +116,10 @@ if(categoryTypes !== null){
     })
 }
 
-window.addEventListener('load', getProducts)
+console.log(window.location)
+
+if(window.location.pathname === "/nhH60Manager/Products.html"){
+    window.addEventListener('load', getProducts)
+}
 
 console.log("Welcome to console.");
