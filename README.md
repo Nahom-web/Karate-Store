@@ -6,7 +6,12 @@ Assignment 3
 
 Description:
 
-Completed Karate Store
+Completed Karate House Store. This Assignement consists of 4 sub projects: 
+
+1. nhH60Customer -> this project is the customers side of the Karate House store. They can shop and order products
+2. nhH60Services -> this project is fetches all the data required from the main database and hosts an API where the customer, store, and managaer can recieve and store information 
+3. nhH60Store -> this is 
+4. nhH60Manager.
 
 
 Computer program used: Visual Studio 2019
