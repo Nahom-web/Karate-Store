@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -16,13 +15,11 @@ namespace nhH60Services.Models {
             _context = new H60Assignment2DB_nhContext();
         }
 
-
         public int CartItemId { get; set; }
         public int CartId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
         public decimal? Price { get; set; }
-
         public virtual ShoppingCart Cart { get; set; }
         public virtual Product Product { get; set; }
 
@@ -50,7 +47,7 @@ namespace nhH60Services.Models {
 
             var checkIfExists = await _context.CartItems.Where(x => x.ProductId == this.ProductId).FirstOrDefaultAsync();
 
-            if(checkIfExists != null) {
+            if (checkIfExists != null) {
 
                 checkIfExists.Quantity += this.Quantity;
 
@@ -80,7 +77,7 @@ namespace nhH60Services.Models {
 
             var initialQuantity = item.Quantity;
 
-            item.Quantity = this.Quantity;      
+            item.Quantity = this.Quantity;
 
             H60Assignment2DB_nhContext _db = new H60Assignment2DB_nhContext();
 

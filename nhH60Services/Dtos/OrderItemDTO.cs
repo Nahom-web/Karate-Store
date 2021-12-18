@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using nhH60Services.Models;
-using nhH60Services.Dtos;
+﻿using nhH60Services.Models;
 
 namespace nhH60Services.Dtos {
     public class OrderItemDTO {
-
-
         public int OrderItemId { get; set; }
         public int OrderId { get; set; }
         public int ProductId { get; set; }

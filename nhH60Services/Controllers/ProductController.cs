@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using nhH60Services.Models;
 using nhH60Services.Dtos;
-using System.Collections;
+
 
 namespace nhH60Services.Controllers {
     [Route("api/Products")]

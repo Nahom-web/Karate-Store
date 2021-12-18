@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using nhH60Services.Models;
 
 namespace nhH60Services.Dtos {
-
     public class ShoppingCartDTO {
-
         public int CartId { get; set; }
         public int CustomerId { get; set; }
         public string DateCreated { get; set; }

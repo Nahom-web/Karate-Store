@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using nhH60Services.Models;
 
 namespace nhH60Services.Dtos {
     public class CustomerDTO {
-
-
         public int CustomerId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

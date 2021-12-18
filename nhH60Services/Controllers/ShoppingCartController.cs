@@ -30,7 +30,7 @@ namespace nhH60Services.Controllers {
 
             try {
                 var cart = await ShoppingCart.GetCartWithCustomerId((int)CustomerId);
-                if(cart != null) {
+                if (cart != null) {
                     return ShoppingCart.ToDTO(cart);
                 } else {
                     return NotFound();

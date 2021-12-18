@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using nhH60Services.Dtos;
 using System.ServiceModel.Channels;
 using System.ServiceModel;
 using CreditCardServiceReference;

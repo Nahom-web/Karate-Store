@@ -101,7 +101,7 @@ namespace nhH60Services.Controllers {
                 await productCategory.Delete();
             } catch (Exception e) {
                 return BadRequest(e.Message);
-            } 
+            }
 
             return NoContent();
         }

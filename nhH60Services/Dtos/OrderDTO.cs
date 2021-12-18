@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using nhH60Services.Models;
-using nhH60Services.Dtos;
 using System.ServiceModel.Channels;
 using System.ServiceModel;
 using CalculateTaxesServiceReference;
@@ -39,7 +37,7 @@ namespace nhH60Services.Dtos {
         public List<OrderItemDTO> CreateListOfOrderItemDTOS(ICollection<OrderItem> items) {
             List<OrderItemDTO> OrderItemsDTO = new();
 
-            foreach(var o in items) {
+            foreach (var o in items) {
                 OrderItemsDTO.Add(new OrderItemDTO(o));
             }
 

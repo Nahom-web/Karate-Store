@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using nhH60Services.Models;
 
@@ -17,7 +14,7 @@ namespace nhH60Services.Controllers {
             AspNetUser Users = new AspNetUser();
 
             try {
-                if(Email != null) {
+                if (Email != null) {
                     var UserFound = await Users.GetUser(Email);
                     if (UserFound.IsManager()) {
                         return UserFound;

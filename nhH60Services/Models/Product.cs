@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using nhH60Services.Dtos;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace nhH60Services.Models {
     public partial class Product {
 
         [NotMapped]
         private readonly H60Assignment2DB_nhContext _context;
-
 
         public Product() {
             _context = new H60Assignment2DB_nhContext();
@@ -27,10 +25,10 @@ namespace nhH60Services.Models {
         public int? Stock { get; set; }
         public decimal? BuyPrice { get; set; }
         public decimal? SellPrice { get; set; }
-
         public virtual ProductCategory ProdCat { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
+
 
         public async Task<List<Product>> GetAllProducts() {
             return await _context.Products.Include(x => x.ProdCat).OrderBy(x => x.Description).ToListAsync();

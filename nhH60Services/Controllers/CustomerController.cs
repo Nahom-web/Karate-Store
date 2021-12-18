@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using nhH60Services.Dtos;
 using nhH60Services.Models;
 
 namespace nhH60Services.Controllers {
@@ -19,7 +15,7 @@ namespace nhH60Services.Controllers {
             Customer customer = new Customer();
 
             try {
-                if(Email != null) {
+                if (Email != null) {
                     var Customer = await customer.FindCustomerByEmail(Email);
                     return Customer;
                 }

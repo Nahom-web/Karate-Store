@@ -117,7 +117,7 @@ namespace nhH60Services.Controllers {
         public async Task<ActionResult<Order>> PostOrder(Order Order) {
             try {
                 await Order.Create();
-                return CreatedAtAction("Orders", new { id = Order.OrderId}, Order);
+                return CreatedAtAction("Orders", new { id = Order.OrderId }, Order);
             } catch (Exception e) {
                 return BadRequest(e.Message);
             }

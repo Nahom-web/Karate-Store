@@ -52,7 +52,7 @@ namespace nhH60Services.Models {
         public List<OrderDTO> ToDTO(List<Order> orders) {
             List<OrderDTO> oDTO = new();
 
-            foreach(var o in orders) {
+            foreach (var o in orders) {
                 oDTO.Add(new OrderDTO(o));
             }
 
